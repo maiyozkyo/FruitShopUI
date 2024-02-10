@@ -1,0 +1,63 @@
+<div
+  *ngIf="isLogin; else registerTmp"
+  class="d-flex flex-column justify-content-center align-items-center"
+  style="width: 100vw; height: 100vh"
+  [formGroup]="loginForm"
+>
+  <div class="row w-75 rounded">
+    <input
+      placeholder="Số điện thoại"
+      type="text"
+      pInputText
+      formControlName="userName"
+    />
+  </div>
+  <div class="row w-75 rounded mt-3">
+    <input
+      type="password"
+      pInputText
+      formControlName="password"
+      placeholder="Mật khẩu"
+    />
+  </div>
+  <div class="w-75 mt-3 d-flex justify-content-around">
+    <div class="btn btn-primary" (click)="login()">Đăng nhập</div>
+    <div class="btn btn-secondary" (click)="register()">Đăng ký</div>
+  </div>
+</div>
+
+<ng-template #registerTmp>
+  <div
+    class="d-flex flex-column justify-content-center align-items-center"
+    style="width: 100vw; height: 100vh"
+    [formGroup]="registerForm"
+  >
+    <div class="row w-75 rounded">
+      <input
+        placeholder="Số điện thoại"
+        type="text"
+        pInputText
+        formControlName="userName"
+      />
+    </div>
+    <div class="row w-75 rounded mt-3">
+      <input
+        type="password"
+        pInputText
+        formControlName="password"
+        placeholder="Mật khẩu"
+      />
+    </div>
+    <div class="row w-75 rounded mt-3">
+      <input
+        type="password"
+        pInputText
+        formControlName="confirmPassword"
+        placeholder="Nhập lại mật khẩu"
+      />
+    </div>
+    <div class="w-75 mt-3 d-flex justify-content-around">
+      <div class="btn btn-primary" (click)="register()">Đăng ký</div>
+    </div>
+  </div>
+</ng-template>
