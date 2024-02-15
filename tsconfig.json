@@ -3,6 +3,9 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
+      "Order": [
+        "dist/order"
+      ],
       "Shared": [
         "dist/shared"
       ],

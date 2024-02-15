@@ -5,10 +5,17 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { MenuModule } from 'primeng/menu';
 import { MenubarModule } from 'primeng/menubar';
 import { MegaMenuModule } from 'primeng/megamenu';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [SharedComponent, SideMenuComponent],
-  imports: [PanelMenuModule, MenuModule, MenubarModule, MegaMenuModule],
+  imports: [
+    PanelMenuModule,
+    MenuModule,
+    MenubarModule,
+    MegaMenuModule,
+    HttpClientModule,
+  ],
   exports: [SharedComponent, SideMenuComponent],
 })
 export class SharedModule {}

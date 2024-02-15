@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { SharedModule } from 'projects/shared/src/public-api';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
+import { authGuard } from './Guards/auth.guard';
 
 const mainRoutes: Routes = [
   { path: '', redirectTo: 'user', pathMatch: 'full' },
@@ -14,6 +15,14 @@ const mainRoutes: Routes = [
       import('../../projects/user/src/lib/user.module').then(
         (m) => m.UserModule
       ),
+  },
+  {
+    path: 'order',
+    loadChildren: () =>
+      import('../../projects/order/src/lib/order.module').then(
+        (m) => m.OrderModule
+      ),
+    canActivate: [authGuard],
   },
   { path: '**', redirectTo: 'user' },
 ];
