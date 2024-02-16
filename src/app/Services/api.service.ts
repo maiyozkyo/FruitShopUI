@@ -8,16 +8,21 @@ import { environment } from 'src/environments/environment.development';
 })
 export class ApiService {
   private domain = '';
+  private gatewayPort = ''
   constructor(private http: HttpClient, private authService: AuthService) {
     this.domain = environment.domain;
+    this.gatewayPort = environment.gatewayPort
   }
 
-  post(data: any) {
+  post(service: string, method: string,  data: any) {
     let token = this.authService.getToken();
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
+    let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-    return this.http.post(this.domain, JSON.stringify(data), { headers });
+
+    headers = headers.append('Authorization', `Bearer ${token}`)
+
+    let url =  `${this.domain}:${this.gatewayPort}/${service}/${method}`
+    return this.http.post(url, JSON.stringify(data), { headers });
   }
 }
