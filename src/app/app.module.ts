@@ -6,6 +6,7 @@ import { SharedModule } from 'projects/shared/src/public-api';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from './Guards/auth.guard';
+import { LayoutComponent } from 'projects/shared/src/lib/layout/layout.component';
 
 const mainRoutes: Routes = [
   { path: '', redirectTo: 'user', pathMatch: 'full' },
@@ -18,6 +19,7 @@ const mainRoutes: Routes = [
   },
   {
     path: 'order',
+    component: LayoutComponent,
     loadChildren: () =>
       import('../../projects/order/src/lib/order.module').then(
         (m) => m.OrderModule

@@ -4,12 +4,14 @@ import { LoginComponent } from './login/login.component';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { authGuard } from 'src/app/Guards/auth.guard';
 
 const userRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
-    pathMatch: 'full',
+    component: UserProfileComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'login',
@@ -18,7 +20,7 @@ const userRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [UserComponent, LoginComponent],
+  declarations: [UserComponent, LoginComponent, UserProfileComponent],
   imports: [
     RouterModule.forChild(userRoutes),
     FormsModule,

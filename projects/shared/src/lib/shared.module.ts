@@ -6,9 +6,10 @@ import { MenuModule } from 'primeng/menu';
 import { MenubarModule } from 'primeng/menubar';
 import { MegaMenuModule } from 'primeng/megamenu';
 import { HttpClientModule } from '@angular/common/http';
+import { LayoutComponent } from './layout/layout.component';
 
 @NgModule({
-  declarations: [SharedComponent, SideMenuComponent],
+  declarations: [SharedComponent, SideMenuComponent, LayoutComponent],
   imports: [
     PanelMenuModule,
     MenuModule,

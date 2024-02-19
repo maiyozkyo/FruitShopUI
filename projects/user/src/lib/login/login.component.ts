@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UserService } from '../user.service';
+import { passwordMatchingValidatior } from './password.validator';
+import { AuthService } from 'src/app/Services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'lib-login',
@@ -11,7 +15,12 @@ export class LoginComponent implements OnInit {
   registerForm!: FormGroup;
 
   isLogin = true;
-  constructor() {}
+  constructor(
+    private userServices: UserService,
+    private df: ChangeDetectorRef,
+    private authService: AuthService,
+    private router: Router
+  ) {}
   ngOnInit(): void {
     this.loginForm = new FormGroup({
       userName: new FormControl('', [
@@ -21,22 +30,45 @@ export class LoginComponent implements OnInit {
       password: new FormControl('', [Validators.required]),
     });
 
-    this.registerForm = new FormGroup({
-      userName: new FormControl('', [
-        Validators.required,
-        Validators.maxLength(11),
-      ]),
-      password: new FormControl('', [Validators.required]),
-      confirmPassword: new FormControl('', [Validators.required]),
-    });
+    this.registerForm = new FormGroup(
+      {
+        userName: new FormControl('', [
+          Validators.required,
+          Validators.maxLength(11),
+        ]),
+        password: new FormControl('', [Validators.required]),
+        confirmPassword: new FormControl('', [Validators.required]),
+      },
+      { validators: passwordMatchingValidatior }
+    );
   }
 
+  activeLoginForm() {
+    this.isLogin = true;
+  }
   login() {
-    console.log('login', this.loginForm);
+    if (this.loginForm.valid) {
+      let userName = this.loginForm.controls['userName'].value;
+      let password = this.loginForm.controls['password'].value;
+      this.userServices.login(userName, password).subscribe((res) => {
+        if (res) {
+          this.authService.setAuth(true);
+          this.router.navigate(['/order']);
+        }
+      });
+    }
   }
 
-  register() {
+  activeRegisterForm() {
     this.isLogin = false;
-    console.log('registerForm', this.registerForm);
+  }
+  register() {
+    if (this.registerForm.valid) {
+      let userName = this.registerForm.controls['userName'].value;
+      let password = this.registerForm.controls['password'].value;
+      this.userServices.register(userName, password).subscribe((res) => {
+        this.isLogin = true;
+      });
+    }
   }
 }
