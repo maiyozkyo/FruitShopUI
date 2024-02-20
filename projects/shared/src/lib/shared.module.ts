@@ -1,3 +1,4 @@
+import { AvatarModule } from 'primeng/avatar';
 import { NgModule } from '@angular/core';
 import { SharedComponent } from './shared.component';
 import { SideMenuComponent } from './side-menu/side-menu.component';
@@ -16,6 +17,7 @@ import { LayoutComponent } from './layout/layout.component';
     MenubarModule,
     MegaMenuModule,
     HttpClientModule,
+    AvatarModule,
   ],
   exports: [SharedComponent, SideMenuComponent],
 })

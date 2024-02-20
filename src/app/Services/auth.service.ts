@@ -1,25 +1,34 @@
 import { Injectable } from '@angular/core';
+import { User } from 'projects/shared/src/lib/models/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private isAuthen: boolean = false;
   constructor() {}
 
-  getAuth() {}
+  getAuth(): User | undefined {
+    let jsonUser = localStorage.getItem('lgUser');
+    if (jsonUser) {
+      return JSON.parse(jsonUser);
+    }
+    return undefined;
+  }
 
-  setAuth(isLoged: boolean) {
-    this.isAuthen = isLoged;
-
-    console.log('authen', this.isAuthen);
+  setAuth(jsonUser: string) {
+    localStorage.setItem('lgUser', JSON.stringify(jsonUser));
   }
 
   isLoged(): boolean {
-    return this.isAuthen;
+    let isAuthen = localStorage.getItem('lgUser') ? true : false;
+    return isAuthen;
   }
 
   getToken(): string {
     return '';
+  }
+
+  logout() {
+    localStorage.removeItem('lgUser');
   }
 }

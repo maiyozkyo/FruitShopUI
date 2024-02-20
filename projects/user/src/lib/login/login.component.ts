@@ -50,9 +50,9 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       let userName = this.loginForm.controls['userName'].value;
       let password = this.loginForm.controls['password'].value;
-      this.userServices.login(userName, password).subscribe((res) => {
+      this.userServices.login(userName, password).subscribe((res: any) => {
         if (res) {
-          this.authService.setAuth(true);
+          this.authService.setAuth(res);
           this.router.navigate(['/order']);
         }
       });

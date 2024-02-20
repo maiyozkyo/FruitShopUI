@@ -5,13 +5,17 @@ import { ApiService } from 'src/app/Services/api.service';
   providedIn: 'root',
 })
 export class UserService {
+  private readonly service = 'User';
   constructor(private apiService: ApiService) {}
 
   login(phone: string, password: string) {
-    return this.apiService.post('User', 'LoginAsync', [phone, password]);
+    return this.apiService.post(this.service, 'LoginAsync', [phone, password]);
   }
 
   register(phone: string, password: string) {
-    return this.apiService.post('User', 'RegisterAsync', [phone, password]);
+    return this.apiService.post(this.service, 'RegisterAsync', [
+      phone,
+      password,
+    ]);
   }
 }
