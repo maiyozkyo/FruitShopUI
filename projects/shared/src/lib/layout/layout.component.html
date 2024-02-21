@@ -1,17 +1,9 @@
-<div class="row" style="width: 100vw">
+<div class="row h-15%" style="width: 100vw">
   <div class="col-4">navbar</div>
   <div class="col-4">something</div>
   <div class="col-4">
-    <div class="avatar d-flex justify-content-end">
-      <div (click)="userMenuPopup.toggle($event)">
-        <p-menu #userMenuPopup [model]="userMenu" [popup]="true"></p-menu>
-        <p-avatar
-          image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
-          styleClass="mr-2"
-          size="xlarge"
-          shape="circle"
-        ></p-avatar>
-      </div>
-    </div>
+    <div
+      class="avatar d-flex justify-content-end border border-info w-100 h-100 rounded"
+    ></div>
   </div>
 </div>
