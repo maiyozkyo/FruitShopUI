@@ -8,13 +8,7 @@ import { Noti } from '../models/noti.model';
   styleUrls: ['./notify.component.css'],
 })
 export class NotifyComponent implements OnDestroy {
-  @Input() type: string = 'success';
-  @Input() title: string = 'Thông báo';
-  @Input() msg: string = '';
-  @Input() template!: TemplateRef<HTMLElement>;
-  @Input() noti!: Noti;
-
-  constructor(private notiService: NotifyService) {}
+  constructor(protected notiService: NotifyService) {}
   ngOnDestroy(): void {
     this.notiService.clear();
   }

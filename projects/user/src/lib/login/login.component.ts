@@ -57,7 +57,12 @@ export class LoginComponent implements OnInit {
           this.authService.setAuth(res);
           this.router.navigate(['/order']);
         } else {
-          this.notiService.show();
+          this.notiService.show(
+            'Đăng nhập',
+            'Đăng nhập thất bại',
+            'error',
+            5000
+          );
         }
       });
     }

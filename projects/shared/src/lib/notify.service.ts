@@ -5,19 +5,22 @@ import { Noti } from './models/noti.model';
   providedIn: 'root',
 })
 export class NotifyService {
-  private noties: Noti[] = [];
+  noties: Noti[] = [];
   constructor() {}
 
   show(
-    type: string,
     title: string,
     msg: string,
-    template?: TemplateRef<HTMLElement>
+    type: '' | 'error' | 'success' = '',
+    delay: number = 5000,
+    template?: TemplateRef<HTMLElement> | undefined
   ) {
     let noti: Noti = {
       type: type,
       title: title,
       msg: msg,
+      delay: delay,
+      className: [],
       template: template,
     };
     switch (noti.type) {

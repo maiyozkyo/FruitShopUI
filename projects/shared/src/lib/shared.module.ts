@@ -6,6 +6,8 @@ import { LayoutComponent } from './layout/layout.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotifyComponent } from './notify/notify.component';
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,20 @@ import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
     LayoutComponent,
     NotifyComponent,
   ],
-  imports: [HttpClientModule, BrowserAnimationsModule, NgbToastModule],
-  exports: [SharedComponent, SideMenuComponent, NotifyComponent],
+  imports: [
+    HttpClientModule,
+    NgbToastModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+  ],
+  exports: [
+    SharedComponent,
+    SideMenuComponent,
+    NotifyComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+  ],
 })
 export class SharedModule {}

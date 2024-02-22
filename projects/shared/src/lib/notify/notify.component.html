@@ -1,8 +1,20 @@
-<ngb-toast
-  [class]="noti.className"
-  [autohide]="true"
-  [delay]="noti.delay || 5000"
-  (hidden)="removeNoti(noti)"
+<div
+  class="position-fixed top-0 end-0 p-3"
+  *ngFor="let noti of notiService.noties"
 >
-  <ng-template [ngTemplateOutlet]="noti.template"></ng-template>
-</ngb-toast>
+  <ngb-toast
+    *ngIf="noti"
+    [ngClass]="noti.className"
+    [autohide]="true"
+    [delay]="noti.delay"
+    (hidden)="removeNoti(noti)"
+  >
+    <ng-template
+      *ngIf="noti.template; else standard"
+      [ngTemplateOutlet]="noti.template"
+    ></ng-template>
+    <ng-template #standard>
+      {{ noti.msg }}
+    </ng-template>
+  </ngb-toast>
+</div>

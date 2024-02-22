@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { authGuard } from 'src/app/Guards/auth.guard';
+import { SharedModule } from 'projects/shared/src/public-api';
 
 const userRoutes: Routes = [
   {
@@ -21,12 +22,7 @@ const userRoutes: Routes = [
 
 @NgModule({
   declarations: [UserComponent, LoginComponent, UserProfileComponent],
-  imports: [
-    RouterModule.forChild(userRoutes),
-    FormsModule,
-    ReactiveFormsModule,
-    CommonModule,
-  ],
+  imports: [RouterModule.forChild(userRoutes), SharedModule],
   exports: [UserComponent],
 })
 export class UserModule {}
