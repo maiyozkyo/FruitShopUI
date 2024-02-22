@@ -20,8 +20,15 @@ export class AuthService {
   }
 
   isLoged(): boolean {
-    let isAuthen = localStorage.getItem('lgUser') ? true : false;
-    return isAuthen;
+    let sLGuser = localStorage.getItem('lgUser');
+    if (sLGuser) {
+      let lgUser = JSON.parse(sLGuser) as User;
+      lgUser.tokenExpired = new Date(lgUser.tokenExpired)
+      
+      return lgUser.tokenExpired.getTime() > new Date().getTime();
+    }
+
+    return false;
   }
 
   getToken(): string {

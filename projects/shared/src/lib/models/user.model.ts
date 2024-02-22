@@ -6,4 +6,5 @@ export class User {
   role!: string;
   token!: string;
   deletedOn!: Date;
+  tokenExpired!: Date;
 }
