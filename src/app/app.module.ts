@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from './Guards/auth.guard';
 import { LayoutComponent } from 'projects/shared/src/lib/layout/layout.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const mainRoutes: Routes = [
   { path: '', redirectTo: 'user', pathMatch: 'full' },
@@ -36,6 +37,7 @@ const mainRoutes: Routes = [
     SharedModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(mainRoutes),
+    NgbModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

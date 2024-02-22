@@ -1,0 +1,8 @@
+<ngb-toast
+  [class]="noti.className"
+  [autohide]="true"
+  [delay]="noti.delay || 5000"
+  (hidden)="removeNoti(noti)"
+>
+  <ng-template [ngTemplateOutlet]="noti.template"></ng-template>
+</ngb-toast>

@@ -4,6 +4,7 @@ import { UserService } from '../user.service';
 import { passwordMatchingValidatior } from './password.validator';
 import { AuthService } from 'src/app/Services/auth.service';
 import { Router } from '@angular/router';
+import { NotifyService } from 'projects/shared/src/lib/notify.service';
 
 @Component({
   selector: 'lib-login',
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
     private userServices: UserService,
     private df: ChangeDetectorRef,
     private authService: AuthService,
+    private notiService: NotifyService,
     private router: Router
   ) {}
   ngOnInit(): void {
@@ -54,6 +56,8 @@ export class LoginComponent implements OnInit {
         if (res) {
           this.authService.setAuth(res);
           this.router.navigate(['/order']);
+        } else {
+          this.notiService.show();
         }
       });
     }
