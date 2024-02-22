@@ -6,8 +6,9 @@ import { SharedModule } from 'projects/shared/src/public-api';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from './Guards/auth.guard';
-import { LayoutComponent } from 'projects/shared/src/lib/layout/layout.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LayoutComponent } from './layout/layout.component';
+import { SideMenuComponent } from './side-menu/side-menu.component';
 
 const mainRoutes: Routes = [
   { path: '', redirectTo: 'user', pathMatch: 'full' },
@@ -20,7 +21,6 @@ const mainRoutes: Routes = [
   },
   {
     path: 'order',
-    component: LayoutComponent,
     loadChildren: () =>
       import('../../projects/order/src/lib/order.module').then(
         (m) => m.OrderModule
@@ -31,7 +31,7 @@ const mainRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, LayoutComponent, SideMenuComponent],
   imports: [
     BrowserModule,
     SharedModule,

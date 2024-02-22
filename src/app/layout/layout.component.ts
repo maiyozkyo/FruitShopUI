@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from 'src/app/Services/api.service';
-import { AuthService } from 'src/app/Services/auth.service';
-import { User } from '../models/user.model';
+import { User } from 'projects/shared/src/lib/models/user.model';
+import { ApiService } from '../Services/api.service';
+import { AuthService } from '../Services/auth.service';
 
 @Component({
-  selector: 'lib-layout',
+  selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
 })

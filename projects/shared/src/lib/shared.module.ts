@@ -1,35 +1,34 @@
 import { NgModule } from '@angular/core';
 import { SharedComponent } from './shared.component';
-import { SideMenuComponent } from './side-menu/side-menu.component';
 import { HttpClientModule } from '@angular/common/http';
-import { LayoutComponent } from './layout/layout.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotifyComponent } from './notify/notify.component';
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [
-    SharedComponent,
-    SideMenuComponent,
-    LayoutComponent,
-    NotifyComponent,
-  ],
+  declarations: [SharedComponent, NotifyComponent],
   imports: [
+    RouterModule.forChild([]),
     HttpClientModule,
     NgbToastModule,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    MatSidenavModule,
+    MatListModule,
   ],
   exports: [
     SharedComponent,
-    SideMenuComponent,
     NotifyComponent,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    MatSidenavModule,
+    MatListModule,
   ],
 })
 export class SharedModule {}
