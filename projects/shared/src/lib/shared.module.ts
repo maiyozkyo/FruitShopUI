@@ -8,6 +8,8 @@ import { CommonModule } from '@angular/common';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [SharedComponent, NotifyComponent],
@@ -20,6 +22,8 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     MatSidenavModule,
     MatListModule,
+    MatToolbarModule,
+    MatIconModule,
   ],
   exports: [
     SharedComponent,
@@ -29,6 +33,8 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     MatSidenavModule,
     MatListModule,
+    MatToolbarModule,
+    MatIconModule,
   ],
 })
 export class SharedModule {}

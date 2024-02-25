@@ -14,12 +14,15 @@ import {
 })
 export class AppComponent implements OnInit, AfterViewInit {
   title = 'FruitShopUI';
-  contentTopGap = 49;
+  contentTopGap = 44;
   contentLeftGap = 10;
-  constructor() {}
+  constructor(private df: ChangeDetectorRef) {}
   ngOnInit(): void {}
   ngAfterViewInit(): void {
     let toolbarEle = document.getElementById('toolbar');
-    this.contentTopGap = (toolbarEle?.offsetHeight ?? 44) + 5;
+    console.log(toolbarEle);
+
+    this.contentTopGap = toolbarEle?.offsetHeight ?? 44;
+    this.df.detectChanges();
   }
 }
