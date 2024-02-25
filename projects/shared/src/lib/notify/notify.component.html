@@ -9,12 +9,21 @@
     [delay]="noti.delay"
     (hidden)="removeNoti(noti)"
   >
+    <ng-template ngbToastHeader>
+      <div class="me-auto">
+        <h5>
+          {{ noti.title }}
+        </h5>
+      </div>
+    </ng-template>
     <ng-template
       *ngIf="noti.template; else standard"
       [ngTemplateOutlet]="noti.template"
     ></ng-template>
     <ng-template #standard>
-      {{ noti.msg }}
+      <div class="me-auto">
+        {{ noti.msg }}
+      </div>
     </ng-template>
   </ngb-toast>
 </div>

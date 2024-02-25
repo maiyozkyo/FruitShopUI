@@ -7,4 +7,5 @@ export class User {
   token!: string;
   deletedOn!: Date;
   tokenExpired!: Date;
+  avatar!: string;
 }

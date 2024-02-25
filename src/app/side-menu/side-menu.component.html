@@ -1,16 +1,73 @@
-<mat-sidenav-container
-  *ngIf="authService.isLoged()"
-  class="sidenav-container"
-  autosize
->
-  <mat-sidenav #sidenav mode="side" opened [fixedInViewport]="true">
-    <mat-nav-list>
-      <mat-list-item routerLink="/order">Home</mat-list-item>
-      <mat-list-item routerLink="/user">User</mat-list-item>
-      <mat-list-item routerLink="/contact">Contact</mat-list-item>
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <p><button mat-button (click)="sidenav.toggle()">Open</button></p>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+<div class="" *ngIf="authService.isLoged()">
+  <mat-toolbar
+    #toolbar
+    id="toolbar"
+    color="primary"
+    class="header-toolbar d-flex justify-content-between"
+  >
+    <div class="col">
+      <div class="btn btn-primary rounded" (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </div>
+    </div>
+    <div class="col d-flex justify-content-center">
+      <h1>Fruit Shop</h1>
+    </div>
+    <div class="col d-flex justify-content-end">
+      <ng-container [ngTemplateOutlet]="avatar"></ng-container>
+    </div>
+  </mat-toolbar>
+  <mat-sidenav-container class="sidenav-container" [hasBackdrop]="false">
+    <mat-sidenav
+      #sidenav
+      [mode]="isMobile ? 'push' : 'side'"
+      [opened]="sideMenuOpenState"
+      [fixedInViewport]="true"
+      [fixedTopGap]="topGap"
+    >
+      <mat-nav-list>
+        <mat-list-item routerLink="/order" (click)="navClick(sidenav)"
+          >Đơn hàng</mat-list-item
+        >
+        <mat-list-item routerLink="/user" (click)="navClick(sidenav)"
+          >Tài khoản</mat-list-item
+        >
+        <mat-list-item routerLink="/contact" (click)="navClick(sidenav)"
+          >Contact</mat-list-item
+        >
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content> </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+
+<ng-template #avatar>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>Thông tin cá nhân</button>
+    <button mat-menu-item>Cài đặt</button>
+    <button mat-menu-item (click)="logout()">Đăng xuất</button>
+  </mat-menu>
+
+  <div
+    class="d-flex bg-info rounded-circle align-items-center justify-content-center"
+    style="width: 36px; height: 36px"
+    [mat-menu-trigger-for]="menu"
+  >
+    <div
+      *ngIf="user?.avatar; else textAvatar"
+      class="position-relative w-100 h-100"
+    >
+      <ng-container [ngTemplateOutlet]="imgAvatar"></ng-container>
+    </div>
+  </div>
+
+  <ng-template #imgAvatar>
+    <img
+      [src]="user?.avatar"
+      class="bg-info rounded-circle object-fit-cover position-absolute top-0 left-0 w-100 h-100"
+    />
+  </ng-template>
+  <ng-template #textAvatar>
+    <div class="rounded-circle bg">123</div>
+  </ng-template>
+</ng-template>

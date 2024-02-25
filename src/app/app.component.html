@@ -1,4 +1,17 @@
 <div class="d-flex" style="height: 100vh; width: 100vw">
-  <app-side-menu></app-side-menu>
-  <router-outlet></router-outlet>
+  <!-- Sidebar -->
+  <header>
+    <app-side-menu></app-side-menu>
+  </header>
+
+  <!-- Main content area -->
+  <div
+    class="content"
+    [ngStyle]="{
+      'margin-top': contentTopGap + 'px',
+      'margin-left': contentLeftGap + 'px'
+    }"
+  >
+    <router-outlet></router-outlet>
+  </div>
 </div>

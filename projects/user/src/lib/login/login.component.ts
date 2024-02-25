@@ -65,6 +65,13 @@ export class LoginComponent implements OnInit {
           );
         }
       });
+    } else {
+      this.notiService.show(
+        'Đăng nhập',
+        'Vui lòng điền đầy đủ thông tin',
+        'error',
+        5000
+      );
     }
   }
 

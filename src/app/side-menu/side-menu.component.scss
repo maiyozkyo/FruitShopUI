@@ -1,0 +1,33 @@
+.minimize-button {
+  position: relative;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 250px;
+  background-color: #f0f0f0;
+}
+
+.header-toolbar {
+  position: fixed;
+  height: fit-content;
+  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+  z-index: 2;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #6c757d;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
