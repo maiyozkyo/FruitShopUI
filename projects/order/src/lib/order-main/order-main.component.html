@@ -1,1 +1,28 @@
-<p>order-main works!</p>
+<div>
+  <mat-toolbar
+    id="toolbar"
+    class="header-toolbar d-flex justify-content-between object-fit"
+    style="background-color: #9e9e9e"
+  >
+    <div class="col"></div>
+    <div class="col d-flex justify-content-center"></div>
+    <div class="col d-flex justify-content-end w-100 h-100">
+      <div class="me-1">
+        <mat-form-field class="">
+          <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+            <input matStartDate formControlName="start" placeholder="Từ ngày" />
+            <input matEndDate formControlName="end" placeholder="Đến ngày" />
+          </mat-date-range-input>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+      <div class="d-flex align-items-center">
+        <div class="btn btn-primary">Thêm đơn</div>
+      </div>
+    </div>
+  </mat-toolbar>
+</div>
