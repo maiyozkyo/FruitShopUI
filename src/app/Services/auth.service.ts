@@ -23,8 +23,8 @@ export class AuthService {
     let sLGuser = localStorage.getItem('lgUser');
     if (sLGuser) {
       let lgUser = JSON.parse(sLGuser) as User;
-      lgUser.tokenExpired = new Date(lgUser.tokenExpired)
-      
+      lgUser.tokenExpired = new Date(lgUser.tokenExpired);
+
       return lgUser.tokenExpired.getTime() > new Date().getTime();
     }
 
@@ -32,6 +32,11 @@ export class AuthService {
   }
 
   getToken(): string {
+    let sLGuser = localStorage.getItem('lgUser');
+    if (sLGuser) {
+      let lgUser = JSON.parse(sLGuser) as User;
+      return lgUser.token;
+    }
     return '';
   }
 

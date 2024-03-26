@@ -1,5 +1,10 @@
-<div class="">
-  <nz-table #basicTable [nzData]="data">
+<div>
+  <nz-table
+    #basicTable
+    [nzData]="data"
+    class="position-absolute"
+    [nzSize]="'middle'"
+  >
     <thead>
       <tr>
         <th *ngFor="let item of basicTable.data[0] | keyvalue">
@@ -8,9 +13,13 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of basicTable.data" class="editable-row">
+      <tr *ngFor="let item of basicTable.data">
         <td *ngFor="let field of item | keyvalue">
-          <input type="text" nz-input [(ngModel)]="field.value" />
+          <input
+            [type]="getTypeof(field.value)"
+            [(ngModel)]="field.value"
+            (change)="log(field.value)"
+          />
         </td>
       </tr>
     </tbody>

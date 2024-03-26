@@ -19,6 +19,7 @@ export class ApiService {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
+
     if (token != '') {
       headers = headers.append('Authorization', `Bearer ${token}`);
     }
