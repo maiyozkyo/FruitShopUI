@@ -6,7 +6,6 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { AuthService } from '../Services/auth.service';
 import {
   BreakpointObserver,
   Breakpoints,
@@ -16,6 +15,7 @@ import { User } from 'projects/shared/src/lib/models/user.model';
 import { ApiService } from '../Services/api.service';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
+import { TokenService } from '../Services/token.service';
 
 @Component({
   selector: 'app-side-menu',
@@ -30,7 +30,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
   topGap: number = 0;
   user: User | undefined;
   constructor(
-    protected authService: AuthService,
+    protected tokenService: TokenService,
     private apiService: ApiService,
     private router: Router,
     private breakpointObserver: BreakpointObserver,
@@ -43,7 +43,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
         this.sideMenuOpenState = !state.matches;
       });
 
-    this.user = authService.getAuth();
+    this.user = tokenService.getAuth();
     if (this.user) {
       // this.user.avatar = 'https://mdbcdn.b-cdn.net/img/new/avatars/2.webp';
     }
@@ -63,7 +63,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
   logout() {
     this.apiService.post('User', 'LogoutAsync', []).subscribe((res) => {
       if (res) {
-        this.authService.logout();
+        this.tokenService.logOut();
         this.router.navigate(['/user/login']);
       }
     });

@@ -3,6 +3,9 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
+      "Auth": [
+        "dist/auth"
+      ],
       "Order": [
         "dist/order"
       ],

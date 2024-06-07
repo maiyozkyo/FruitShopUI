@@ -13,7 +13,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 
 const mainRoutes: Routes = [
-  { path: '', redirectTo: 'user', pathMatch: 'full' },
+  { path: '', redirectTo: 'auth', pathMatch: 'full' },
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('../../projects/auth/src/lib/auth.module').then(
+        (m) => m.AuthModule
+      ),
+  },
   {
     path: 'user',
     loadChildren: () =>

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
 import { environment } from 'src/environments/environment.development';
+import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,13 +9,13 @@ import { environment } from 'src/environments/environment.development';
 export class ApiService {
   private domain = '';
   private gatewayPort = '';
-  constructor(private http: HttpClient, private authService: AuthService) {
+  constructor(private http: HttpClient, private tokenService: TokenService) {
     this.domain = environment.domain;
     this.gatewayPort = environment.gatewayPort;
   }
 
   post(service: string, method: string, data: any) {
-    let token = this.authService.getToken();
+    let token = this.tokenService.getUserToken();
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });

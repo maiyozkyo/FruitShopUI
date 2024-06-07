@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '../user.service';
-import { passwordMatchingValidatior } from './password.validator';
-import { AuthService } from 'src/app/Services/auth.service';
 import { Router } from '@angular/router';
 import { NotifyService } from 'projects/shared/src/lib/notify.service';
+import { passwordMatchingValidatior } from './password.validator';
+import { AuthService } from '../auth.service';
+import { TokenService } from 'src/app/Services/token.service';
 
 @Component({
   selector: 'lib-login',
@@ -17,9 +17,9 @@ export class LoginComponent implements OnInit {
 
   isLogin = true;
   constructor(
-    private userServices: UserService,
     private df: ChangeDetectorRef,
     private authService: AuthService,
+    private tokenService: TokenService,
     private notiService: NotifyService,
     private router: Router
   ) {}
@@ -52,9 +52,9 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       let userName = this.loginForm.controls['userName'].value;
       let password = this.loginForm.controls['password'].value;
-      this.userServices.login(userName, password).subscribe((res: any) => {
+      this.authService.login(userName, password).subscribe((res: any) => {
         if (res) {
-          this.authService.setAuth(res);
+          this.tokenService.setAuth(res);
           this.router.navigate(['/order']);
         } else {
           this.notiService.show(
@@ -82,9 +82,6 @@ export class LoginComponent implements OnInit {
     if (this.registerForm.valid) {
       let userName = this.registerForm.controls['userName'].value;
       let password = this.registerForm.controls['password'].value;
-      this.userServices.register(userName, password).subscribe((res) => {
-        this.isLogin = true;
-      });
     }
   }
 }

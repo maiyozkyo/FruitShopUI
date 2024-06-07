@@ -4,23 +4,29 @@ import { User } from 'projects/shared/src/lib/models/user.model';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class TokenService {
+  private readonly service = 'Auth';
+  private readonly lgTokenName = 'lgUser';
   constructor() {}
 
   getAuth(): User | undefined {
-    let jsonUser = localStorage.getItem('lgUser');
+    let jsonUser = localStorage.getItem(this.lgTokenName);
     if (jsonUser) {
       return JSON.parse(jsonUser);
     }
     return undefined;
   }
 
+  setToken(tokenName: string, tokenValue: string) {
+    localStorage.setItem(tokenName, JSON.stringify(tokenValue));
+  }
+
   setAuth(jsonUser: string) {
-    localStorage.setItem('lgUser', JSON.stringify(jsonUser));
+    this.setToken(this.lgTokenName, jsonUser);
   }
 
   isLoged(): boolean {
-    let sLGuser = localStorage.getItem('lgUser');
+    let sLGuser = localStorage.getItem(this.lgTokenName);
     if (sLGuser) {
       let lgUser = JSON.parse(sLGuser) as User;
       lgUser.tokenExpired = new Date(lgUser.tokenExpired);
@@ -31,8 +37,8 @@ export class AuthService {
     return false;
   }
 
-  getToken(): string {
-    let sLGuser = localStorage.getItem('lgUser');
+  getUserToken(): string {
+    let sLGuser = localStorage.getItem(this.lgTokenName);
     if (sLGuser) {
       let lgUser = JSON.parse(sLGuser) as User;
       return lgUser.token;
@@ -40,7 +46,11 @@ export class AuthService {
     return '';
   }
 
-  logout() {
-    localStorage.removeItem('lgUser');
+  removeToken(tokenName: string) {
+    localStorage.removeItem(tokenName);
+  }
+
+  logOut() {
+    this.removeToken(this.lgTokenName);
   }
 }

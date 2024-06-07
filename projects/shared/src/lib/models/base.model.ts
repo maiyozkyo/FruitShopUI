@@ -6,7 +6,7 @@ export class BaseModel {
   modifiedOn?: Date;
 
   constructor() {
-    this.recID = crypto.randomUUID();
+    this.recID = '00000000-0000-0000-0000-000000000000';
     this.createdBy = '';
     this.createdOn = new Date();
     this.modifiedBy = '';

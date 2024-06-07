@@ -21,7 +21,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   lstOrder: any[] = [];
   constructor(
     private df: ChangeDetectorRef,
-    private orderServices: OrderService
+    private orderService: OrderService
   ) {}
   ngOnInit(): void {
     this.range = new FormGroup({
@@ -46,7 +46,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   addOrder() {
     let order = new Order();
 
-    this.orderServices.addUpdateOrder(order).subscribe((res) => {
+    this.orderService.addUpdateOrder(order).subscribe((res) => {
       console.log('addUpdateOrder', res);
     });
   }
