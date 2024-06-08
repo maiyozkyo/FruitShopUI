@@ -22,12 +22,16 @@ export class LoginComponent implements OnInit {
     private tokenService: TokenService,
     private notiService: NotifyService,
     private router: Router
-  ) {}
+  ) {
+    if (this.tokenService.isLoged()) {
+      this.router.navigate(['/order']);
+    }
+  }
   ngOnInit(): void {
     this.loginForm = new FormGroup({
       userName: new FormControl('', [
         Validators.required,
-        Validators.maxLength(11),
+        Validators.maxLength(100),
       ]),
       password: new FormControl('', [Validators.required]),
     });

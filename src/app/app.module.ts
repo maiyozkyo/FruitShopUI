@@ -36,7 +36,7 @@ const mainRoutes: Routes = [
       ),
     canActivate: [authGuard],
   },
-  { path: '**', redirectTo: 'user' },
+  { path: '**', redirectTo: 'auth' },
 ];
 
 @NgModule({
