@@ -38,3 +38,11 @@
     <lib-table [data]="lstOrder"> </lib-table>
   </div>
 </div>
+
+<lib-popup
+  title="Add/Update đơn hàng"
+  [(isVisible)]="showPopAddUpdateOrder"
+  (onConfirm)="confirmAddUpdateOrder($event)"
+  (onCancel)="denyAddUpdateOrder($event)"
+>
+</lib-popup>

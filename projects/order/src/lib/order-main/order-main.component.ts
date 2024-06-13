@@ -19,6 +19,8 @@ import { Order } from '../models/order.model';
 export class OrderMainComponent implements OnInit, AfterViewInit {
   range!: FormGroup;
   lstOrder: any[] = [];
+  showPopAddUpdateOrder = false;
+
   constructor(
     private df: ChangeDetectorRef,
     private orderService: OrderService
@@ -44,10 +46,14 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {}
   addOrder() {
-    let order = new Order();
+    this.showPopAddUpdateOrder = !this.showPopAddUpdateOrder;
+  }
 
-    this.orderService.addUpdateOrder(order).subscribe((res) => {
-      console.log('addUpdateOrder', res);
-    });
+  confirmAddUpdateOrder(data: any) {
+    console.log('open', data);
+  }
+
+  denyAddUpdateOrder(data: any) {
+    console.log('deny', data);
   }
 }

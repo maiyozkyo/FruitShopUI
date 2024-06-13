@@ -13,9 +13,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { TableComponent } from './table/table.component';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { PopupComponent } from './popup/popup.component';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 @NgModule({
-  declarations: [SharedComponent, NotifyComponent, TableComponent],
+  declarations: [
+    SharedComponent,
+    NotifyComponent,
+    TableComponent,
+    PopupComponent,
+  ],
   imports: [
     RouterModule.forChild([]),
     HttpClientModule,
@@ -29,6 +36,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     MatIconModule,
     NzTableModule,
     NzDividerModule,
+    NzModalModule,
   ],
   exports: [
     SharedComponent,
@@ -41,6 +49,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     MatToolbarModule,
     MatIconModule,
     TableComponent,
+    PopupComponent,
   ],
 })
 export class SharedModule {}
