@@ -4,6 +4,8 @@
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
   [nzOkLoading]="isOkLoading"
+  [nzOkText]="confirmText"
+  [nzCancelText]="cancelText"
 >
   <p *nzModalContent>Modal Content</p>
 </nz-modal>

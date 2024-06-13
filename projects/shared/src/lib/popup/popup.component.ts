@@ -10,6 +10,8 @@ export class PopupComponent implements OnInit {
   @Input() isVisible: boolean = false;
   @Input() isOkLoading: boolean = false;
   @Input() title: string = '';
+  @Input() confirmText: string = 'OK';
+  @Input() cancelText: string = 'Hủy';
   @Output() onCancel = new EventEmitter();
   @Output() onConfirm = new EventEmitter();
   @Output() isVisibleChange = new EventEmitter<boolean>();
