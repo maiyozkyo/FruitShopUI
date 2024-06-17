@@ -18,6 +18,7 @@ import { Order } from '../models/order.model';
 })
 export class OrderMainComponent implements OnInit, AfterViewInit {
   range!: FormGroup;
+  orderForm!: FormGroup;
   lstOrder: any[] = [];
   showPopAddUpdateOrder = false;
 
@@ -30,6 +31,10 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
       start: new FormControl<Date | null>(null),
       end: new FormControl<Date | null>(null),
     });
+
+    this.orderForm = new FormGroup({
+      name: 
+    })
 
     this.lstOrder = [
       { make: 'Tesla', model: 'Model Y', price: 64950, editable: true },

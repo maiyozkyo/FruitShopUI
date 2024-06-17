@@ -7,5 +7,10 @@
   [nzOkText]="confirmText"
   [nzCancelText]="cancelText"
 >
-  <p *nzModalContent>Modal Content</p>
+  <p *nzModalContent>
+    <ng-container
+      [ngTemplateOutlet]="contentTmpl"
+      [ngTemplateOutletContext]="data"
+    ></ng-container>
+  </p>
 </nz-modal>

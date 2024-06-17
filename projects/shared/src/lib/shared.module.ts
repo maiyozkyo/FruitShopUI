@@ -15,6 +15,8 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { PopupComponent } from './popup/popup.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
 
 @NgModule({
   declarations: [
@@ -37,11 +39,14 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
     NzTableModule,
     NzDividerModule,
     NzModalModule,
+    NzFormModule,
+    NzInputModule,
   ],
   exports: [
     SharedComponent,
     NotifyComponent,
     FormsModule,
+    NzFormModule,
     ReactiveFormsModule,
     CommonModule,
     MatSidenavModule,
@@ -50,6 +55,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
     MatIconModule,
     TableComponent,
     PopupComponent,
+    NzInputModule,
   ],
 })
 export class SharedModule {}

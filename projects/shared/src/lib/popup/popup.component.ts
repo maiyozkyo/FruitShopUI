@@ -1,5 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NzModalModule } from 'ng-zorro-antd/modal';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  TemplateRef,
+} from '@angular/core';
 
 @Component({
   selector: 'lib-popup',
@@ -12,6 +18,8 @@ export class PopupComponent implements OnInit {
   @Input() title: string = '';
   @Input() confirmText: string = 'OK';
   @Input() cancelText: string = 'Hủy';
+  @Input() contentTmpl!: TemplateRef<any>;
+  @Input() data: any;
   @Output() onCancel = new EventEmitter();
   @Output() onConfirm = new EventEmitter();
   @Output() isVisibleChange = new EventEmitter<boolean>();
