@@ -3,6 +3,7 @@
   title="Add/Update Tenant"
   [(isVisible)]="showPopTenant"
   [data]="curTenant"
+  [formGroup]="tenantFG"
   [contentTmpl]="tmplTenant"
   (onConfirm)="confirmAddUpdateTenant($event)"
   (onCancel)="denyAddUpdateOrder($event)"

@@ -9,8 +9,9 @@
 >
   <p *nzModalContent>
     <ng-container
+      [formGroup]="formGroup"
       [ngTemplateOutlet]="contentTmpl"
-      [ngTemplateOutletContext]="data"
+      [ngTemplateOutletContext]="tempData"
     ></ng-container>
   </p>
 </nz-modal>

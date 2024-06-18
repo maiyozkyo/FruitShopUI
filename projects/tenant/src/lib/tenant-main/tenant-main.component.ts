@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { TenantService } from '../tenant.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Tenant } from '../models/tenant.model';
+import { NotifyService } from 'projects/shared/src/lib/notify.service';
 
 @Component({
   selector: 'lib-tenant-main',
@@ -28,6 +29,7 @@ export class TenantMainComponent implements OnInit {
   ];
   constructor(
     private tenantService: TenantService,
+    private notiService: NotifyService,
     private df: ChangeDetectorRef
   ) {}
   ngOnInit() {
@@ -36,16 +38,30 @@ export class TenantMainComponent implements OnInit {
       name: new FormControl('', [Validators.required]),
       dbType: new FormControl(-1, [Validators.required]),
     });
-    this.curTenant = new Tenant()
+    this.curTenant = new Tenant();
+    let jsonS =
+      '[{"recID":"00000000-0000-0000-0000-000000000000","createdBy":"","createdOn":"2024-06-18T17:24:11.839Z","modifiedBy":"","modifiedOn":"2024-06-18T17:24:11.839Z","code":"Smartlog","name":"Smartlog","dbType":0}]';
+    console.log(JSON.parse(jsonS));
   }
 
   addUpdateTenant() {
     this.showPopTenant = !this.showPopTenant;
   }
 
-  confirmAddUpdateTenant(tenant: Tenant) {
-    console.log(tenant);
+  confirmAddUpdateTenant(evt: Tenant) {
+    this.tenantService.addUpdateTenant(evt).subscribe((res) => {
+      if (res) {
+        this.notiService.show(
+          'Tenant',
+          'Add/Update thành công',
+          'success',
+          5000
+        );
+      } else {
+        this.notiService.show('Tenant', 'Add/Update thất bại', 'error', 5000);
+      }
+    });
   }
 
-  denyAddUpdateOrder(evt: any) {}
+  denyAddUpdateOrder(evt: Tenant) {}
 }
