@@ -24,7 +24,9 @@ export class PopupComponent implements OnInit {
   @Output() onConfirm = new EventEmitter();
   @Output() isVisibleChange = new EventEmitter<boolean>();
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.data)
+  }
 
   handleCancel() {
     this.changeVisible();
@@ -35,8 +37,8 @@ export class PopupComponent implements OnInit {
   }
 
   changeVisible(isConfirm: boolean = false) {
-    if (isConfirm) this.onConfirm.emit(1);
-    else this.onCancel.emit(0);
+    if (isConfirm) this.onConfirm.emit(this.data);
+    else this.onCancel.emit(null);
     this.isVisible = false;
     this.isVisibleChange.emit(this.isVisible);
   }

@@ -12,6 +12,9 @@
       "Shared": [
         "dist/shared"
       ],
+      "Tenant": [
+        "dist/tenant"
+      ],
       "User": [
         "dist/user"
       ]

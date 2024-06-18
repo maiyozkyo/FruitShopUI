@@ -1,0 +1,42 @@
+<div class="btn btn-primary" (click)="addUpdateTenant()">Tenant</div>
+<lib-popup
+  title="Add/Update Tenant"
+  [(isVisible)]="showPopTenant"
+  [data]="curTenant"
+  [contentTmpl]="tmplTenant"
+  (onConfirm)="confirmAddUpdateTenant($event)"
+  (onCancel)="denyAddUpdateOrder($event)"
+>
+</lib-popup>
+
+<ng-template #tmplTenant let-tenant>
+  <form nz-form [nzLayout]="'vertical'" [formGroup]="tenantFG">
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Vui lòng điền mã tenant!">
+        <nz-input-group nzPrefixIcon="user">
+          <input formControlName="code" nz-input placeholder="Mã tenant" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Vui lòng điền tên tenant!">
+        <nz-input-group nzPrefixIcon="user">
+          <input formControlName="name" nz-input placeholder="Tên tenant" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Vui lòng loại DB tenant!">
+        <nz-input-group nzPrefixIcon="user">
+          <nz-select formControlName="dbType">
+            <nz-option
+              *ngFor="let dbType of lstDBTypes"
+              [nzLabel]="dbType.DBName"
+              [nzValue]="dbType.Value"
+            ></nz-option>
+          </nz-select>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</ng-template>

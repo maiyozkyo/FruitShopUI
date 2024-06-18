@@ -22,6 +22,13 @@ const mainRoutes: Routes = [
       ),
   },
   {
+    path: 'tenant',
+    loadChildren: () =>
+      import('../../projects/tenant/src/lib/tenant.module').then(
+        (m) => m.TenantModule
+      ),
+  },
+  {
     path: 'user',
     loadChildren: () =>
       import('../../projects/user/src/lib/user.module').then(

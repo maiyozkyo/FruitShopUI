@@ -17,6 +17,7 @@ import { PopupComponent } from './popup/popup.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     NzModalModule,
     NzFormModule,
     NzInputModule,
+    NzSelectModule
   ],
   exports: [
     SharedComponent,
@@ -56,6 +58,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
     TableComponent,
     PopupComponent,
     NzInputModule,
+    NzSelectModule
   ],
 })
 export class SharedModule {}

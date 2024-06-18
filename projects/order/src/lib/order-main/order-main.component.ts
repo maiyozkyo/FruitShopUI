@@ -4,7 +4,7 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Custom_Date_Format } from '../mat-date-format/custom-date-format.model';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { OrderService } from '../order.service';
@@ -21,7 +21,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   orderForm!: FormGroup;
   lstOrder: any[] = [];
   showPopAddUpdateOrder = false;
-
+  curOrder!: Order;
   constructor(
     private df: ChangeDetectorRef,
     private orderService: OrderService
@@ -33,7 +33,8 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
     });
 
     this.orderForm = new FormGroup({
-      name: 
+      customerRecID: new FormControl('', [Validators.required]),
+      
     })
 
     this.lstOrder = [
@@ -55,10 +56,12 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   }
 
   confirmAddUpdateOrder(data: any) {
-    console.log('open', data);
+    console.log('submit', this.orderForm.value as Order);
   }
 
   denyAddUpdateOrder(data: any) {
-    console.log('deny', data);
+  }
+
+  submitForm() {
   }
 }
