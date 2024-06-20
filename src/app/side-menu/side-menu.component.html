@@ -27,17 +27,11 @@
       [fixedTopGap]="topGap"
     >
       <mat-nav-list>
-        <mat-list-item routerLink="/order" (click)="navClick(sidenav)"
-          >Đơn hàng</mat-list-item
-        >
-        <mat-list-item routerLink="/user" (click)="navClick(sidenav)"
-          >Tài khoản</mat-list-item
-        >
-        <mat-list-item routerLink="/contact" (click)="navClick(sidenav)"
-          >Contact</mat-list-item
-        >
-        <mat-list-item routerLink="/tenant" (click)="navClick(sidenav)"
-          >Tenant</mat-list-item
+        <mat-list-item
+          *ngFor="let item of menu"
+          [routerLink]="item.url"
+          (click)="navClick(sidenav)"
+          >{{ item.text }}</mat-list-item
         >
       </mat-nav-list>
     </mat-sidenav>

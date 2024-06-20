@@ -9,6 +9,7 @@ import { Custom_Date_Format } from '../mat-date-format/custom-date-format.model'
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { OrderService } from '../order.service';
 import { Order } from '../models/order.model';
+import { TableRow } from 'projects/shared/src/lib/models/table.model';
 
 @Component({
   selector: 'lib-order-main',
@@ -22,6 +23,9 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   lstOrder: any[] = [];
   showPopAddUpdateOrder = false;
   curOrder!: Order;
+  tableRows: TableRow[] = [];
+  tableDisabled: boolean = false;
+
   constructor(
     private df: ChangeDetectorRef,
     private orderService: OrderService
@@ -34,19 +38,33 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
 
     this.orderForm = new FormGroup({
       customerRecID: new FormControl('', [Validators.required]),
-      
-    })
+    });
 
+    this.tableRows = [{ field: 'make', title: 'Tên' }, {
+      field: 'model',
+      title: 'Seri',
+    },
+    {
+      field: 'price',
+      title: 'Giá',
+      type: 'number'
+    },
+    {
+      field: 'editable',
+      type: 'checkbox',
+      title: 'Chỉnh sửa',
+    }
+  ];
     this.lstOrder = [
       { make: 'Tesla', model: 'Model Y', price: 64950, editable: true },
-      { make: 'Ford', model: 'F-Series', price: 33850, electric: false },
-      { make: 'Toyota', model: 'Corolla', price: 29600, electric: false },
-      { make: 'Mercedes', model: 'EQA', price: 48890, electric: true },
-      { make: 'Fiat', model: '500', price: 15774, electric: false },
-      { make: 'Nissan', model: 'Juke', price: 20675, electric: false },
-      { make: 'Nissan', model: 'Juke', price: 20675, electric: false },
-      { make: 'Nissan', model: 'Juke', price: 20675, electric: false },
-      { make: 'Nissan', model: 'Juke', price: 20675, electric: false },
+      { make: 'Ford', model: 'F-Series', price: 33850, editable: false },
+      { make: 'Toyota', model: 'Corolla', price: 29600, editable: false },
+      { make: 'Mercedes', model: 'EQA', price: 48890, editable: true },
+      { make: 'Fiat', model: '500', price: 15774, editable: false },
+      { make: 'Nissan', model: 'Juke', price: 20675, editable: false },
+      { make: 'Nissan', model: 'Juke', price: 20675, editable: false },
+      { make: 'Nissan', model: 'Juke', price: 20675, editable: false },
+      { make: 'Nissan', model: 'Juke', price: 20675, editable: false },
     ];
   }
 
@@ -59,9 +77,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
     console.log('submit', this.orderForm.value as Order);
   }
 
-  denyAddUpdateOrder(data: any) {
-  }
+  denyAddUpdateOrder(data: any) {}
 
-  submitForm() {
-  }
+  submitForm() {}
 }

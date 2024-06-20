@@ -1,25 +1,45 @@
-<div>
+<div class="w-100 h-100 position-absolute">
   <nz-table
     #basicTable
+    nzShowSizeChanger
     [nzData]="data"
-    class="position-absolute"
-    [nzSize]="'middle'"
-  >
+    [nzSize]="tableSize"
+    [nzFrontPagination]="false"
+    [nzLoading]="loading"
+    [nzTotal]="total"
+    [nzPageSize]="pageSize"
+    [nzPageIndex]="curPage"
+    (nzQueryParams)="onQueryParamsChange($event)"
+    >
     <thead>
       <tr>
-        <th *ngFor="let item of basicTable.data[0] | keyvalue">
-          {{ item.key }}
+        <th *ngFor="let row of tableRows" [nzColumnKey]="row.field" [nzFilterFn]="true">
+          {{ row.title }}
         </th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let item of basicTable.data">
-        <td *ngFor="let field of item | keyvalue">
-          <input
-            [type]="getTypeof(field.value)"
-            [(ngModel)]="field.value"
-            (change)="log(field.value)"
-          />
+        <td *ngFor="let row of tableRows">
+          <ng-container [ngSwitch]="row.type">
+            <ng-container *ngSwitchCase="'checkbox'">
+              <input
+              *ngIf="row.type == 'checkbox'"
+              [type]="'checkbox'"
+              [checked]="item[row.field]"
+              (change)="item[row.field] = !item[row.field]"
+              [disabled]="disabled == true ? true : (row.disabled ? true : false)"
+            />
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+              <input
+              [disabled]="disabled == true ? true : (row.disabled ? true : false)"
+              *ngIf="row.type != 'checkbox'"
+              [type]="row.type"
+              [(ngModel)]="item[row.field]"
+            />
+            </ng-container>
+          </ng-container>
         </td>
       </tr>
     </tbody>

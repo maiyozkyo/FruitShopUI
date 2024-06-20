@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { TenantComponent } from './tenant.component';
 import { SharedModule } from 'projects/shared/src/public-api';
 import { TenantMainComponent } from './tenant-main/tenant-main.component';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
-const tenantRoutes = [
+const tenantRoutes: Routes = [
   {
     path: '',
     component: TenantMainComponent

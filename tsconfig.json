@@ -6,6 +6,9 @@
       "Auth": [
         "dist/auth"
       ],
+      "Customer": [
+        "dist/customer"
+      ],
       "Order": [
         "dist/order"
       ],

@@ -39,9 +39,6 @@ export class TenantMainComponent implements OnInit {
       dbType: new FormControl(-1, [Validators.required]),
     });
     this.curTenant = new Tenant();
-    let jsonS =
-      '[{"recID":"00000000-0000-0000-0000-000000000000","createdBy":"","createdOn":"2024-06-18T17:24:11.839Z","modifiedBy":"","modifiedOn":"2024-06-18T17:24:11.839Z","code":"Smartlog","name":"Smartlog","dbType":0}]';
-    console.log(JSON.parse(jsonS));
   }
 
   addUpdateTenant() {

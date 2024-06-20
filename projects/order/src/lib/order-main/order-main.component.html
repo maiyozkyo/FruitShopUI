@@ -32,10 +32,10 @@
     </mat-toolbar>
   </div>
   <div
-    class="d-flex object-fit position-relative flex-grow-1 bd-highlight"
+    class="d-flex w-100 h-100 position-relative flex-grow-1 bd-highlight"
     style="background-color: cadetblue"
   >
-    <lib-table [data]="lstOrder"> </lib-table>
+    <lib-table [data]="lstOrder" [tableRows]="tableRows" [disabled]="tableDisabled"> </lib-table>
   </div>
 </div>
 

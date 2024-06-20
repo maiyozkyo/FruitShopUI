@@ -29,6 +29,29 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
   isMobile: boolean = false;
   topGap: number = 0;
   user: User | undefined;
+  menu = [
+    {
+      icon: '',
+      url: '/order',
+      text: 'Đơn hàng'
+    },
+    {
+      icon: '',
+      url: '/user',
+      text: 'Tài khoản'
+    },
+    {
+      icon: '',
+      url: '/tenant',
+      text: 'Tenant'
+    },
+    {
+      icon: '',
+      url: '/customer',
+      text: 'Khách hàng'
+    },
+  ]
+
   constructor(
     protected tokenService: TokenService,
     private apiService: ApiService,

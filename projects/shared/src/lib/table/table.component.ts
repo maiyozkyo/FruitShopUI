@@ -5,6 +5,9 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+import { TableRow } from '../models/table.model';
+import { NzTableSize } from 'ng-zorro-antd/table';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'lib-table',
@@ -13,26 +16,32 @@ import {
 })
 export class TableComponent implements OnInit, AfterViewInit {
   @Input() data: any[] = [];
+  @Input() tableRows: TableRow[] = [];
+  @Input() tableSize: NzTableSize = 'default';
+  @Input() pageSize = 20;
+  @Input() disabled: boolean = false;
+  @Input() service!: string;
+  @Input() method!: string;
 
+  curPage = 1;
+  total = 200;
+  loading = false;
   themeClass: string = 'ag-theme-quartz';
-  constructor(private df: ChangeDetectorRef) {}
+  constructor(
+    private df: ChangeDetectorRef,
+    private shareService: SharedService
+  ) {}
   ngOnInit(): void {
     // Column Definitions: Defines & controls grid columns.
   }
   test = false;
   ngAfterViewInit(): void {}
 
-  getTypeof(value: any): string {
-    switch (typeof value) {
-      case 'boolean': {
-        return 'checkbox';
-      }
-      default: {
-        return typeof value;
-      }
-    }
-  }
   log(value: any) {
-    console.log(typeof value);
+    console.log(value);
+  }
+
+  onQueryParamsChange(evt: any) {
+    console.log('onQueryParamsChange', evt.pageIndex, evt.pageSize);
   }
 }

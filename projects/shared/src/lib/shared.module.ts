@@ -42,7 +42,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     NzModalModule,
     NzFormModule,
     NzInputModule,
-    NzSelectModule
+    NzSelectModule,
   ],
   exports: [
     SharedComponent,
@@ -58,7 +58,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     TableComponent,
     PopupComponent,
     NzInputModule,
-    NzSelectModule
+    NzSelectModule,
   ],
 })
 export class SharedModule {}
