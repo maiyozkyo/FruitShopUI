@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/Services/api.service';
+import { TableData } from './models/tableData.model';
 
 @Injectable({
   providedIn: 'root',
@@ -7,7 +9,13 @@ import { ApiService } from 'src/app/Services/api.service';
 export class SharedService {
   constructor(private apiService: ApiService) {}
 
-  getDataPaging(service: string, method: string, curPage: number, pageSize: number, request: string){
-    return this.apiService.post(service, method, [curPage, pageSize, request])
+  getDataPaging(
+    service: string,
+    method: string,
+    curPage: number,
+    pageSize: number,
+    request: string
+  ): Observable<any> {
+    return this.apiService.post(service, method, [curPage, pageSize, request]);
   }
 }

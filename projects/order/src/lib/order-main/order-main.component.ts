@@ -40,21 +40,23 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
       customerRecID: new FormControl('', [Validators.required]),
     });
 
-    this.tableRows = [{ field: 'make', title: 'Tên' }, {
-      field: 'model',
-      title: 'Seri',
-    },
-    {
-      field: 'price',
-      title: 'Giá',
-      type: 'number'
-    },
-    {
-      field: 'editable',
-      type: 'checkbox',
-      title: 'Chỉnh sửa',
-    }
-  ];
+    this.tableRows = [
+      { field: 'make', title: 'Tên' },
+      {
+        field: 'model',
+        title: 'Seri',
+      },
+      {
+        field: 'price',
+        title: 'Giá',
+        type: 'number',
+      },
+      {
+        field: 'editable',
+        type: 'checkbox',
+        title: 'Chỉnh sửa',
+      },
+    ];
     this.lstOrder = [
       { make: 'Tesla', model: 'Model Y', price: 64950, editable: true },
       { make: 'Ford', model: 'F-Series', price: 33850, editable: false },

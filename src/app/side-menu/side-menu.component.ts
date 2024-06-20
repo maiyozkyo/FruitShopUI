@@ -33,24 +33,29 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
     {
       icon: '',
       url: '/order',
-      text: 'Đơn hàng'
-    },
-    {
-      icon: '',
-      url: '/user',
-      text: 'Tài khoản'
-    },
-    {
-      icon: '',
-      url: '/tenant',
-      text: 'Tenant'
+      text: 'Đơn hàng',
     },
     {
       icon: '',
       url: '/customer',
-      text: 'Khách hàng'
+      text: 'Khách hàng',
     },
-  ]
+    {
+      icon: '',
+      url: '/user',
+      text: 'Tài khoản',
+    },
+    {
+      icon: '',
+      url: '/tenant',
+      text: 'Tenant',
+    },
+    {
+      icon: '',
+      url: '/customer',
+      text: 'Khách hàng',
+    },
+  ];
 
   constructor(
     protected tokenService: TokenService,

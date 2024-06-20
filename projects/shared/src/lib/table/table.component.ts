@@ -8,6 +8,7 @@ import {
 import { TableRow } from '../models/table.model';
 import { NzTableSize } from 'ng-zorro-antd/table';
 import { SharedService } from '../shared.service';
+import { TableData } from '../models/tableData.model';
 
 @Component({
   selector: 'lib-table',
@@ -24,7 +25,8 @@ export class TableComponent implements OnInit, AfterViewInit {
   @Input() method!: string;
 
   curPage = 1;
-  total = 200;
+  total = 0;
+  request = '';
   loading = false;
   themeClass: string = 'ag-theme-quartz';
   constructor(
@@ -35,13 +37,35 @@ export class TableComponent implements OnInit, AfterViewInit {
     // Column Definitions: Defines & controls grid columns.
   }
   test = false;
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    this.getTableDatas();
+  }
 
   log(value: any) {
     console.log(value);
   }
 
   onQueryParamsChange(evt: any) {
-    console.log('onQueryParamsChange', evt.pageIndex, evt.pageSize);
+    this.curPage = evt.pageIndex;
+    this.pageSize = evt.pageSize;
+    this.getTableDatas();
+  }
+
+  getTableDatas() {
+    if (this.method && this.service) {
+      this.shareService
+        .getDataPaging(
+          this.service,
+          this.method,
+          this.curPage,
+          this.pageSize,
+          this.request
+        )
+        .subscribe((res: TableData) => {
+          console.log('res', res);
+          this.total = res.total;
+          this.data = res.data;
+        });
+    }
   }
 }

@@ -7,20 +7,13 @@ import { SharedModule } from 'projects/shared/src/public-api';
 const customerRoutes: Routes = [
   {
     path: '',
-    component: CustomerMainComponent
-  }
-]
+    component: CustomerMainComponent,
+  },
+];
 
 @NgModule({
-  declarations: [
-    CustomerComponent
-  ],
-  imports: [
-    RouterModule.forChild(customerRoutes),
-    SharedModule
-  ],
-  exports: [
-    CustomerComponent
-  ]
+  declarations: [CustomerComponent, CustomerMainComponent],
+  imports: [RouterModule.forChild(customerRoutes), SharedModule],
+  exports: [CustomerComponent],
 })
-export class CustomerModule { }
+export class CustomerModule {}
