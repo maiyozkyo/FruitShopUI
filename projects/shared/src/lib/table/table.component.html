@@ -1,58 +1,79 @@
-<div class="w-100 h-100 position-absolute p-2">
-  <div *ngIf="!disabled && allowAdd" class="btn btn-primary" (click)="addNewRow()">+</div>
-  <nz-table
-    #basicTable
-    nzShowSizeChanger
-    nzTableLayout="fixed"
-    [nzData]="data"
-    [nzSize]="tableSize"
-    [nzFrontPagination]="false"
-    [nzLoading]="loading"
-    [nzTotal]="total"
-    [nzPageSize]="pageSize"
-    [nzPageIndex]="curPage"
-    (nzQueryParams)="onQueryParamsChange($event)"
+<div class="w-100 h-100 position-absolute p-2" #tableInfo>
+  <div
+    *ngIf="!disabled && allowAdd"
+    class="btn btn-primary"
+    (click)="addNewRow()"
+  >
+    +
+  </div>
+  <div class="table-info d-flex position-absolute">
+    <nz-table
+      #basicTable
+      nzShowSizeChanger
+      [nzScroll]="{ y: tableMaxHeight + 'px' }"
+      nzTableLayout="fixed"
+      [nzData]="data"
+      [nzSize]="tableSize"
+      [nzFrontPagination]="false"
+      [nzLoading]="loading"
+      [nzTotal]="total"
+      [nzPageSize]="pageSize"
+      [nzPageIndex]="curPage"
+      (nzQueryParams)="onQueryParamsChange($event)"
     >
-    <thead>
-      <tr>
-        <th *ngFor="let row of tableRows" [nzColumnKey]="row.field" [nzFilterFn]="true">
-          {{ row.title }}
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of basicTable.data">
-        <td *ngFor="let row of tableRows">
-          <ng-container [ngSwitch]="row.type">
-            <ng-container *ngSwitchCase="'checkbox'">
-              <input
-              [type]="'checkbox'"
-              [checked]="item[row.field]"
-              (change)="item[row.field] = !item[row.field]"
-              [disabled]="disabled == true ? true : (row.disabled ? true : false)"
-              [placeholder]="row.placeholder"
-            />
+      <thead>
+        <tr>
+          <th
+            *ngFor="let row of tableRows"
+            [nzColumnKey]="row.field"
+            [nzFilterFn]="true"
+          >
+            {{ row.title }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of basicTable.data">
+          <td *ngFor="let row of tableRows">
+            <ng-container [ngSwitch]="row.type">
+              <ng-container *ngSwitchCase="'checkbox'">
+                <input
+                  [type]="'checkbox'"
+                  [checked]="item[row.field]"
+                  (change)="item[row.field] = !item[row.field]"
+                  [disabled]="
+                    disabled == true ? true : row.disabled ? true : false
+                  "
+                  [placeholder]="row.placeholder"
+                />
+              </ng-container>
+              <ng-container *ngSwitchCase="'select'">
+                <nz-select
+                  nzShowSearch
+                  nzAllowClear
+                  [nzPlaceHolder]="row.placeholder ?? ''"
+                >
+                  <nz-option
+                    *ngFor="let data of row.dataSrc"
+                    [nzLabel]="data.label"
+                    [nzValue]="data.value"
+                  ></nz-option>
+                </nz-select>
+              </ng-container>
+              <ng-container *ngSwitchDefault>
+                <input
+                  [disabled]="
+                    disabled == true ? true : row.disabled ? true : false
+                  "
+                  [type]="row.type"
+                  [(ngModel)]="item[row.field]"
+                  [placeholder]="row.placeholder"
+                />
+              </ng-container>
             </ng-container>
-            <ng-container *ngSwitchCase="'select'">
-              <nz-select nzShowSearch nzAllowClear [nzPlaceHolder]="row.placeholder ?? ''" >
-                <nz-option
-                  *ngFor="let data of row.dataSrc"
-                  [nzLabel]="data.label"
-                  [nzValue]="data.value"
-                ></nz-option>
-              </nz-select>
-            </ng-container>
-            <ng-container *ngSwitchDefault>
-              <input
-              [disabled]="disabled == true ? true : (row.disabled ? true : false)"
-              [type]="row.type"
-              [(ngModel)]="item[row.field]"
-              [placeholder]="row.placeholder"
-            />
-            </ng-container>
-          </ng-container>
-        </td>
-      </tr>
-    </tbody>
-  </nz-table>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
 </div>

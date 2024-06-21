@@ -2,8 +2,10 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { TableRow } from '../models/table.model';
 import { NzTableSize } from 'ng-zorro-antd/table';
@@ -25,36 +27,42 @@ export class TableComponent implements OnInit, AfterViewInit {
   @Input() method!: string;
   @Input() allowAdd: boolean = true;
 
+  // View Element
+  @ViewChild('tableInfo') tableInfo!: ElementRef<HTMLElement>;
+
+  // Init some value
   curPage = 1;
-  total = 0;
+  total = 200;
   request = '';
   loading = false;
   themeClass: string = 'ag-theme-quartz';
+  tableMaxHeight: number = 1;
+
   constructor(
     private df: ChangeDetectorRef,
     private shareService: SharedService
-  ) {
-    
-  }
+  ) {}
+
   ngOnInit(): void {
-    this.tableRows.forEach(row => {
-      Object.assign(row, new TableRow());
-    }
-    )
-    console.log(this.tableRows)
+    this.tableRows = this.tableRows.map((row) => (row = new TableRow(row)));
     this.addNewRow();
   }
   ngAfterViewInit(): void {
+    if (this.tableInfo.nativeElement.children.length > 1) {
+      let parent = this.tableInfo.nativeElement;
+      let fChild = this.tableInfo.nativeElement.children.item(0) as HTMLElement;
+      this.tableMaxHeight = (parent.offsetHeight - fChild.offsetHeight) * 0.8;
+    } else {
+      this.tableMaxHeight = 100;
+    }
+    this.df.detectChanges();
     this.getTableDatas();
-  }
-
-  log(value: any) {
-    console.log(value);
   }
 
   onQueryParamsChange(evt: any) {
     this.curPage = evt.pageIndex;
     this.pageSize = evt.pageSize;
+    this.loading = true;
     this.getTableDatas();
   }
 
@@ -72,7 +80,10 @@ export class TableComponent implements OnInit, AfterViewInit {
           console.log('res', res);
           this.total = res.total;
           this.data = res.data;
+          this.loading = false;
         });
+    } else {
+      this.loading = false;
     }
   }
 
@@ -92,14 +103,14 @@ export class TableComponent implements OnInit, AfterViewInit {
           obj[row.field] = row.dataSrc ? row.dataSrc[0] : null;
           break;
         }
-        case 'text': 
+        case 'text':
         default: {
           obj[row.field] = '';
           break;
         }
       }
     });
-    this.data.push(obj);
+    this.data = [...this.data, obj];
     this.df.detectChanges();
   }
 }
