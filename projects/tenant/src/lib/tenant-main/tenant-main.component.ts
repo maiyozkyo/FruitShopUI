@@ -3,6 +3,7 @@ import { TenantService } from '../tenant.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Tenant } from '../models/tenant.model';
 import { NotifyService } from 'projects/shared/src/lib/notify.service';
+import { DataSrc, TableRow } from 'projects/shared/src/lib/models/table.model';
 
 @Component({
   selector: 'lib-tenant-main',
@@ -13,20 +14,22 @@ export class TenantMainComponent implements OnInit {
   curTenant!: Tenant;
   tenantFG!: FormGroup;
   showPopTenant: boolean = false;
-  lstDBTypes = [
+  lstDBTypes: DataSrc[] = [
     {
-      DBName: 'MongoDB',
-      Value: 0,
+      label: 'MongoDB',
+      value: 0,
     },
     {
-      DBName: 'Postgres',
-      Value: 1,
+      label: 'Postgres',
+      value: 1,
     },
     {
-      DBName: 'MsSQL',
-      Value: 2,
+      label: 'MsSQL',
+      value: 2,
     },
   ];
+
+  tableRows: TableRow[] = [];
   constructor(
     private tenantService: TenantService,
     private notiService: NotifyService,
@@ -39,6 +42,23 @@ export class TenantMainComponent implements OnInit {
       dbType: new FormControl(-1, [Validators.required]),
     });
     this.curTenant = new Tenant();
+    this.tableRows = [
+      {
+        field: 'service',
+        title: 'Service',
+      },
+      {
+        field: 'serviceName',
+        title: 'Tên module',
+      },
+      {
+        field: 'typeOfDB',
+        title: 'Loại db',
+        dataSrc: this.lstDBTypes,
+        type: 'select',
+        placeholder: 'Chọn loại DB'
+      },
+    ];
   }
 
   addUpdateTenant() {

@@ -1,7 +1,9 @@
-<div class="w-100 h-100 position-absolute">
+<div class="w-100 h-100 position-absolute p-2">
+  <div *ngIf="!disabled && allowAdd" class="btn btn-primary" (click)="addNewRow()">+</div>
   <nz-table
     #basicTable
     nzShowSizeChanger
+    nzTableLayout="fixed"
     [nzData]="data"
     [nzSize]="tableSize"
     [nzFrontPagination]="false"
@@ -24,19 +26,28 @@
           <ng-container [ngSwitch]="row.type">
             <ng-container *ngSwitchCase="'checkbox'">
               <input
-              *ngIf="row.type == 'checkbox'"
               [type]="'checkbox'"
               [checked]="item[row.field]"
               (change)="item[row.field] = !item[row.field]"
               [disabled]="disabled == true ? true : (row.disabled ? true : false)"
+              [placeholder]="row.placeholder"
             />
+            </ng-container>
+            <ng-container *ngSwitchCase="'select'">
+              <nz-select nzShowSearch nzAllowClear [nzPlaceHolder]="row.placeholder ?? ''" >
+                <nz-option
+                  *ngFor="let data of row.dataSrc"
+                  [nzLabel]="data.label"
+                  [nzValue]="data.value"
+                ></nz-option>
+              </nz-select>
             </ng-container>
             <ng-container *ngSwitchDefault>
               <input
               [disabled]="disabled == true ? true : (row.disabled ? true : false)"
-              *ngIf="row.type != 'checkbox'"
               [type]="row.type"
               [(ngModel)]="item[row.field]"
+              [placeholder]="row.placeholder"
             />
             </ng-container>
           </ng-container>

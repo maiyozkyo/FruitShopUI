@@ -23,6 +23,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   @Input() disabled: boolean = false;
   @Input() service!: string;
   @Input() method!: string;
+  @Input() allowAdd: boolean = true;
 
   curPage = 1;
   total = 0;
@@ -32,11 +33,17 @@ export class TableComponent implements OnInit, AfterViewInit {
   constructor(
     private df: ChangeDetectorRef,
     private shareService: SharedService
-  ) {}
-  ngOnInit(): void {
-    // Column Definitions: Defines & controls grid columns.
+  ) {
+    
   }
-  test = false;
+  ngOnInit(): void {
+    this.tableRows.forEach(row => {
+      Object.assign(row, new TableRow());
+    }
+    )
+    console.log(this.tableRows)
+    this.addNewRow();
+  }
   ngAfterViewInit(): void {
     this.getTableDatas();
   }
@@ -67,5 +74,32 @@ export class TableComponent implements OnInit, AfterViewInit {
           this.data = res.data;
         });
     }
+  }
+
+  addNewRow() {
+    let obj: any = {};
+    this.tableRows.forEach((row) => {
+      switch (row.type) {
+        case 'checkbox': {
+          obj[row.field] = false;
+          break;
+        }
+        case 'number': {
+          obj[row.field] = 0;
+          break;
+        }
+        case 'select': {
+          obj[row.field] = row.dataSrc ? row.dataSrc[0] : null;
+          break;
+        }
+        case 'text': 
+        default: {
+          obj[row.field] = '';
+          break;
+        }
+      }
+    });
+    this.data.push(obj);
+    this.df.detectChanges();
   }
 }
