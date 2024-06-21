@@ -1,10 +1,9 @@
 <div class="w-100 h-100 position-absolute p-2" #tableInfo>
-  <div
-    *ngIf="!disabled && allowAdd"
-    class="btn btn-primary"
-    (click)="addNewRow()"
-  >
-    +
+  <div class="d-flex justify-content-end" *ngIf="!disabled && allowAdd">
+    <div class="d-flex justify-content-around">
+      <div class="btn btn-success me-1" (click)="onSaveClick()">Lưu</div>
+      <div class="btn btn-primary" (click)="addNewRow()">Thêm dòng</div>
+    </div>
   </div>
   <div class="table-info d-flex position-absolute">
     <nz-table
@@ -52,6 +51,7 @@
                   nzShowSearch
                   nzAllowClear
                   [nzPlaceHolder]="row.placeholder ?? ''"
+                  [(ngModel)]="item[row.field]"
                 >
                   <nz-option
                     *ngFor="let data of row.dataSrc"

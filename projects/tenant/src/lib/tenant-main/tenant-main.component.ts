@@ -30,11 +30,21 @@ export class TenantMainComponent implements OnInit {
   ];
 
   tableRows: TableRow[] = [];
+  tenants = [
+    {
+      service: 'CUCustomer',
+    },
+    {
+      service: 'OROrder',
+    },
+  ];
+
   constructor(
     private tenantService: TenantService,
     private notiService: NotifyService,
     private df: ChangeDetectorRef
   ) {}
+
   ngOnInit() {
     this.tenantFG = new FormGroup({
       code: new FormControl('', [Validators.required]),
@@ -48,15 +58,11 @@ export class TenantMainComponent implements OnInit {
         title: 'Service',
       },
       {
-        field: 'serviceName',
-        title: 'Tên module',
-      },
-      {
         field: 'typeOfDB',
         title: 'Loại db',
         dataSrc: this.lstDBTypes,
         type: 'select',
-        placeholder: 'Chọn loại DB'
+        placeholder: 'Chọn loại DB',
       },
     ];
   }
@@ -81,4 +87,8 @@ export class TenantMainComponent implements OnInit {
   }
 
   denyAddUpdateOrder(evt: Tenant) {}
+
+  onSave(evt: any) {
+    console.log('save', evt);
+  }
 }

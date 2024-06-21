@@ -3,8 +3,10 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { TableRow } from '../models/table.model';
@@ -27,6 +29,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   @Input() method!: string;
   @Input() allowAdd: boolean = true;
 
+  @Output() save = new EventEmitter<any>();
   // View Element
   @ViewChild('tableInfo') tableInfo!: ElementRef<HTMLElement>;
 
@@ -45,18 +48,21 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.tableRows = this.tableRows.map((row) => (row = new TableRow(row)));
-    this.addNewRow();
   }
   ngAfterViewInit(): void {
+    this.setTableHeight();
+    this.getTableDatas();
+  }
+
+  setTableHeight() {
     if (this.tableInfo.nativeElement.children.length > 1) {
       let parent = this.tableInfo.nativeElement;
       let fChild = this.tableInfo.nativeElement.children.item(0) as HTMLElement;
-      this.tableMaxHeight = (parent.offsetHeight - fChild.offsetHeight) * 0.8;
+      this.tableMaxHeight = (parent.offsetHeight - fChild.offsetHeight) * 0.75;
     } else {
       this.tableMaxHeight = 100;
     }
     this.df.detectChanges();
-    this.getTableDatas();
   }
 
   onQueryParamsChange(evt: any) {
@@ -111,6 +117,10 @@ export class TableComponent implements OnInit, AfterViewInit {
       }
     });
     this.data = [...this.data, obj];
-    this.df.detectChanges();
+    this.setTableHeight();
+  }
+
+  onSaveClick() {
+    this.save.emit(this.data);
   }
 }

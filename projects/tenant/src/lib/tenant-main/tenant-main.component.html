@@ -1,8 +1,30 @@
 <div class="d-flex w-100 h-100 flex-column p-3">
-  <div class="toolbar d-flex justify-content-end">
-    <div class="btn btn-primary" (click)="addUpdateTenant()">
-      Tenant
+  <div class="d-flex justify-content-between">
+    <form nz-form [nzLayout]="'inline'" [formGroup]="tenantFG">
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Vui lòng điền mã tenant!">
+          <nz-input-group nzPrefixIcon="user">
+            <input formControlName="code" nz-input placeholder="Mã tenant" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Vui lòng điền tên tenant!">
+          <nz-input-group nzPrefixIcon="user">
+            <input formControlName="name" nz-input placeholder="Tên tenant" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
   </div>
+  <div class="d-flex w-100 h-100 position-relative flex-grow-1 bd-highlight">
+    <lib-table
+      [data]="tenants"
+      [tableRows]="tableRows"
+      [disabled]="false"
+      (save)="onSave($event)"
+    >
+    </lib-table>
   </div>
 </div>
 
@@ -17,21 +39,4 @@
 >
 </lib-popup>
 
-<ng-template #tmplTenant let-tenant>
-  <form nz-form [nzLayout]="'vertical'" [formGroup]="tenantFG">
-    <nz-form-item>
-      <nz-form-control nzErrorTip="Vui lòng điền mã tenant!">
-        <nz-input-group nzPrefixIcon="user">
-          <input formControlName="code" nz-input placeholder="Mã tenant" />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control nzErrorTip="Vui lòng điền tên tenant!">
-        <nz-input-group nzPrefixIcon="user">
-          <input formControlName="name" nz-input placeholder="Tên tenant" />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-  </form>
-</ng-template>
+<ng-template #tmplTenant let-tenant> </ng-template>
