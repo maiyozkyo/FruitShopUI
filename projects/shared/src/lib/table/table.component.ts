@@ -117,6 +117,7 @@ export class TableComponent implements OnInit, AfterViewInit {
       }
     });
     this.data = [...this.data, obj];
+    this.total++;
     this.setTableHeight();
   }
 
