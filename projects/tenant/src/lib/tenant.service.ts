@@ -9,7 +9,7 @@ export class TenantService {
   private readonly service = 'Tenant';
 
   constructor(private apiService: ApiService) {}
-  addUpdateTenant(tenant: Tenant) {
-    return this.apiService.post(this.service, 'AddUpdateTenant', [tenant]);
+  addUpdateTenant(tenant: Tenant, services: any[]) {
+    return this.apiService.post(this.service, 'AddTenants', [tenant, services]);
   }
 }

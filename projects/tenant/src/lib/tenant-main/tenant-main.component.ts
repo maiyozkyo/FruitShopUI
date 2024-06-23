@@ -13,29 +13,19 @@ import { DataSrc, TableRow } from 'projects/shared/src/lib/models/table.model';
 export class TenantMainComponent implements OnInit {
   curTenant!: Tenant;
   tenantFG!: FormGroup;
-  showPopTenant: boolean = false;
-  lstDBTypes: DataSrc[] = [
-    {
-      label: 'MongoDB',
-      value: 0,
-    },
-    {
-      label: 'Postgres',
-      value: 1,
-    },
-    {
-      label: 'MsSQL',
-      value: 2,
-    },
-  ];
 
-  tableRows: TableRow[] = [];
-  tenants = [
+  services = [
     {
-      service: 'CUCustomer',
+      name: 'CUCustomer',
+      isBought: false,
     },
     {
-      service: 'OROrder',
+      name: 'OROrder',
+      isBought: false,
+    },
+    {
+      name: 'ADUser',
+      isBought: false,
     },
   ];
 
@@ -49,41 +39,29 @@ export class TenantMainComponent implements OnInit {
     this.tenantFG = new FormGroup({
       code: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required]),
-      dbType: new FormControl(-1, [Validators.required]),
     });
     this.curTenant = new Tenant();
-    this.tableRows = [
-      {
-        field: 'service',
-        title: 'Service',
-      },
-      {
-        field: 'typeOfDB',
-        title: 'Loại db',
-        dataSrc: this.lstDBTypes,
-        type: 'select',
-        placeholder: 'Chọn loại DB',
-      },
-    ];
   }
 
-  addUpdateTenant() {
-    this.showPopTenant = !this.showPopTenant;
-  }
-
-  confirmAddUpdateTenant(evt: Tenant) {
-    this.tenantService.addUpdateTenant(evt).subscribe((res) => {
-      if (res) {
-        this.notiService.show(
-          'Tenant',
-          'Add/Update thành công',
-          'success',
-          5000
-        );
-      } else {
-        this.notiService.show('Tenant', 'Add/Update thất bại', 'error', 5000);
-      }
-    });
+  confirmAddTenant() {
+    this.curTenant = this.tenantFG.value;
+    this.tenantService
+      .addUpdateTenant(
+        this.curTenant,
+        this.services.filter((x) => x.isBought).map((x) => x.name)
+      )
+      .subscribe((res) => {
+        if (res) {
+          this.notiService.show(
+            'Tenant',
+            'Add/Update thành công',
+            'success',
+            5000
+          );
+        } else {
+          this.notiService.show('Tenant', 'Add/Update thất bại', 'error', 5000);
+        }
+      });
   }
 
   denyAddUpdateOrder(evt: Tenant) {}

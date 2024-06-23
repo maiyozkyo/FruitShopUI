@@ -18,6 +18,8 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     NzFormModule,
     NzInputModule,
     NzSelectModule,
+    NzSwitchModule,
+    NzCardModule,
   ],
   exports: [
     SharedComponent,
@@ -59,6 +63,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     PopupComponent,
     NzInputModule,
     NzSelectModule,
+    NzSwitchModule,
+    NzCardModule,
   ],
 })
 export class SharedModule {}
