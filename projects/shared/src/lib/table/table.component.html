@@ -1,7 +1,13 @@
 <div class="w-100 h-100 position-absolute p-2" #tableInfo>
-  <div class="d-flex justify-content-end" *ngIf="!disabled && allowAdd">
+  <div class="d-flex justify-content-end" *ngIf="allowAdd">
     <div class="d-flex justify-content-around">
-      <div class="btn btn-success me-1" (click)="onSaveClick()">Lưu</div>
+      <div
+        *ngIf="!disabled"
+        class="btn btn-success me-1"
+        (click)="onSaveClick()"
+      >
+        Lưu
+      </div>
       <div class="btn btn-primary" (click)="addNewRow()">Thêm dòng</div>
     </div>
   </div>

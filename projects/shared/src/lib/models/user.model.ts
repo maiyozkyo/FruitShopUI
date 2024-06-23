@@ -1,4 +1,4 @@
-export class User {
+export class ADUser {
   phone!: string;
   userName!: string;
   email!: string;

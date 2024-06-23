@@ -1,0 +1,29 @@
+<div class="d-flex flex-column h-100 object-fit position-relative">
+  <div class="d-flex justify-content-end">
+    <div class="btn btn-primary" (click)="clickAddUser()">
+      Thêm người dùng mới
+    </div>
+  </div>
+  <div class="d-flex w-100 h-100 position-relative flex-grow-1 bd-highlight">
+    <lib-table
+      [service]="'User'"
+      [method]="'TableUsers'"
+      [tableRows]="tableRows"
+      [disabled]="tableDisabled"
+    >
+    </lib-table>
+  </div>
+</div>
+
+<lib-popup
+  [isVisible]="showPopAddUser"
+  [title]="'Thêm mới người dùng'"
+  [contentTmpl]="tmplADUser"
+  [confirmText]="'Lưu'"
+>
+</lib-popup>
+
+<!-- Template người dùng -->
+<ng-template #tmplADUser>
+  <lib-form></lib-form>
+</ng-template>

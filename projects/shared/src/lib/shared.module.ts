@@ -20,6 +20,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { FormComponent } from './form/form.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
     NotifyComponent,
     TableComponent,
     PopupComponent,
+    FormComponent,
   ],
   imports: [
     RouterModule.forChild([]),
@@ -65,6 +67,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
     NzSelectModule,
     NzSwitchModule,
     NzCardModule,
+    FormComponent,
   ],
 })
 export class SharedModule {}

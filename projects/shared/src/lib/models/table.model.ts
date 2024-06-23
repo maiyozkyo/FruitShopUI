@@ -1,3 +1,5 @@
+import { DataSrc } from './dataSrc.model';
+
 export class TableRow {
   title!: string;
   field!: string;
@@ -9,9 +11,4 @@ export class TableRow {
   constructor(obj: TableRow) {
     Object.assign(this, obj);
   }
-}
-
-export class DataSrc {
-  label!: string;
-  value!: any;
 }

@@ -3,7 +3,6 @@ import { TenantService } from '../tenant.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Tenant } from '../models/tenant.model';
 import { NotifyService } from 'projects/shared/src/lib/notify.service';
-import { DataSrc, TableRow } from 'projects/shared/src/lib/models/table.model';
 
 @Component({
   selector: 'lib-tenant-main',
@@ -25,6 +24,10 @@ export class TenantMainComponent implements OnInit {
     },
     {
       name: 'ADUser',
+      isBought: false,
+    },
+    {
+      name: 'PRProduct',
       isBought: false,
     },
   ];

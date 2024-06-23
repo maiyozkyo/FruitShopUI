@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from 'projects/shared/src/lib/models/user.model';
 import { ApiService } from '../Services/api.service';
 import { AuthService } from 'projects/auth/src/public-api';
+import { ADUser } from 'projects/shared/src/lib/models/user.model';
 
 @Component({
   selector: 'app-layout',
@@ -15,7 +15,7 @@ export class LayoutComponent implements OnInit {
     private authService: AuthService,
     private router: Router
   ) {}
-  user: User | undefined;
+  user: ADUser | undefined;
   ngOnInit(): void {
     console.log('ngOnInit', this.user);
   }

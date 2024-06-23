@@ -11,7 +11,7 @@ import {
   Breakpoints,
   BreakpointState,
 } from '@angular/cdk/layout';
-import { User } from 'projects/shared/src/lib/models/user.model';
+import { ADUser } from 'projects/shared/src/lib/models/user.model';
 import { ApiService } from '../Services/api.service';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -28,7 +28,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
   sideMenuOpenState = true;
   isMobile: boolean = false;
   topGap: number = 0;
-  user: User | undefined;
+  user: ADUser | undefined;
   menu = [
     {
       icon: '',
