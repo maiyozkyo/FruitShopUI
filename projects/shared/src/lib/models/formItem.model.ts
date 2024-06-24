@@ -8,12 +8,16 @@ export class FormItem {
   value!: any;
   validators?: ValidatorFn[] = [];
   placeHolder?: string = '';
-  type?: 'checkbox' | 'text' | 'number' | 'select' | 'switch' = 'text';
+  type?: 'checkbox' | 'text' | 'number' | 'select' | 'switch' | 'password' =
+    'text';
   dataSrc?: DataSrc[];
   disabled? = false;
+  hidden? = false;
+  icon?: string = '';
 
   constructor(control: FormItem) {
     Object.assign(this, control);
     if (!this.placeHolder) this.placeHolder = this.title;
+    this.errorMsg += ` ${this.title.toLowerCase()}`;
   }
 }

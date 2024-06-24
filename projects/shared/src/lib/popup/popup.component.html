@@ -6,9 +6,11 @@
   [nzOkLoading]="isOkLoading"
   [nzOkText]="confirmText"
   [nzCancelText]="cancelText"
+  [nzOkDisabled]="formGroup.status == 'INVALID'"
 >
   <p *nzModalContent>
     <ng-container
+      *ngIf="contentTmpl"
       [formGroup]="formGroup"
       [ngTemplateOutlet]="contentTmpl"
       [ngTemplateOutletContext]="tempData"

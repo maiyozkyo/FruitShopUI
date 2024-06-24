@@ -9,5 +9,10 @@ export class UserService {
   private readonly service = 'User';
   constructor(private apiService: ApiService) {}
 
-  addUser(user: ADUser) {}
+  addUpdateUser(user: ADUser, password: string) {
+    return this.apiService.post(this.service, 'AddUpdateUser', [
+      user,
+      password,
+    ]);
+  }
 }

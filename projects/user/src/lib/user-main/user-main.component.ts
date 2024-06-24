@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormItem } from 'projects/shared/src/lib/models/formItem.model';
 import { TableRow } from 'projects/shared/src/lib/models/tableRow.model';
 import { ADUser } from 'projects/shared/src/lib/models/user.model';
+import { UserService } from '../user.service';
+import { NotifyService } from 'projects/shared/src/lib/notify.service';
 
 @Component({
   selector: 'lib-user-main',
@@ -22,7 +24,10 @@ export class UserMainComponent implements OnInit {
   curUser!: ADUser;
   //#endregion
 
-  constructor() {}
+  constructor(
+    private userService: UserService,
+    private notiService: NotifyService
+  ) {}
   ngOnInit() {
     this.tableRows = [
       {
@@ -55,11 +60,23 @@ export class UserMainComponent implements OnInit {
         controlName: 'userName',
         title: 'Tên đăng nhập',
         value: '',
+        icon: 'user',
       },
       {
         controlName: 'phone',
         title: 'Số điện thoại',
         value: '',
+        icon: 'mobile',
+        validators: [Validators.required],
+      },
+      {
+        controlName: 'password',
+        title: 'Mật khẩu',
+        type: 'password',
+        hidden: true,
+        value: '',
+        icon: 'lock',
+        validators: [Validators.required],
       },
       {
         controlName: 'isActived',
@@ -87,7 +104,23 @@ export class UserMainComponent implements OnInit {
     this.showPopAddUser = !this.showPopAddUser;
   }
 
-  confirmAddUpdateUser(user: any) {
-    console.log(user);
+  confirmAddUpdateUser(user: ADUser) {
+    this.userService
+      .addUpdateUser(user, this.userFG.controls['password'].value)
+      .subscribe((res) => {
+        if (res) {
+          this.notiService.show(
+            'Thêm mới/Chỉnh sửa người dùng',
+            'Thành công',
+            'success'
+          );
+        } else {
+          this.notiService.show(
+            'Thêm mới/Chỉnh sửa người dùng',
+            'Thất bại',
+            'error'
+          );
+        }
+      });
   }
 }

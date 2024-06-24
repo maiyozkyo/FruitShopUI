@@ -21,6 +21,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { FormComponent } from './form/form.component';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { FormComponent } from './form/form.component';
     NzSelectModule,
     NzSwitchModule,
     NzCardModule,
+    NzIconModule
   ],
   exports: [
     SharedComponent,
@@ -68,6 +70,7 @@ import { FormComponent } from './form/form.component';
     NzSwitchModule,
     NzCardModule,
     FormComponent,
+    NzIconModule
   ],
 })
 export class SharedModule {}
