@@ -11,4 +11,9 @@ export class FormItem {
   type?: 'checkbox' | 'text' | 'number' | 'select' | 'switch' = 'text';
   dataSrc?: DataSrc[];
   disabled? = false;
+
+  constructor(control: FormItem) {
+    Object.assign(this, control);
+    if (!this.placeHolder) this.placeHolder = this.title;
+  }
 }

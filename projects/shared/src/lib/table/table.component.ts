@@ -9,10 +9,10 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { TableRow } from '../models/table.model';
 import { NzTableSize } from 'ng-zorro-antd/table';
 import { SharedService } from '../shared.service';
 import { TableData } from '../models/tableData.model';
+import { TableRow } from '../models/tableRow.model';
 
 @Component({
   selector: 'lib-table',

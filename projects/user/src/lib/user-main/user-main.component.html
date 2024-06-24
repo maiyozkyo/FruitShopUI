@@ -1,6 +1,6 @@
 <div class="d-flex flex-column h-100 object-fit position-relative">
   <div class="d-flex justify-content-end">
-    <div class="btn btn-primary" (click)="clickAddUser()">
+    <div class="btn btn-primary" (click)="clickAddUpdateUserPopup()">
       Thêm người dùng mới
     </div>
   </div>
@@ -16,14 +16,17 @@
 </div>
 
 <lib-popup
-  [isVisible]="showPopAddUser"
+  #userPopup
+  [formGroup]="userFG"
+  [(isVisible)]="showPopAddUser"
   [title]="'Thêm mới người dùng'"
   [contentTmpl]="tmplADUser"
   [confirmText]="'Lưu'"
+  (onConfirm)="confirmAddUpdateUser($event)"
 >
 </lib-popup>
 
 <!-- Template người dùng -->
 <ng-template #tmplADUser>
-  <lib-form></lib-form>
+  <lib-form [(fg)]="userFG" [controls]="userControls"></lib-form>
 </ng-template>

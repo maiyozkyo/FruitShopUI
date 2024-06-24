@@ -9,7 +9,7 @@ import { Custom_Date_Format } from '../mat-date-format/custom-date-format.model'
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { OrderService } from '../order.service';
 import { Order } from '../models/order.model';
-import { TableRow } from 'projects/shared/src/lib/models/table.model';
+import { TableRow } from 'projects/shared/src/lib/models/tableRow.model';
 
 @Component({
   selector: 'lib-order-main',

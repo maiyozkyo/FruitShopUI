@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { FormItem } from 'projects/shared/src/lib/models/formItem.model';
-import { TableRow } from 'projects/shared/src/lib/models/table.model';
+import { TableRow } from 'projects/shared/src/lib/models/tableRow.model';
 import { ADUser } from 'projects/shared/src/lib/models/user.model';
 
 @Component({
@@ -17,7 +17,8 @@ export class UserMainComponent implements OnInit {
   //#endregion
 
   //#region Người dùng
-  formControls!: FormItem[];
+  userFG!: FormGroup;
+  userControls!: FormItem[];
   curUser!: ADUser;
   //#endregion
 
@@ -49,7 +50,7 @@ export class UserMainComponent implements OnInit {
       },
     ];
 
-    this.formControls = [
+    this.userControls = [
       {
         controlName: 'userName',
         title: 'Tên đăng nhập',
@@ -79,9 +80,14 @@ export class UserMainComponent implements OnInit {
         value: false,
       },
     ];
+    this.userFG = new FormGroup({});
   }
 
-  clickAddUser() {
+  clickAddUpdateUserPopup() {
     this.showPopAddUser = !this.showPopAddUser;
+  }
+
+  confirmAddUpdateUser(user: any) {
+    console.log(user);
   }
 }
