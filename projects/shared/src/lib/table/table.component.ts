@@ -65,10 +65,12 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.df.detectChanges();
   }
 
-  onQueryParamsChange(evt: any) {
-    this.curPage = evt.pageIndex;
-    this.pageSize = evt.pageSize;
-    this.loading = true;
+  onQueryParamsChange(evt?: any) {
+    if (evt) {
+      this.curPage = evt.pageIndex;
+      this.pageSize = evt.pageSize;
+      this.loading = true;
+    }
     this.getTableDatas();
   }
 
@@ -123,5 +125,9 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   onSaveClick() {
     this.save.emit(this.data);
+  }
+
+  reload() {
+    this.onQueryParamsChange();
   }
 }

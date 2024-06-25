@@ -6,7 +6,7 @@
   [nzOkLoading]="isOkLoading"
   [nzOkText]="confirmText"
   [nzCancelText]="cancelText"
-  [nzOkDisabled]="formGroup.status == 'INVALID'"
+  [nzOkDisabled]="formGroup?.status == 'INVALID'"
 >
   <p *nzModalContent>
     <ng-container
