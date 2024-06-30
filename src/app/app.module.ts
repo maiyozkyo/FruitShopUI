@@ -33,6 +33,7 @@ const mainRoutes: Routes = [
         (m) => m.TenantModule
       ),
     canActivate: [authGuard],
+    canActivateChild: [authGuard],
   },
   {
     path: 'user',
@@ -41,6 +42,7 @@ const mainRoutes: Routes = [
         (m) => m.UserModule
       ),
     canActivate: [authGuard],
+    canActivateChild: [authGuard],
   },
   {
     path: 'order',
@@ -49,6 +51,7 @@ const mainRoutes: Routes = [
         (m) => m.OrderModule
       ),
     canActivate: [authGuard],
+    canActivateChild: [authGuard],
   },
   {
     path: 'customer',
@@ -56,7 +59,8 @@ const mainRoutes: Routes = [
       import('../../projects/customer/src/lib/customer.module').then(
         (m) => m.CustomerModule
       ),
-      canActivate: [authGuard],
+    canActivate: [authGuard],
+    canActivateChild: [authGuard],
   },
   { path: '**', redirectTo: 'auth' },
 ];
@@ -73,9 +77,7 @@ const mainRoutes: Routes = [
     MatToolbarModule,
     MatMenuModule,
   ],
-  providers: [
-    provideNzI18n(en_US)
-  ],
+  providers: [provideNzI18n(en_US)],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

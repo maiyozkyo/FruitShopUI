@@ -20,8 +20,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {}
   ngAfterViewInit(): void {
     let toolbarEle = document.getElementById('toolbar');
-    console.log(toolbarEle);
-
     this.contentTopGap = toolbarEle?.offsetHeight ?? 44;
     this.df.detectChanges();
   }
