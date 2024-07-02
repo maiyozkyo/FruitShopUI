@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { User } from 'projects/shared/src/lib/models/user.model';
+import { ADUser } from 'projects/shared/src/lib/models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,7 @@ export class TokenService {
   private readonly lgTokenName = 'lgUser';
   constructor() {}
 
-  getAuth(): User | undefined {
+  getAuth(): ADUser | undefined {
     let jsonUser = localStorage.getItem(this.lgTokenName);
     if (jsonUser) {
       return JSON.parse(jsonUser);
@@ -28,7 +28,7 @@ export class TokenService {
   isLoged(): boolean {
     let sLGuser = localStorage.getItem(this.lgTokenName);
     if (sLGuser) {
-      let lgUser = JSON.parse(sLGuser) as User;
+      let lgUser = JSON.parse(sLGuser) as ADUser;
       lgUser.tokenExpired = new Date(lgUser.tokenExpired);
 
       return lgUser.tokenExpired.getTime() > new Date().getTime();
@@ -40,7 +40,7 @@ export class TokenService {
   getUserToken(): string {
     let sLGuser = localStorage.getItem(this.lgTokenName);
     if (sLGuser) {
-      let lgUser = JSON.parse(sLGuser) as User;
+      let lgUser = JSON.parse(sLGuser) as ADUser;
       return lgUser.token;
     }
     return '';

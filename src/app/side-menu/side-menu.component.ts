@@ -11,7 +11,7 @@ import {
   Breakpoints,
   BreakpointState,
 } from '@angular/cdk/layout';
-import { User } from 'projects/shared/src/lib/models/user.model';
+import { ADUser } from 'projects/shared/src/lib/models/user.model';
 import { ApiService } from '../Services/api.service';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -28,7 +28,30 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
   sideMenuOpenState = true;
   isMobile: boolean = false;
   topGap: number = 0;
-  user: User | undefined;
+  user: ADUser | undefined;
+  menu = [
+    {
+      icon: '',
+      url: '/order',
+      text: 'Đơn hàng',
+    },
+    {
+      icon: '',
+      url: '/customer',
+      text: 'Khách hàng',
+    },
+    {
+      icon: '',
+      url: '/user',
+      text: 'Tài khoản',
+    },
+    {
+      icon: '',
+      url: '/tenant',
+      text: 'Tenant',
+    },
+  ];
+
   constructor(
     protected tokenService: TokenService,
     private apiService: ApiService,
@@ -45,7 +68,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
 
     this.user = tokenService.getAuth();
     if (this.user) {
-      // this.user.avatar = 'https://mdbcdn.b-cdn.net/img/new/avatars/2.webp';
+      console.log(this.user);
     }
   }
 
@@ -61,7 +84,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
   }
 
   logout() {
-    this.apiService.post('User', 'LogoutAsync', []).subscribe((res) => {
+    this.apiService.post('Auth', 'LogoutAsync', []).subscribe((res) => {
       if (res) {
         this.tokenService.logOut();
         this.router.navigate(['/user/login']);

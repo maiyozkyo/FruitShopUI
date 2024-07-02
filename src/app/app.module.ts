@@ -11,6 +11,11 @@ import { LayoutComponent } from './layout/layout.component';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
+import { registerLocaleData } from '@angular/common';
+import en from '@angular/common/locales/en';
+import { provideNzI18n, en_US } from 'ng-zorro-antd/i18n';
+
+registerLocaleData(en);
 
 const mainRoutes: Routes = [
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
@@ -22,11 +27,22 @@ const mainRoutes: Routes = [
       ),
   },
   {
+    path: 'tenant',
+    loadChildren: () =>
+      import('../../projects/tenant/src/lib/tenant.module').then(
+        (m) => m.TenantModule
+      ),
+    canActivate: [authGuard],
+    canActivateChild: [authGuard],
+  },
+  {
     path: 'user',
     loadChildren: () =>
       import('../../projects/user/src/lib/user.module').then(
         (m) => m.UserModule
       ),
+    canActivate: [authGuard],
+    canActivateChild: [authGuard],
   },
   {
     path: 'order',
@@ -35,6 +51,16 @@ const mainRoutes: Routes = [
         (m) => m.OrderModule
       ),
     canActivate: [authGuard],
+    canActivateChild: [authGuard],
+  },
+  {
+    path: 'customer',
+    loadChildren: () =>
+      import('../../projects/customer/src/lib/customer.module').then(
+        (m) => m.CustomerModule
+      ),
+    canActivate: [authGuard],
+    canActivateChild: [authGuard],
   },
   { path: '**', redirectTo: 'auth' },
 ];
@@ -51,7 +77,7 @@ const mainRoutes: Routes = [
     MatToolbarModule,
     MatMenuModule,
   ],
-  providers: [],
+  providers: [provideNzI18n(en_US)],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -31,53 +31,37 @@
       </div>
     </mat-toolbar>
   </div>
-  <div
-    class="d-flex object-fit position-relative flex-grow-1 bd-highlight"
-    style="background-color: cadetblue"
-  >
-    <lib-table [data]="lstOrder"> </lib-table>
+  <div class="d-flex w-100 h-100 position-relative flex-grow-1 bd-highlight">
+    <lib-table
+      [data]="lstOrder"
+      [tableRows]="tableRows"
+      [disabled]="tableDisabled"
+    >
+    </lib-table>
   </div>
 </div>
 
 <lib-popup
   title="Add/Update đơn hàng"
   [(isVisible)]="showPopAddUpdateOrder"
+  [data]="curOrder"
+  [contentTmpl]="tmplOrder"
   (onConfirm)="confirmAddUpdateOrder($event)"
   (onCancel)="denyAddUpdateOrder($event)"
 >
 </lib-popup>
 
-<ng-template let-order>
-  <form
-    nz-form
-    [nzLayout]="'inline'"
-    [formGroup]="validateForm"
-    (ngSubmit)="submitForm()"
-  >
+<ng-template #tmplOrder let-order>
+  <form nz-form [nzLayout]="'inline'" [formGroup]="orderForm">
     <nz-form-item>
       <nz-form-control nzErrorTip="Please input your username!">
         <nz-input-group nzPrefixIcon="user">
-          <input formControlName="userName" nz-input placeholder="Username" />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control nzErrorTip="Please input your Password!">
-        <nz-input-group nzPrefixIcon="lock">
           <input
-            formControlName="password"
+            formControlName="customerRecID"
             nz-input
-            type="password"
-            placeholder="Password"
+            placeholder="Khách hàng"
           />
         </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control>
-        <button nz-button nzType="primary" [disabled]="!validateForm.valid">
-          Log in
-        </button>
       </nz-form-control>
     </nz-form-item>
   </form>

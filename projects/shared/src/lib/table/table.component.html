@@ -1,27 +1,92 @@
-<div>
-  <nz-table
-    #basicTable
-    [nzData]="data"
-    class="position-absolute"
-    [nzSize]="'middle'"
-  >
-    <thead>
-      <tr>
-        <th *ngFor="let item of basicTable.data[0] | keyvalue">
-          {{ item.key }}
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of basicTable.data">
-        <td *ngFor="let field of item | keyvalue">
-          <input
-            [type]="getTypeof(field.value)"
-            [(ngModel)]="field.value"
-            (change)="log(field.value)"
-          />
-        </td>
-      </tr>
-    </tbody>
-  </nz-table>
+<div class="w-100 h-100 position-absolute p-2" #tableInfo>
+  <div class="d-flex justify-content-end" *ngIf="allowAdd">
+    <div class="d-flex justify-content-around">
+      <div
+        *ngIf="!disabled"
+        class="btn btn-success me-1"
+        (click)="onSaveClick()"
+      >
+        Lưu
+      </div>
+      <div class="btn btn-primary" (click)="addNewRow()">Thêm dòng</div>
+    </div>
+  </div>
+  <div class="table-info d-flex position-absolute">
+    <nz-table
+      #nzTable
+      nzShowSizeChanger
+      [nzScroll]="{ y: tableMaxHeight + 'px' }"
+      nzTableLayout="fixed"
+      [nzData]="data"
+      [nzSize]="tableSize"
+      [nzFrontPagination]="false"
+      [nzLoading]="loading"
+      [nzTotal]="total"
+      [nzPageSize]="pageSize"
+      [nzPageIndex]="curPage"
+      [nzFooter]="footer"
+      (nzQueryParams)="onQueryParamsChange($event)"
+    >
+      <thead>
+        <tr>
+          <th
+            *ngFor="let row of tableRows"
+            [nzColumnKey]="row.field"
+            [nzFilterFn]="true"
+          >
+            {{ row.title }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of nzTable.data">
+          <td *ngFor="let row of tableRows">
+            <ng-container [ngSwitch]="row.type">
+              <ng-container *ngSwitchCase="'checkbox'">
+                <input
+                  [type]="'checkbox'"
+                  [checked]="item[row.field]"
+                  (change)="item[row.field] = !item[row.field]"
+                  [disabled]="
+                    disabled == true ? true : row.disabled ? true : false
+                  "
+                  [placeholder]="row.placeholder"
+                />
+              </ng-container>
+              <ng-container *ngSwitchCase="'select'">
+                <nz-select
+                  nzShowSearch
+                  nzAllowClear
+                  [nzPlaceHolder]="row.placeholder ?? ''"
+                  [(ngModel)]="item[row.field]"
+                >
+                  <nz-option
+                    *ngFor="let data of row.dataSrc"
+                    [nzLabel]="data.label"
+                    [nzValue]="data.value"
+                  ></nz-option>
+                </nz-select>
+              </ng-container>
+              <ng-container *ngSwitchDefault>
+                <input
+                  [disabled]="
+                    disabled == true ? true : row.disabled ? true : false
+                  "
+                  [type]="row.type"
+                  [(ngModel)]="item[row.field]"
+                  [placeholder]="row.placeholder"
+                />
+              </ng-container>
+            </ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
 </div>
+
+<ng-template #footer>
+  <div class="d-flex justify-content-end">
+    <span nz-icon nzType="reload" nzTheme="outline" (click)="reload()"></span>
+  </div>
+</ng-template>

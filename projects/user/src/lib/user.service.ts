@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ADUser } from 'projects/shared/src/lib/models/user.model';
 import { ApiService } from 'src/app/Services/api.service';
 
 @Injectable({
@@ -8,13 +9,9 @@ export class UserService {
   private readonly service = 'User';
   constructor(private apiService: ApiService) {}
 
-  login(phone: string, password: string) {
-    return this.apiService.post(this.service, 'LoginAsync', [phone, password]);
-  }
-
-  register(phone: string, password: string) {
-    return this.apiService.post(this.service, 'RegisterAsync', [
-      phone,
+  addUpdateUser(user: ADUser, password: string) {
+    return this.apiService.post(this.service, 'AddUpdateUser', [
+      user,
       password,
     ]);
   }

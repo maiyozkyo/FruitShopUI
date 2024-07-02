@@ -1,0 +1,55 @@
+<form *ngIf="fg" [formGroup]="fg">
+  <nz-form-item *ngFor="let control of controls">
+    <nz-form-label [nzSpan]="6" [nzFor]="control.controlName">{{
+      control.title
+    }}</nz-form-label>
+    <nz-form-control [nzErrorTip]="control.errorMsg">
+      <nz-input-group
+        [nzPrefixIcon]="control.icon ?? undefined"
+        [ngSwitch]="control.type"
+      >
+        <ng-container *ngSwitchDefault>
+          <input
+            nz-input
+            [type]="control.type"
+            [name]="control.controlName"
+            [formControlName]="control.controlName"
+            [placeholder]="control.placeHolder"
+          />
+        </ng-container>
+        <ng-container *ngSwitchCase="'switch'">
+          <nz-switch
+            [formControlName]="control.controlName"
+            ngDefaultControl
+          ></nz-switch>
+        </ng-container>
+        <ng-container *ngSwitchCase="'select'">
+          <nz-select [formControlName]="control.controlName">
+            <nz-option
+              *ngFor="let data of control.dataSrc"
+              [nzLabel]="data.label"
+              [nzValue]="data.value"
+            ></nz-option>
+          </nz-select>
+        </ng-container>
+        <ng-container *ngSwitchCase="'password'">
+          <nz-input-group [nzSuffix]="suffixTemplate">
+            <input
+              nz-input
+              [type]="control.hidden ? 'password' : 'text'"
+              [formControlName]="control.controlName"
+              [placeholder]="control.placeHolder"
+            />
+          </nz-input-group>
+          <ng-template #suffixTemplate>
+            <span
+              nz-icon
+              [nzType]="control.hidden ? 'eye' : 'eye-invisible'"
+              (click)="control.hidden = !control.hidden"
+            ></span>
+          </ng-template>
+        </ng-container>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+</form>

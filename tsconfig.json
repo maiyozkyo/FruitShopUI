@@ -6,11 +6,17 @@
       "Auth": [
         "dist/auth"
       ],
+      "Customer": [
+        "dist/customer"
+      ],
       "Order": [
         "dist/order"
       ],
       "Shared": [
         "dist/shared"
+      ],
+      "Tenant": [
+        "dist/tenant"
       ],
       "User": [
         "dist/user"

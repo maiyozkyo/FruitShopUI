@@ -6,6 +6,7 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'lib-popup',
@@ -20,11 +21,15 @@ export class PopupComponent implements OnInit {
   @Input() cancelText: string = 'Hủy';
   @Input() contentTmpl!: TemplateRef<any>;
   @Input() data: any;
+  tempData: any;
+  @Input() formGroup!: FormGroup;
   @Output() onCancel = new EventEmitter();
   @Output() onConfirm = new EventEmitter();
   @Output() isVisibleChange = new EventEmitter<boolean>();
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.tempData = { ...this.data };
+  }
 
   handleCancel() {
     this.changeVisible();
@@ -35,8 +40,12 @@ export class PopupComponent implements OnInit {
   }
 
   changeVisible(isConfirm: boolean = false) {
-    if (isConfirm) this.onConfirm.emit(1);
-    else this.onCancel.emit(0);
+    if (isConfirm) {
+      Object.keys(this.formGroup.controls).forEach((key, idx) => {
+        this.tempData[key] = this.formGroup.controls[key].value;
+      });
+      this.onConfirm.emit(this.tempData);
+    } else this.onCancel.emit(null);
     this.isVisible = false;
     this.isVisibleChange.emit(this.isVisible);
   }
