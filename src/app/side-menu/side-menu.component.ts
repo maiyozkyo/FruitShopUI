@@ -84,7 +84,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
   }
 
   logout() {
-    this.apiService.post('User', 'LogoutAsync', []).subscribe((res) => {
+    this.apiService.post('Auth', 'LogoutAsync', []).subscribe((res) => {
       if (res) {
         this.tokenService.logOut();
         this.router.navigate(['/user/login']);
