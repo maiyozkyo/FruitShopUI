@@ -22,6 +22,8 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { FormComponent } from './form/form.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { DatePickerComponent } from './date-picker/date-picker.component';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     TableComponent,
     PopupComponent,
     FormComponent,
+    DatePickerComponent,
   ],
   imports: [
     RouterModule.forChild([]),
@@ -50,7 +53,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzSelectModule,
     NzSwitchModule,
     NzCardModule,
-    NzIconModule
+    NzIconModule,
+    NzDatePickerModule,
   ],
   exports: [
     SharedComponent,
@@ -70,7 +74,9 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzSwitchModule,
     NzCardModule,
     FormComponent,
-    NzIconModule
+    NzIconModule,
+    DatePickerComponent,
+    NzDatePickerModule,
   ],
 })
 export class SharedModule {}

@@ -18,61 +18,30 @@ import { TableRow } from 'projects/shared/src/lib/models/tableRow.model';
   providers: [provideMomentDateAdapter(Custom_Date_Format)],
 })
 export class OrderMainComponent implements OnInit, AfterViewInit {
-  range!: FormGroup;
   orderForm!: FormGroup;
   lstOrder: any[] = [];
   showPopAddUpdateOrder = false;
   curOrder!: Order;
   tableRows: TableRow[] = [];
-  tableDisabled: boolean = false;
+  tableDisabled: boolean = true;
+
+  fromDate = new Date();
+  toDate = new Date();
 
   constructor(
     private df: ChangeDetectorRef,
     private orderService: OrderService
   ) {}
+
   ngOnInit(): void {
-    this.range = new FormGroup({
-      start: new FormControl<Date | null>(null),
-      end: new FormControl<Date | null>(null),
-    });
-
-    this.orderForm = new FormGroup({
-      customerRecID: new FormControl('', [Validators.required]),
-    });
-
-    this.tableRows = [
-      { field: 'make', title: 'Tên' },
-      {
-        field: 'model',
-        title: 'Seri',
-      },
-      {
-        field: 'price',
-        title: 'Giá',
-        type: 'number',
-      },
-      {
-        field: 'editable',
-        type: 'checkbox',
-        title: 'Chỉnh sửa',
-      },
-    ];
-    this.lstOrder = [
-      { make: 'Tesla', model: 'Model Y', price: 64950, editable: true },
-      { make: 'Ford', model: 'F-Series', price: 33850, editable: false },
-      { make: 'Toyota', model: 'Corolla', price: 29600, editable: false },
-      { make: 'Mercedes', model: 'EQA', price: 48890, editable: true },
-      { make: 'Fiat', model: '500', price: 15774, editable: false },
-      { make: 'Nissan', model: 'Juke', price: 20675, editable: false },
-      { make: 'Nissan', model: 'Juke', price: 20675, editable: false },
-      { make: 'Nissan', model: 'Juke', price: 20675, editable: false },
-      { make: 'Nissan', model: 'Juke', price: 20675, editable: false },
-    ];
+    this.orderForm = new FormGroup({});
+    this.tableRows = [];
   }
 
   ngAfterViewInit(): void {}
   addOrder() {
     this.showPopAddUpdateOrder = !this.showPopAddUpdateOrder;
+    console.log(this.fromDate, this.toDate);
   }
 
   confirmAddUpdateOrder(data: any) {
