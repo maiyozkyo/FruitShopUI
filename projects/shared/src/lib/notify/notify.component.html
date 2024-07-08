@@ -1,29 +1,28 @@
-<div
-  class="position-fixed top-0 end-0 p-3"
-  *ngFor="let noti of notiService.noties"
->
-  <ngb-toast
-    *ngIf="noti"
-    [ngClass]="noti.className"
-    [autohide]="true"
-    [delay]="noti.delay"
-    (hidden)="removeNoti(noti)"
-  >
-    <ng-template ngbToastHeader>
-      <div class="me-auto">
-        <h5>
-          {{ noti.title }}
-        </h5>
-      </div>
-    </ng-template>
-    <ng-template
-      *ngIf="noti.template; else standard"
-      [ngTemplateOutlet]="noti.template"
-    ></ng-template>
-    <ng-template #standard>
-      <div class="me-auto">
-        {{ noti.msg }}
-      </div>
-    </ng-template>
-  </ngb-toast>
+<div class="toast-container">
+  <div class="position-fixed top-0 end-0 p-3" style="z-index: 9999">
+    <ngb-toast
+      *ngFor="let noti of notiService.noties"
+      [ngClass]="noti.className"
+      [autohide]="true"
+      [delay]="noti.delay"
+      (hidden)="removeNoti(noti)"
+    >
+      <ng-template ngbToastHeader>
+        <div class="me-auto">
+          <h5>
+            {{ noti.title }}
+          </h5>
+        </div>
+      </ng-template>
+      <ng-template
+        *ngIf="noti.template; else standard"
+        [ngTemplateOutlet]="noti.template"
+      ></ng-template>
+      <ng-template #standard>
+        <div class="me-auto">
+          {{ noti.msg }}
+        </div>
+      </ng-template>
+    </ngb-toast>
+  </div>
 </div>

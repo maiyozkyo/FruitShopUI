@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NotifyService } from 'projects/shared/src/lib/notify.service';
 import { passwordMatchingValidatior } from './password.validator';
 import { AuthService } from '../auth.service';
 import { TokenService } from 'src/app/Services/token.service';
+import { NotifyService } from 'projects/shared/src/lib/services/notify.service';
 
 @Component({
   selector: 'lib-login',
@@ -60,11 +60,10 @@ export class LoginComponent implements OnInit {
         if (res) {
           this.tokenService.setAuth(res);
           this.router.navigate(['/order']);
-        } else {
           this.notiService.show(
             'Đăng nhập',
-            'Đăng nhập thất bại',
-            'error',
+            'Đăng nhập thành công',
+            'success',
             5000
           );
         }

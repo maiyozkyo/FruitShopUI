@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, TemplateRef } from '@angular/core';
-import { NotifyService } from '../notify.service';
+import { NotifyService } from '../services/notify.service';
 import { Noti } from '../models/noti.model';
 
 @Component({

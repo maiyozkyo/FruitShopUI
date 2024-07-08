@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { TenantService } from '../tenant.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Tenant } from '../models/tenant.model';
-import { NotifyService } from 'projects/shared/src/lib/notify.service';
+import { NotifyService } from 'projects/shared/src/lib/services/notify.service';
 
 @Component({
   selector: 'lib-tenant-main',

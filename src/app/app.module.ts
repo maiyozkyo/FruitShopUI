@@ -14,6 +14,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { provideNzI18n, en_US } from 'ng-zorro-antd/i18n';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoadingInterceptorInterceptor } from './Interceptors/loading-interceptor.interceptor';
 
 registerLocaleData(en);
 
@@ -77,7 +79,14 @@ const mainRoutes: Routes = [
     MatToolbarModule,
     MatMenuModule,
   ],
-  providers: [provideNzI18n(en_US)],
+  providers: [
+    provideNzI18n(en_US),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptorInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

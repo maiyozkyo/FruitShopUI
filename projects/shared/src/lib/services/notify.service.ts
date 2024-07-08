@@ -1,5 +1,5 @@
 import { Injectable, TemplateRef } from '@angular/core';
-import { Noti } from './models/noti.model';
+import { Noti } from '../models/noti.model';
 
 @Injectable({
   providedIn: 'root',

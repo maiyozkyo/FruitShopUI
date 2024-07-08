@@ -4,7 +4,7 @@ import { FormItem } from 'projects/shared/src/lib/models/formItem.model';
 import { TableRow } from 'projects/shared/src/lib/models/tableRow.model';
 import { ADUser } from 'projects/shared/src/lib/models/user.model';
 import { UserService } from '../user.service';
-import { NotifyService } from 'projects/shared/src/lib/notify.service';
+import { NotifyService } from 'projects/shared/src/lib/services/notify.service';
 
 @Component({
   selector: 'lib-user-main',
