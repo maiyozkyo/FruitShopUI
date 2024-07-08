@@ -3,9 +3,7 @@ import { OrderComponent } from './order.component';
 import { RouterModule, Routes } from '@angular/router';
 import { OrderMainComponent } from './order-main/order-main.component';
 import { SharedModule } from 'projects/shared/src/public-api';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 const orderRoutes: Routes = [
   {
@@ -16,13 +14,7 @@ const orderRoutes: Routes = [
 
 @NgModule({
   declarations: [OrderComponent, OrderMainComponent],
-  imports: [
-    RouterModule.forChild(orderRoutes),
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatFormFieldModule,
-    SharedModule,
-  ],
+  imports: [RouterModule.forChild(orderRoutes), SharedModule],
   exports: [OrderComponent, OrderMainComponent],
 })
 export class OrderModule {}
