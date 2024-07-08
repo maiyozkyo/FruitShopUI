@@ -1,6 +1,8 @@
 <div class="d-flex" style="height: 100vh">
+  <lib-notify aria-live="polite" aria-atomic="true"></lib-notify>
+  <lib-loading></lib-loading>
   <!-- Sidebar -->
-  <header>
+  <header *ngIf="isLoged">
     <app-side-menu></app-side-menu>
   </header>
 

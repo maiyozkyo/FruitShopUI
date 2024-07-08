@@ -4,12 +4,13 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Custom_Date_Format } from '../mat-date-format/custom-date-format.model';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { OrderService } from '../order.service';
 import { Order } from '../models/order.model';
 import { TableRow } from 'projects/shared/src/lib/models/tableRow.model';
+import { NotifyService } from 'projects/shared/src/lib/services/notify.service';
 
 @Component({
   selector: 'lib-order-main',
@@ -30,7 +31,8 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
 
   constructor(
     private df: ChangeDetectorRef,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private notiService: NotifyService
   ) {}
 
   ngOnInit(): void {
