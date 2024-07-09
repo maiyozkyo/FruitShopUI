@@ -11,7 +11,7 @@ export class DatePickerComponent implements OnInit {
   @Input() toDate: Date = new Date();
   @Input() mode: NzDateMode = 'date';
   @Input() size: NzDatePickerSizeType = 'default';
-
+  @Input() format = 'dd/MM/yyyy';
   //Khoảng cách giữa ngày bắt đầu và ngày kết thúc
   @Input() range: number = 0;
 

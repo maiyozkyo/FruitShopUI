@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/Services/api.service';
-import { TableData } from './models/tableData.model';
 
 @Injectable({
   providedIn: 'root',

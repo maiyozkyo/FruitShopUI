@@ -1,6 +1,6 @@
 import { BaseModel } from 'projects/shared/src/lib/models/base.model';
 
-export class Order extends BaseModel {
+export class OROrder extends BaseModel {
   customerRecID!: string;
 
   constructor() {

@@ -1,6 +1,8 @@
 <nz-range-picker
+  class="position-relative w-100"
   [(ngModel)]="dates"
   (ngModelChange)="onChange($event)"
   [nzMode]="mode"
   [nzSize]="size"
+  [nzFormat]="format"
 ></nz-range-picker>

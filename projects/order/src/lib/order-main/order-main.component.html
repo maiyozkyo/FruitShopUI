@@ -2,24 +2,41 @@
   <div>
     <mat-toolbar
       id="toolbar"
-      class="header-toolbar d-flex justify-content-between object-fit"
+      class="header-toolbar object-fit"
       style="background-color: #9e9e9e"
     >
-      <div class="col">
-        <div class="">
-          <lib-date-picker
-            [(fromDate)]="fromDate"
-            [(toDate)]="toDate"
-            [range]="7"
-            [size]="'small'"
-          >
-          </lib-date-picker>
+      <div class="row w-100 d-flex justify-content-between">
+        <div class="col-10">
+          <div class="col-md-6 col-sm-12">
+            <lib-date-picker
+              class="d-flex"
+              [(fromDate)]="fromDate"
+              [(toDate)]="toDate"
+              [range]="7"
+              [size]="'small'"
+            >
+            </lib-date-picker>
+          </div>
+          <div class="col-md-6 col-sm-12 d-flex justify-content-center">
+            <nz-select
+              class="w-100"
+              (nzScrollToBottom)="loadData()"
+              [nzOptionOverflowSize]="4"
+              [nzLoading]="cusPaging.isLoading"
+            >
+              <nz-option
+                *ngFor="let cus of lstCustomers"
+                [nzLabel]="cus.name"
+                [nzValue]="cus"
+              ></nz-option>
+            </nz-select>
+          </div>
         </div>
-      </div>
-      <div class="col d-flex justify-content-center"></div>
-      <div class="col d-flex justify-content-end w-100 h-100">
-        <div class="d-flex align-items-center">
-          <div class="btn btn-primary" (click)="addOrder()">Thêm đơn</div>
+        <div class="col-2 d-flex justify-content-center align-items-center">
+          <div class="btn btn-primary" (click)="addOrder()">
+            <span class="d-none d-md-block">Thêm đơn</span>
+            <span class="d-md-none">+</span>
+          </div>
         </div>
       </div>
     </mat-toolbar>
