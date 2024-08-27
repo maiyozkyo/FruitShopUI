@@ -44,6 +44,11 @@ export class UserMainComponent implements OnInit {
         type: 'checkbox',
       },
       {
+        field: 'isAdmin',
+        title: 'Quản trị viên',
+        type: 'checkbox',
+      },
+      {
         field: 'isTrial',
         title: 'Dùng thử',
         type: 'checkbox',
@@ -81,6 +86,12 @@ export class UserMainComponent implements OnInit {
       {
         controlName: 'isActived',
         title: 'Đang hoạt động',
+        type: 'switch',
+        value: true,
+      },
+      {
+        controlName: 'isAdmin',
+        title: 'Quản trị viên',
         type: 'switch',
         value: true,
       },

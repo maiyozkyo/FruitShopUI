@@ -51,7 +51,6 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
     this.setTableHeight();
-    this.getTableDatas();
   }
 
   setTableHeight() {
@@ -69,8 +68,8 @@ export class TableComponent implements OnInit, AfterViewInit {
     if (evt) {
       this.curPage = evt.pageIndex;
       this.pageSize = evt.pageSize;
-      this.loading = true;
     }
+    this.loading = true;
     this.getTableDatas();
   }
 

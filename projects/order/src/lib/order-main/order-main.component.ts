@@ -130,7 +130,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.loadData();
+    this.loadDataCustomer();
   }
   addOrder() {
     this.showPopAddUpdateOrder = !this.showPopAddUpdateOrder;
@@ -144,7 +144,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
 
   submitForm() {}
 
-  loadData() {
+  loadDataCustomer() {
     this.cusPaging.curPage++;
     this.cusPaging.isLoading = true;
     this.customerService
