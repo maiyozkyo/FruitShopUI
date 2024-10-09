@@ -14,7 +14,7 @@ export class ApiService {
     this.gatewayPort = environment.gatewayPort;
   }
 
-  post(service: string, method: string, data: any) {
+  post(service: string, method: string, data: any, action = '') {
     let token = this.tokenService.getUserToken();
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -25,7 +25,9 @@ export class ApiService {
     }
 
     let body = {
+      Service: service,
       Method: method,
+      Action: action,
       Params: JSON.stringify(data),
     };
     let url = `${this.domain}:${this.gatewayPort}/${service}/${method}`;
