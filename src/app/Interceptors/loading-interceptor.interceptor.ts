@@ -31,7 +31,10 @@ export class LoadingInterceptorInterceptor implements HttpInterceptor {
       }),
       catchError((error: HttpErrorResponse) => {
         this.loadingService.hide();
-        this.notiService.show('Lỗi', error.error.Message, 'error');
+        if (error.error) {
+          let errorMsg = error.error.Message ?? error.error;
+          this.notiService.show('Lỗi', errorMsg, 'error');
+        }
         return throwError(() => error);
       })
     );
