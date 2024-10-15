@@ -30,10 +30,17 @@ export class TokenService {
     if (sLGuser) {
       let lgUser = JSON.parse(sLGuser) as ADUser;
       lgUser.tokenExpired = new Date(lgUser.tokenExpired);
-
       return lgUser.tokenExpired.getTime() > new Date().getTime();
     }
+    return false;
+  }
 
+  isAdmin(): boolean {
+    let sLGuser = localStorage.getItem(this.lgTokenName);
+    if (sLGuser) {
+      let lgUser = JSON.parse(sLGuser) as ADUser;
+      return lgUser.isAdmin;
+    }
     return false;
   }
 

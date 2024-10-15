@@ -45,11 +45,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
       url: '/user',
       text: 'Tài khoản',
     },
-    {
-      icon: '',
-      url: '/tenant',
-      text: 'Tenant',
-    },
+    
   ];
 
   constructor(
@@ -68,7 +64,14 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
 
     this.user = tokenService.getAuth();
     if (this.user) {
-      console.log(this.user);
+      this.menu = [
+        {
+          icon: '',
+          url: '/tenant',
+          text: 'Tenant',
+        },
+        ...this.menu
+      ] 
     }
   }
 

@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     private router: Router
   ) {
     if (this.tokenService.isLoged()) {
-      this.router.navigate(['/order']);
+      this.navigate();
     }
   }
   ngOnInit(): void {
@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
       this.authService.login(userName, password).subscribe((res: any) => {
         if (res) {
           this.tokenService.setAuth(res);
-          this.router.navigate(['/order']);
+          this.navigate();
           this.notiService.show(
             'Đăng nhập',
             'Đăng nhập thành công',
@@ -86,5 +86,10 @@ export class LoginComponent implements OnInit {
       let userName = this.registerForm.controls['userName'].value;
       let password = this.registerForm.controls['password'].value;
     }
+  }
+
+  navigate() {
+    if (this.tokenService.isAdmin()) this.router.navigate(['/tenant']);
+    else this.router.navigate(['/order']);
   }
 }

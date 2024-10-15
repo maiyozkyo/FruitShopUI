@@ -15,19 +15,19 @@ export class TenantMainComponent implements OnInit {
 
   services = [
     {
-      name: 'CUCustomer',
+      code: 'CUCustomer',
       isBought: false,
     },
     {
-      name: 'OROrder',
+      code: 'OROrder',
       isBought: false,
     },
     {
-      name: 'ADUser',
+      code: 'ADUser',
       isBought: false,
     },
     {
-      name: 'PRProduct',
+      code: 'PRProduct',
       isBought: false,
     },
   ];
@@ -51,7 +51,7 @@ export class TenantMainComponent implements OnInit {
     this.tenantService
       .addUpdateTenant(
         this.curTenant,
-        this.services.filter((x) => x.isBought).map((x) => x.name)
+        this.services.filter((x) => x.isBought).map((x) => x.code)
       )
       .subscribe((res) => {
         if (res) {
@@ -71,5 +71,21 @@ export class TenantMainComponent implements OnInit {
 
   onSave(evt: any) {
     console.log('save', evt);
+  }
+
+  migrateDatabase() {
+    let services = this.services.filter((x) => x.isBought).map((x) => x.code);
+    this.tenantService.migrateDB(services).subscribe((res) => {
+      if (res) {
+        this.notiService.show(
+          'Migrate Database',
+          'Thành công',
+          'success',
+          5000
+        );
+      } else {
+        this.notiService.show('Migrate Database', 'Thất bại', 'error', 5000);
+      }
+    });
   }
 }

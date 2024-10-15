@@ -8,4 +8,5 @@ export class ADUser {
   deletedOn!: Date;
   tokenExpired!: Date;
   avatar!: string;
+  isAdmin!: boolean;
 }

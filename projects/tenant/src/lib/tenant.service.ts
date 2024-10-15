@@ -12,4 +12,8 @@ export class TenantService {
   addUpdateTenant(tenant: Tenant, services: any[]) {
     return this.apiService.post(this.service, 'AddTenants', [tenant, services]);
   }
+
+  migrateDB(services: string[]) {
+    return this.apiService.post(this.service, 'MigrateDatabase', [services]);
+  }
 }
