@@ -76,7 +76,7 @@ export class TenantMainComponent implements OnInit {
   migrateDatabase() {
     let services = this.services.filter((x) => x.isBought).map((x) => x.code);
     this.tenantService.migrateDB(services).subscribe((res) => {
-      if (res) {
+      if (!res) {
         this.notiService.show(
           'Migrate Database',
           'Thành công',
@@ -84,7 +84,7 @@ export class TenantMainComponent implements OnInit {
           5000
         );
       } else {
-        this.notiService.show('Migrate Database', 'Thất bại', 'error', 5000);
+        this.notiService.show('Migrate Database', res, 'error', 5000);
       }
     });
   }

@@ -10,7 +10,7 @@ export class NotifyService {
 
   show(
     title: string,
-    msg: string,
+    msg: any,
     type: '' | 'error' | 'success' = '',
     delay: number = 5000,
     template?: TemplateRef<HTMLElement> | undefined
