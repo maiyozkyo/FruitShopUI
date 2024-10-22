@@ -30,9 +30,11 @@ export class CustomerMainComponent implements OnInit {
         title: 'Địa chỉ',
       },
       {
-        field: 'note',
+        field: 'Note',
         title: 'Ghi chú',
       },
     ];
   }
+
+  addCustomer() {}
 }

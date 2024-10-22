@@ -1,4 +1,4 @@
-<div class="d-flex flex-column h-100 object-fit position-relative">
+<div class="d-flex flex-column h-100 object-fit position-relative pt-2 pe-2">
   <div class="d-flex justify-content-end">
     <div class="btn btn-primary" (click)="clickAddUpdateUserPopup()">
       Thêm người dùng mới
@@ -6,10 +6,12 @@
   </div>
   <div class="d-flex w-100 h-100 position-relative flex-grow-1 bd-highlight">
     <lib-table
+      #userTable
       [service]="'User'"
       [method]="'TableUsers'"
       [tableRows]="tableRows"
       [disabled]="tableDisabled"
+      [allowAdd]="false"
     >
     </lib-table>
   </div>

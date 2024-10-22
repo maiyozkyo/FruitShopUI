@@ -54,7 +54,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   setTableHeight() {
-    if (this.tableInfo.nativeElement.children.length > 1) {
+    if (this.tableInfo.nativeElement.children.length > 0) {
       let parent = this.tableInfo.nativeElement;
       let fChild = this.tableInfo.nativeElement.children.item(0) as HTMLElement;
       this.tableMaxHeight = (parent.offsetHeight - fChild.offsetHeight) * 0.75;

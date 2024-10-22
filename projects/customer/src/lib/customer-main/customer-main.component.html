@@ -1,9 +1,27 @@
-<div class="d-flex w-100 h-100 position-relative flex-grow-1 bd-highlight">
-  <lib-table
-    [tableRows]="tableRows"
-    [disabled]="tableDisabled"
-    [allowAdd]="true"
-    [service]="tableService"
-    [method]="tableMethod"
-  ></lib-table>
+<div class="d-flex flex-column h-100 object-fit position-relative">
+  <mat-toolbar
+    id="toolbar"
+    class="header-toolbar object-fit"
+    style="background-color: #9e9e9e"
+  >
+    <div class="row w-100 d-flex justify-content-between">
+      <div class="col-10"></div>
+      <div class="col-2 d-flex justify-content-end align-items-center">
+        <div class="btn btn-primary" (click)="addCustomer()">
+          <span class="d-none d-md-block">Thêm khách hàng</span>
+          <span class="d-md-none">+</span>
+        </div>
+      </div>
+    </div>
+  </mat-toolbar>
+  <div class="d-flex w-100 h-100 position-relative flex-grow-1 bd-highlight">
+    <lib-table
+      [tableRows]="tableRows"
+      [disabled]="tableDisabled"
+      [allowAdd]="true"
+      [service]="tableService"
+      [method]="tableMethod"
+      [allowAdd]="false"
+    ></lib-table>
+  </div>
 </div>

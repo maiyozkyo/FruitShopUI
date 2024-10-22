@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormItem } from 'projects/shared/src/lib/models/formItem.model';
 import { TableRow } from 'projects/shared/src/lib/models/tableRow.model';
 import { ADUser } from 'projects/shared/src/lib/models/user.model';
 import { UserService } from '../user.service';
 import { NotifyService } from 'projects/shared/src/lib/services/notify.service';
+import { TokenService } from 'src/app/Services/token.service';
+import { TableComponent } from 'projects/shared/src/lib/table/table.component';
 
 @Component({
   selector: 'lib-user-main',
@@ -22,11 +24,13 @@ export class UserMainComponent implements OnInit {
   userFG!: FormGroup;
   userControls!: FormItem[];
   curUser!: ADUser;
+  @ViewChild('userTable') userTable!: TableComponent;
   //#endregion
 
   constructor(
     private userService: UserService,
-    private notiService: NotifyService
+    private notiService: NotifyService,
+    private tokenService: TokenService
   ) {}
   ngOnInit() {
     this.tableRows = [
@@ -41,11 +45,6 @@ export class UserMainComponent implements OnInit {
       {
         field: 'isActived',
         title: 'Đang hoạt động',
-        type: 'checkbox',
-      },
-      {
-        field: 'isAdmin',
-        title: 'Quản trị viên',
         type: 'checkbox',
       },
       {
@@ -90,12 +89,6 @@ export class UserMainComponent implements OnInit {
         value: true,
       },
       {
-        controlName: 'isAdmin',
-        title: 'Quản trị viên',
-        type: 'switch',
-        value: true,
-      },
-      {
         controlName: 'isTrial',
         title: 'Dùng thử',
         type: 'switch',
@@ -108,6 +101,21 @@ export class UserMainComponent implements OnInit {
         value: false,
       },
     ];
+
+    if (this.tokenService.isAdmin()) {
+      this.tableRows.push({
+        field: 'isAdmin',
+        title: 'Quản trị viên',
+        type: 'checkbox',
+      });
+
+      this.userControls.push({
+        controlName: 'isAdmin',
+        title: 'Quản trị viên',
+        type: 'switch',
+        value: true,
+      });
+    }
     this.userFG = new FormGroup({});
   }
 
@@ -125,6 +133,7 @@ export class UserMainComponent implements OnInit {
             'Thành công',
             'success'
           );
+          this.userTable.reload();
         } else {
           this.notiService.show(
             'Thêm mới/Chỉnh sửa người dùng',
