@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FormItem } from 'projects/shared/src/lib/models/formItem.model';
-import { TableRow } from 'projects/shared/src/lib/models/tableRow.model';
+import { FormItem } from 'projects/shared/src/lib/models/form/formItem.model';
+import { TableRow } from 'projects/shared/src/lib/models/table/tableRow.model';
 import { ADUser } from 'projects/shared/src/lib/models/user.model';
 import { UserService } from '../user.service';
 import { NotifyService } from 'projects/shared/src/lib/services/notify.service';

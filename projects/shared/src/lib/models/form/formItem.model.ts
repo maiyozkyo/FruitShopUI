@@ -1,5 +1,4 @@
 import { ValidatorFn, Validators } from '@angular/forms';
-import { DataSrc } from './dataSrc.model';
 
 export class FormItem {
   errorMsg?: string = 'Vui lòng điền';
@@ -10,9 +9,11 @@ export class FormItem {
   placeHolder?: string = '';
   type?: 'checkbox' | 'text' | 'number' | 'select' | 'switch' | 'password' =
     'text';
-  dataSrc?: DataSrc[];
+  dataSrc?: any[];
   disabled? = false;
   hidden? = false;
+  labelField?: string = '';
+  valueField?: string = '';
   icon?: string = '';
 
   constructor(control: FormItem) {

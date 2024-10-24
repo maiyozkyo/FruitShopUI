@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TableRow } from 'projects/shared/src/lib/models/tableRow.model';
+import { TableRow } from 'projects/shared/src/lib/models/table/tableRow.model';
 
 @Component({
   selector: 'lib-customer-main',

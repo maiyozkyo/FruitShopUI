@@ -7,6 +7,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { FormItem } from '../models/form/formItem.model';
 
 @Component({
   selector: 'lib-popup',
@@ -14,19 +15,23 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./popup.component.scss'],
 })
 export class PopupComponent implements OnInit {
-  @Input() isVisible: boolean = false;
+  @Input() visible: boolean = false;
   @Input() isOkLoading: boolean = false;
   @Input() title: string = '';
   @Input() confirmText: string = 'OK';
   @Input() cancelText: string = 'Hủy';
-  @Input() contentTmpl!: TemplateRef<any>;
+  @Input() contentTmpl?: TemplateRef<any>;
+  @Input() controls?: FormItem[] = [];
   @Input() data: any;
   tempData: any;
   @Input() formGroup!: FormGroup;
+  @Input() width!: number;
+  @Input() height!: number;
   @Output() onCancel = new EventEmitter();
   @Output() onConfirm = new EventEmitter();
-  @Output() isVisibleChange = new EventEmitter<boolean>();
+  @Output() visibleChange = new EventEmitter<boolean>();
 
+  constructor() {}
   ngOnInit(): void {
     this.tempData = { ...this.data };
   }
@@ -46,7 +51,7 @@ export class PopupComponent implements OnInit {
       });
       this.onConfirm.emit(this.tempData);
     } else this.onCancel.emit(null);
-    this.isVisible = false;
-    this.isVisibleChange.emit(this.isVisible);
+    this.visible = false;
+    this.visibleChange.emit(this.visible);
   }
 }

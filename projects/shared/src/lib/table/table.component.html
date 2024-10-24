@@ -55,6 +55,7 @@
               </ng-container>
               <ng-container *ngSwitchCase="'select'">
                 <nz-select
+                  *ngIf="row.labelField && row.valueField"
                   nzShowSearch
                   nzAllowClear
                   [nzPlaceHolder]="row.placeholder ?? ''"
@@ -62,8 +63,8 @@
                 >
                   <nz-option
                     *ngFor="let data of row.dataSrc"
-                    [nzLabel]="data.label"
-                    [nzValue]="data.value"
+                    [nzLabel]="data[row.labelField]"
+                    [nzValue]="data[row.valueField]"
                   ></nz-option>
                 </nz-select>
               </ng-container>

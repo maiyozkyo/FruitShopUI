@@ -1,5 +1,7 @@
 <nz-modal
-  [(nzVisible)]="isVisible"
+  class="popup"
+  [nzStyle]="{width, height}"
+  [(nzVisible)]="visible"
   [nzTitle]="title"
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
@@ -10,10 +12,16 @@
 >
   <p *nzModalContent>
     <ng-container
-      *ngIf="contentTmpl"
+      *ngIf="contentTmpl; else formTmpl"
       [formGroup]="formGroup"
       [ngTemplateOutlet]="contentTmpl"
       [ngTemplateOutletContext]="tempData"
     ></ng-container>
   </p>
 </nz-modal>
+
+<ng-template #formTmpl>
+  <div *ngIf="formGroup && controls">
+    <lib-form [fg]="formGroup" [controls]="controls"></lib-form>
+  </div>
+</ng-template>

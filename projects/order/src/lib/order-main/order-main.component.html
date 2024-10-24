@@ -1,3 +1,6 @@
+<!-- Phải thêm vào mỗi component -->
+<ng-template #popupContainer></ng-template>
+<!--  -->
 <div class="d-flex flex-column h-100 object-fit position-relative">
   <div>
     <mat-toolbar
@@ -51,29 +54,3 @@
     </lib-table>
   </div>
 </div>
-
-<lib-popup
-  title="Add/Update đơn hàng"
-  [(isVisible)]="showPopAddUpdateOrder"
-  [data]="curOrder"
-  [contentTmpl]="tmplOrder"
-  (onConfirm)="confirmAddUpdateOrder($event)"
-  (onCancel)="denyAddUpdateOrder($event)"
->
-</lib-popup>
-
-<ng-template #tmplOrder let-order>
-  <form nz-form [nzLayout]="'inline'" [formGroup]="orderForm">
-    <nz-form-item>
-      <nz-form-control nzErrorTip="Please input your username!">
-        <nz-input-group nzPrefixIcon="user">
-          <input
-            formControlName="customerRecID"
-            nz-input
-            placeholder="Khách hàng"
-          />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-  </form>
-</ng-template>

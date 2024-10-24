@@ -5,10 +5,12 @@ import {
   Input,
   OnInit,
   Output,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzFormLayoutType } from 'ng-zorro-antd/form';
-import { FormItem } from '../models/formItem.model';
+import { FormItem } from '../models/form/formItem.model';
 
 @Component({
   selector: 'lib-form',
@@ -27,19 +29,9 @@ export class FormComponent implements OnInit {
   //#endregion
 
   @Input() fg!: FormGroup;
+
+  @ViewChild('form', { static: true }) form!: TemplateRef<any>;
   constructor(private df: ChangeDetectorRef) {}
 
-  ngOnInit(): void {
-    this.fg = new FormGroup({});
-    this.controls = this.controls.map(
-      (control) => (control = new FormItem(control))
-    );
-    this.controls.forEach((control) => {
-      this.fg.addControl(
-        control.controlName,
-        new FormControl(control.value, control.validators)
-      );
-    });
-    this.fgChange.emit(this.fg);
-  }
+  ngOnInit(): void {}
 }

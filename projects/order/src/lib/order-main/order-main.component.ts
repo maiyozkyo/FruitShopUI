@@ -3,17 +3,23 @@ import {
   ChangeDetectorRef,
   Component,
   OnInit,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Custom_Date_Format } from '../mat-date-format/custom-date-format.model';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { OrderService } from '../order.service';
-import { TableRow } from 'projects/shared/src/lib/models/tableRow.model';
+import { TableRow } from 'projects/shared/src/lib/models/table/tableRow.model';
 import { NotifyService } from 'projects/shared/src/lib/services/notify.service';
 import { CustomerService } from 'projects/customer/src/public-api';
 import { OROrder } from '../models/order.model';
 import { CUCustomer } from 'projects/customer/src/lib/models/customer.model';
-import { TableData } from 'projects/shared/src/lib/models/tableData.model';
+import { TableData } from 'projects/shared/src/lib/models/table/tableData.model';
+import { PopupService } from 'projects/shared/src/lib/popup/popup.service';
+import { FormItem } from 'projects/shared/src/lib/models/form/formItem.model';
+import { FormService } from 'projects/shared/src/lib/form/form.service';
 
 @Component({
   selector: 'lib-order-main',
@@ -22,11 +28,19 @@ import { TableData } from 'projects/shared/src/lib/models/tableData.model';
   providers: [provideMomentDateAdapter(Custom_Date_Format)],
 })
 export class OrderMainComponent implements OnInit, AfterViewInit {
+  //#region Init Data
+
+  //#region root
+  @ViewChild('popupContainer', { read: ViewContainerRef, static: true })
+  popupContainerRef!: ViewContainerRef;
+  //#endregion
   //#region Đơn hàng
   orderForm!: FormGroup;
   lstOrder: any[] = [];
   showPopAddUpdateOrder = false;
   curOrder!: OROrder;
+  orderControls: FormItem[] = [];
+
   //#endregion
 
   //#region Table
@@ -43,68 +57,28 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   cusSelectOption = [];
   lstCustomers: CUCustomer[] = [
     {
-      name: '1123',
+      name: '1',
       address: '123',
       nickName: '123',
       note: '123',
       phone: '123123',
-      recID: '',
+      recID: '11',
     },
     {
-      name: '1123',
+      name: '2',
       address: '123',
       nickName: '123',
       note: '123',
       phone: '123123',
-      recID: '',
+      recID: '12',
     },
     {
-      name: '1123',
+      name: '3',
       address: '123',
       nickName: '123',
       note: '123',
       phone: '123123',
-      recID: '',
-    },
-    {
-      name: '1123',
-      address: '123',
-      nickName: '123',
-      note: '123',
-      phone: '123123',
-      recID: '',
-    },
-    {
-      name: '1123',
-      address: '123',
-      nickName: '123',
-      note: '123',
-      phone: '123123',
-      recID: '',
-    },
-    {
-      name: '1123',
-      address: '123',
-      nickName: '123',
-      note: '123',
-      phone: '123123',
-      recID: '',
-    },
-    {
-      name: '1123',
-      address: '123',
-      nickName: '123',
-      note: '123',
-      phone: '123123',
-      recID: '',
-    },
-    {
-      name: '1123',
-      address: '123',
-      nickName: '123',
-      note: '123',
-      phone: '123123',
-      recID: '',
+      recID: '13',
     },
   ];
   cusPaging = {
@@ -117,28 +91,72 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
 
   //#endregion
 
+  //#region Template
+  ordTmpl!: TemplateRef<any>;
+  //#endregion
+
+  //#endregion
   constructor(
     private df: ChangeDetectorRef,
     private orderService: OrderService,
     private customerService: CustomerService,
-    private notiService: NotifyService
+    private notiService: NotifyService,
+    private popupService: PopupService,
+    private formService: FormService
   ) {}
 
   ngOnInit(): void {
-    this.orderForm = new FormGroup({});
     this.tableRows = [];
+
+    this.orderControls = [
+      {
+        controlName: 'customerRecID',
+        title: 'Tên đăng nhập',
+        value: '',
+        icon: 'user',
+        type: 'select',
+        dataSrc: this.lstCustomers,
+        labelField: 'name',
+        valueField: 'recID',
+      },
+    ];
   }
 
   ngAfterViewInit(): void {
+    this.popupService.setViewContainerRef(this.popupContainerRef);
     this.loadDataCustomer();
   }
+
   addOrder() {
-    this.showPopAddUpdateOrder = !this.showPopAddUpdateOrder;
+    this.orderForm = this.formService.genFromControls(this.orderControls);
+    this.popupService
+      .open(
+        'Add/Update đơn hàng',
+        this.orderForm,
+        this.curOrder,
+        undefined,
+        this.orderControls
+      )
+      .subscribe((res) => {
+        if (res.isConfirm) {
+          this.confirmAddUpdateOrder(res.data);
+        } else {
+          this.cancelAddUpdateOrder();
+        }
+      });
   }
 
-  confirmAddUpdateOrder(data: any) {
-    console.log('submit', this.orderForm.value as OROrder);
+  confirmAddUpdateOrder(orderData: any) {
+    console.log('confirmAddUpdateOrder', orderData);
   }
+
+  cancelAddUpdateOrder() {
+    console.log('cancelAddUpdateOrder');
+  }
+
+  // confirmAddUpdateOrder(data: any) {
+  //   console.log('submit', this.orderForm.value as OROrder);
+  // }
 
   denyAddUpdateOrder(data: any) {}
 

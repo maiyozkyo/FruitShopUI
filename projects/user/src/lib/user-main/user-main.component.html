@@ -20,7 +20,9 @@
 <lib-popup
   #userPopup
   [formGroup]="userFG"
-  [(isVisible)]="showPopAddUser"
+  [width]="300"
+  [height]="400"
+  [(visible)]="showPopAddUser"
   [title]="'Thêm mới người dùng'"
   [contentTmpl]="tmplADUser"
   [confirmText]="'Lưu'"

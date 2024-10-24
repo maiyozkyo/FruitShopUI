@@ -11,8 +11,8 @@ import {
 } from '@angular/core';
 import { NzTableSize } from 'ng-zorro-antd/table';
 import { SharedService } from '../shared.service';
-import { TableData } from '../models/tableData.model';
-import { TableRow } from '../models/tableRow.model';
+import { TableData } from '../models/table/tableData.model';
+import { TableRow } from '../models/table/tableRow.model';
 
 @Component({
   selector: 'lib-table',
