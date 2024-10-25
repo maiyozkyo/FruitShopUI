@@ -1,6 +1,6 @@
 import { ValidatorFn, Validators } from '@angular/forms';
 
-export class FormItem {
+export class ControlItem {
   errorMsg?: string = 'Vui lòng điền';
   controlName!: string;
   title: string = '';
@@ -16,7 +16,7 @@ export class FormItem {
   valueField?: string = '';
   icon?: string = '';
 
-  constructor(control: FormItem) {
+  constructor(control: ControlItem) {
     Object.assign(this, control);
     if (!this.placeHolder) this.placeHolder = this.title;
     this.errorMsg += ` ${this.title.toLowerCase()}`;

@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FormItem } from 'projects/shared/src/lib/models/form/formItem.model';
 import { TableRow } from 'projects/shared/src/lib/models/table/tableRow.model';
 import { ADUser } from 'projects/shared/src/lib/models/user.model';
 import { UserService } from '../user.service';
 import { NotifyService } from 'projects/shared/src/lib/services/notify.service';
 import { TokenService } from 'src/app/Services/token.service';
 import { TableComponent } from 'projects/shared/src/lib/table/table.component';
+import { ControlItem } from 'projects/shared/src/lib/models/form/control-item.model';
 
 @Component({
   selector: 'lib-user-main',
@@ -22,7 +22,7 @@ export class UserMainComponent implements OnInit {
 
   //#region Người dùng
   userFG!: FormGroup;
-  userControls!: FormItem[];
+  userControls!: ControlItem[];
   curUser!: ADUser;
   @ViewChild('userTable') userTable!: TableComponent;
   //#endregion

@@ -3,5 +3,4 @@
  */
 
 export * from './lib/customer.service';
-export * from './lib/customer.component';
 export * from './lib/customer.module';

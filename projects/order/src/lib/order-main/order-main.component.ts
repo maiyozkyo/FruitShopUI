@@ -18,8 +18,8 @@ import { OROrder } from '../models/order.model';
 import { CUCustomer } from 'projects/customer/src/lib/models/customer.model';
 import { TableData } from 'projects/shared/src/lib/models/table/tableData.model';
 import { PopupService } from 'projects/shared/src/lib/popup/popup.service';
-import { FormItem } from 'projects/shared/src/lib/models/form/formItem.model';
 import { FormService } from 'projects/shared/src/lib/form/form.service';
+import { ControlItem } from 'projects/shared/src/lib/models/form/control-item.model';
 
 @Component({
   selector: 'lib-order-main',
@@ -29,17 +29,18 @@ import { FormService } from 'projects/shared/src/lib/form/form.service';
 })
 export class OrderMainComponent implements OnInit, AfterViewInit {
   //#region Init Data
-
-  //#region root
+  //#region Root
   @ViewChild('popupContainer', { read: ViewContainerRef, static: true })
   popupContainerRef!: ViewContainerRef;
+
   //#endregion
+
   //#region Đơn hàng
   orderForm!: FormGroup;
   lstOrder: any[] = [];
   showPopAddUpdateOrder = false;
   curOrder!: OROrder;
-  orderControls: FormItem[] = [];
+  orderControls: ControlItem[] = [];
 
   //#endregion
 
@@ -91,10 +92,6 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
 
   //#endregion
 
-  //#region Template
-  ordTmpl!: TemplateRef<any>;
-  //#endregion
-
   //#endregion
   constructor(
     private df: ChangeDetectorRef,
@@ -125,10 +122,10 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.popupService.setViewContainerRef(this.popupContainerRef);
     this.loadDataCustomer();
+    this.orderForm = this.formService.genFromControls(this.orderControls);
   }
 
   addOrder() {
-    this.orderForm = this.formService.genFromControls(this.orderControls);
     this.popupService
       .open(
         'Add/Update đơn hàng',
@@ -153,10 +150,6 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   cancelAddUpdateOrder() {
     console.log('cancelAddUpdateOrder');
   }
-
-  // confirmAddUpdateOrder(data: any) {
-  //   console.log('submit', this.orderForm.value as OROrder);
-  // }
 
   denyAddUpdateOrder(data: any) {}
 

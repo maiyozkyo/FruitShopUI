@@ -7,7 +7,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { FormItem } from '../models/form/formItem.model';
+import { ControlItem } from '../models/form/control-item.model';
 
 @Component({
   selector: 'lib-popup',
@@ -21,7 +21,7 @@ export class PopupComponent implements OnInit {
   @Input() confirmText: string = 'OK';
   @Input() cancelText: string = 'Hủy';
   @Input() contentTmpl?: TemplateRef<any>;
-  @Input() controls?: FormItem[] = [];
+  @Input() controls?: ControlItem[] = [];
   @Input() data: any;
   tempData: any;
   @Input() formGroup!: FormGroup;

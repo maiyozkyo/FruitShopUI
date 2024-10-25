@@ -1,3 +1,4 @@
+<ng-template #popupContainer></ng-template>
 <div class="d-flex flex-column h-100 object-fit position-relative">
   <mat-toolbar
     id="toolbar"
@@ -7,9 +8,8 @@
     <div class="row w-100 d-flex justify-content-between">
       <div class="col-10"></div>
       <div class="col-2 d-flex justify-content-end align-items-center">
-        <div class="btn btn-primary" (click)="addCustomer()">
-          <span class="d-none d-md-block">Thêm khách hàng</span>
-          <span class="d-md-none">+</span>
+        <div class="btn btn-primary" (click)="addUpdateCustomer()">
+          <span nz-icon nzType="usergroup-add" nzTheme="outline"></span>
         </div>
       </div>
     </div>

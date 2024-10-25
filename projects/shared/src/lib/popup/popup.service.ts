@@ -9,8 +9,7 @@ import { FormGroup } from '@angular/forms';
 import { PopupComponent } from './popup.component';
 import { Subject } from 'rxjs';
 import { PopupResult } from '../models/popup/popup-result.model';
-import { FormService } from '../form/form.service';
-import { FormItem } from '../models/form/formItem.model';
+import { ControlItem } from '../models/form/control-item.model';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +29,7 @@ export class PopupService {
     formGroup: FormGroup,
     data: any,
     contentTmpl?: TemplateRef<any>,
-    controls?: FormItem[],
+    controls?: ControlItem[],
     width: number = 600,
     height: number = 800,
     confirmText: string = 'OK',

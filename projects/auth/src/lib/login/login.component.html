@@ -3,6 +3,7 @@
   class="d-flex flex-column justify-content-center align-items-center"
   style="width: 100vw; height: 100vh"
   [formGroup]="loginForm"
+  (keydown.enter)="login()"
 >
   <div class="w-50 h-25">
     <div class="w-100 rounded">

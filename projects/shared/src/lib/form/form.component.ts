@@ -8,9 +8,9 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { NzFormLayoutType } from 'ng-zorro-antd/form';
-import { FormItem } from '../models/form/formItem.model';
+import { ControlItem } from '../models/form/control-item.model';
 
 @Component({
   selector: 'lib-form',
@@ -19,8 +19,9 @@ import { FormItem } from '../models/form/formItem.model';
 })
 export class FormComponent implements OnInit {
   //#region Input Params
-  @Input() controls!: FormItem[];
+  @Input() controls!: ControlItem[];
   @Input() layout: NzFormLayoutType = 'vertical';
+  @Input() data!: any;
   //#endregion
 
   //#region Event
@@ -33,5 +34,18 @@ export class FormComponent implements OnInit {
   @ViewChild('form', { static: true }) form!: TemplateRef<any>;
   constructor(private df: ChangeDetectorRef) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.data && this.controls) {
+      this.controls.forEach((control) => {
+        if (!control.placeHolder) {
+          control.placeHolder = control.title;
+        }
+        if (this.data[control.controlName]) {
+          this.fg.controls[control.controlName].setValue(
+            this.data[control.controlName]
+          );
+        }
+      });
+    }
+  }
 }
