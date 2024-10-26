@@ -15,6 +15,11 @@ export class ControlItem {
   labelField?: string = '';
   valueField?: string = '';
   icon?: string = '';
+  isServer?: boolean = false;
+  isLoading?: boolean = false;
+  page?: number = 0;
+  service?: string = '';
+  method?: string = '';
 
   constructor(control: ControlItem) {
     Object.assign(this, control);
