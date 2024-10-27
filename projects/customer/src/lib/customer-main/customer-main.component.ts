@@ -40,7 +40,16 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
       controlName: 'recID',
       title: 'ID khách hàng',
       value: '',
+      type: 'select',
       disabled: true,
+      isServer: true,
+      labelField: 'recID',
+      valueField: 'recID',
+      pageInfo: {
+        service: 'User',
+        method: 'TableUsers',
+        curPage: 1,
+      },
     },
     {
       controlName: 'phone',

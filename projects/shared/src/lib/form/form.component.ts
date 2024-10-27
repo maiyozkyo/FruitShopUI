@@ -11,6 +11,7 @@ import {
 import { FormGroup } from '@angular/forms';
 import { NzFormLayoutType } from 'ng-zorro-antd/form';
 import { ControlItem } from '../models/form/control-item.model';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'lib-form',
@@ -32,7 +33,10 @@ export class FormComponent implements OnInit {
   @Input() fg!: FormGroup;
 
   @ViewChild('form', { static: true }) form!: TemplateRef<any>;
-  constructor(private df: ChangeDetectorRef) {}
+  constructor(
+    private df: ChangeDetectorRef,
+    private shareService: SharedService
+  ) {}
 
   ngOnInit(): void {
     if (this.data && this.controls) {
@@ -46,8 +50,28 @@ export class FormComponent implements OnInit {
           );
         }
       });
+
+      this.controls
+        .filter((control) => control.isServer)
+        .forEach((control) => this.dropdownServerLoadData(control));
     }
   }
 
-  dropdownServerLoadData() {}
+  dropdownServerLoadData(control: ControlItem) {
+    if (control.pageInfo) {
+      control.pageInfo.isLoading = true;
+      this.shareService
+        .getDataPaging(
+          control.pageInfo.service,
+          control.pageInfo.method,
+          control.pageInfo.curPage,
+          control.pageInfo.size ?? 20,
+          control.pageInfo.request ?? ''
+        )
+        .subscribe((res) => {
+          control.dataSrc = res.data;
+          if (control.pageInfo) control.pageInfo.isLoading = false;
+        });
+    }
+  }
 }

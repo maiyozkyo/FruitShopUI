@@ -1,4 +1,5 @@
 import { ValidatorFn, Validators } from '@angular/forms';
+import { PageInfo } from '../paging/page-info.model';
 
 export class ControlItem {
   errorMsg?: string = 'Vui lòng điền';
@@ -16,10 +17,7 @@ export class ControlItem {
   valueField?: string = '';
   icon?: string = '';
   isServer?: boolean = false;
-  isLoading?: boolean = false;
-  page?: number = 0;
-  service?: string = '';
-  method?: string = '';
+  pageInfo?: PageInfo;
 
   constructor(control: ControlItem) {
     Object.assign(this, control);

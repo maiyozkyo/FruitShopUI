@@ -24,16 +24,35 @@
           ></nz-switch>
         </ng-container>
         <ng-container *ngSwitchCase="'select'">
-          <nz-select
-            [formControlName]="control.controlName"
-            *ngIf="control.labelField && control.valueField"
+          <ng-container
+            *ngIf="control.isServer && control.pageInfo; else dropdownLocal"
           >
-            <nz-option
-              *ngFor="let data of control.dataSrc"
-              [nzLabel]="data[control.labelField]"
-              [nzValue]="data[control.valueField]"
-            ></nz-option>
-          </nz-select>
+            <nz-select
+              class="w-100"
+              (nzScrollToBottom)="dropdownServerLoadData(control)"
+              [nzOptionOverflowSize]="4"
+              [nzLoading]="control.pageInfo.isLoading"
+              *ngIf="control.labelField && control.valueField"
+            >
+              <nz-option
+                *ngFor="let data of control.dataSrc"
+                [nzLabel]="data[control.labelField]"
+                [nzValue]="data[control.valueField]"
+              ></nz-option>
+            </nz-select>
+          </ng-container>
+          <ng-template #dropdownLocal>
+            <nz-select
+              [formControlName]="control.controlName"
+              *ngIf="control.labelField && control.valueField"
+            >
+              <nz-option
+                *ngFor="let data of control.dataSrc"
+                [nzLabel]="data[control.labelField]"
+                [nzValue]="data[control.valueField]"
+              ></nz-option>
+            </nz-select>
+          </ng-template>
         </ng-container>
         <ng-container *ngSwitchCase="'password'">
           <nz-input-group [nzSuffix]="suffixTemplate">
