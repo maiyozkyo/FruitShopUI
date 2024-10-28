@@ -54,6 +54,16 @@ export class FormComponent implements OnInit {
       this.controls
         .filter((control) => control.isServer)
         .forEach((control) => this.dropdownServerLoadData(control));
+
+      if (this.controls) {
+        this.controls
+          .filter((control) => control.mappingWithControl)
+          .forEach((control) => {
+            if (control.mappingWithControl) {
+              this.mapValue(control);
+            }
+          });
+      }
     }
   }
 
@@ -72,6 +82,29 @@ export class FormComponent implements OnInit {
           control.dataSrc = res.data;
           if (control.pageInfo) control.pageInfo.isLoading = false;
         });
+    }
+  }
+
+  mapValue(control: ControlItem) {
+    let field = control.mappingWithControl ?? '';
+    if (field != '') {
+      this.fg.controls[field].valueChanges.subscribe((value) => {
+        if (this.controls) {
+          let parentControl = this.controls.find((c) => c.controlName == field);
+          let curData = parentControl?.dataSrc?.find((c) => c[field] == value);
+          if (curData) {
+            this.fg.controls[control.controlName].setValue(
+              curData[control.controlName]
+            );
+
+            if (parentControl?.labelField) {
+              this.fg.controls[parentControl.labelField].setValue(
+                curData[parentControl.labelField]
+              );
+            }
+          }
+        }
+      });
     }
   }
 }

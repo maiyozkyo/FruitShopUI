@@ -1,9 +1,12 @@
 <form #form *ngIf="fg" [formGroup]="fg">
   <nz-form-item *ngFor="let control of controls">
-    <nz-form-label [nzSpan]="6" [nzFor]="control.controlName">{{
-      control.title
-    }}</nz-form-label>
-    <nz-form-control [nzErrorTip]="control.errorMsg">
+    <nz-form-label
+      *ngIf="!control.hidden"
+      [nzSpan]="6"
+      [nzFor]="control.controlName"
+      >{{ control.title }}</nz-form-label
+    >
+    <nz-form-control *ngIf="!control.hidden" [nzErrorTip]="control.errorMsg">
       <nz-input-group
         [nzPrefixIcon]="control.icon ?? undefined"
         [ngSwitch]="control.type"

@@ -6,6 +6,7 @@ export class CUCustomer extends BaseModel {
   phone!: string;
   address!: string;
   note!: string;
+  userRecID?: string;
 
   constructor() {
     super();

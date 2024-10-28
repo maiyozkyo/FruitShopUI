@@ -11,7 +11,7 @@ import { ControlItem } from 'projects/shared/src/lib/models/form/control-item.mo
 import { TableRow } from 'projects/shared/src/lib/models/table/tableRow.model';
 import { PopupService } from 'projects/shared/src/lib/popup/popup.service';
 import { CUCustomer } from '../models/customer.model';
-import { ADUser } from 'projects/shared/src/lib/models/user.model';
+import { UserCustomer } from '../models/user-customer.model';
 
 @Component({
   selector: 'lib-customer-main',
@@ -69,7 +69,7 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
   //#endregion
 
   //#region User Customer
-  userCustomer!: ADUser;
+  userCustomer!: UserCustomer;
   userCustomerForm!: FormGroup;
   userControls: ControlItem[] = [
     {
@@ -92,6 +92,13 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
       title: 'Tên khách hàng',
       value: '',
       mappingWithControl: 'recID',
+    },
+    {
+      controlName: 'phone',
+      title: 'Số điện thoại',
+      placeHolder: 'Số điện thoại (dùng để đăng nhập)',
+      value: '',
+      hidden: true,
     },
   ];
   //#endregion
@@ -133,7 +140,6 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
     //#endregion
 
     //#region User Customer
-    this.userCustomer = new ADUser();
     this.userCustomerForm = this.formService.genFromControls(this.userControls);
     //#endregion
   }
@@ -143,6 +149,7 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
   }
 
   addUserCustomer() {
+    this.userCustomer = new UserCustomer();
     this.popupService
       .open(
         'Lựa chọn người dùng',
@@ -155,7 +162,14 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
       )
       .subscribe((res) => {
         if (res.isConfirm) {
-          console.log('add UserCustomer', res);
+          this.userCustomer = res.data as UserCustomer;
+          this.curCustomer = new CUCustomer();
+          this.curCustomer.name = this.userCustomer.name;
+          this.curCustomer.phone = this.userCustomer.phone;
+          this.curCustomer.userRecID = this.userCustomer.recID;
+          setTimeout(() => {
+            this.addUpdateCustomer();
+          });
         }
       });
   }
