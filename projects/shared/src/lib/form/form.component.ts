@@ -39,12 +39,12 @@ export class FormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.data && this.controls) {
+    if (this.controls) {
       this.controls.forEach((control) => {
         if (!control.placeHolder) {
           control.placeHolder = control.title;
         }
-        if (this.data[control.controlName]) {
+        if (this.data && this.data[control.controlName]) {
           this.fg.controls[control.controlName].setValue(
             this.data[control.controlName]
           );

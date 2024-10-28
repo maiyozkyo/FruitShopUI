@@ -29,6 +29,7 @@
           >
             <nz-select
               class="w-100"
+              [formControlName]="control.controlName"
               (nzScrollToBottom)="dropdownServerLoadData(control)"
               [nzOptionOverflowSize]="4"
               [nzLoading]="control.pageInfo.isLoading"

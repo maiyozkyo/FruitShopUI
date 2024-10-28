@@ -16,8 +16,14 @@ export class ControlItem {
   labelField?: string = '';
   valueField?: string = '';
   icon?: string = '';
+  //#region Use for Server
   isServer?: boolean = false;
   pageInfo?: PageInfo;
+  //#endregion
+
+  //#region Use fro mapping with other field
+  mappingWithControl?: string = '';
+  //#endregion
 
   constructor(control: ControlItem) {
     Object.assign(this, control);

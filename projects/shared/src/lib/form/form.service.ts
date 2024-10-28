@@ -25,6 +25,18 @@ export class FormService {
       );
     });
 
+    controls
+      .filter((control) => control.mappingWithControl)
+      .forEach((control) => {
+        if (control.mappingWithControl) {
+          let field = control.mappingWithControl;
+          this.fg.controls[field].valueChanges.subscribe((value) => {
+            let curData = control.dataSrc?.find((c) => c[field] == value);
+            console.log('value', curData);
+          });
+        }
+      });
+
     return this.fg;
   }
 }

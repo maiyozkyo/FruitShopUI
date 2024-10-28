@@ -7,6 +7,7 @@ import { NotifyService } from 'projects/shared/src/lib/services/notify.service';
 import { TokenService } from 'src/app/Services/token.service';
 import { TableComponent } from 'projects/shared/src/lib/table/table.component';
 import { ControlItem } from 'projects/shared/src/lib/models/form/control-item.model';
+import { FormService } from 'projects/shared/src/lib/form/form.service';
 
 @Component({
   selector: 'lib-user-main',
@@ -30,7 +31,8 @@ export class UserMainComponent implements OnInit {
   constructor(
     private userService: UserService,
     private notiService: NotifyService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private formService: FormService
   ) {}
   ngOnInit() {
     this.tableRows = [
@@ -41,6 +43,10 @@ export class UserMainComponent implements OnInit {
       {
         field: 'phone',
         title: 'Số điện thoại',
+      },
+      {
+        field: 'name',
+        title: 'Tên người dùng',
       },
       {
         field: 'isActived',
@@ -71,6 +77,13 @@ export class UserMainComponent implements OnInit {
         title: 'Số điện thoại',
         value: '',
         icon: 'mobile',
+        validators: [Validators.required],
+      },
+      {
+        controlName: 'name',
+        title: 'Tên người dùng',
+        value: '',
+        icon: 'user',
         validators: [Validators.required],
       },
       {
@@ -116,7 +129,7 @@ export class UserMainComponent implements OnInit {
         value: true,
       });
     }
-    this.userFG = new FormGroup({});
+    this.userFG = this.formService.genFromControls(this.userControls);
   }
 
   clickAddUpdateUserPopup() {

@@ -9,4 +9,5 @@ export class ADUser {
   tokenExpired!: Date;
   avatar!: string;
   isAdmin!: boolean;
+  name!: string;
 }

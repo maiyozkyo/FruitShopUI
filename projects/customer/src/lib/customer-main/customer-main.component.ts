@@ -11,6 +11,7 @@ import { ControlItem } from 'projects/shared/src/lib/models/form/control-item.mo
 import { TableRow } from 'projects/shared/src/lib/models/table/tableRow.model';
 import { PopupService } from 'projects/shared/src/lib/popup/popup.service';
 import { CUCustomer } from '../models/customer.model';
+import { ADUser } from 'projects/shared/src/lib/models/user.model';
 
 @Component({
   selector: 'lib-customer-main',
@@ -36,21 +37,6 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
   //#region Customer Detail
   customerForm!: FormGroup;
   customerControls: ControlItem[] = [
-    {
-      controlName: 'recID',
-      title: 'ID khách hàng',
-      value: '',
-      type: 'select',
-      disabled: true,
-      isServer: true,
-      labelField: 'recID',
-      valueField: 'recID',
-      pageInfo: {
-        service: 'User',
-        method: 'TableUsers',
-        curPage: 1,
-      },
-    },
     {
       controlName: 'phone',
       title: 'Số điện thoại',
@@ -82,6 +68,34 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
   curCustomer!: CUCustomer;
   //#endregion
 
+  //#region User Customer
+  userCustomer!: ADUser;
+  userCustomerForm!: FormGroup;
+  userControls: ControlItem[] = [
+    {
+      controlName: 'recID',
+      title: 'Số điện thoại',
+      value: '',
+      type: 'select',
+      disabled: false,
+      isServer: true,
+      labelField: 'phone',
+      valueField: 'recID',
+      pageInfo: {
+        service: 'User',
+        method: 'TableUsers',
+        curPage: 1,
+      },
+    },
+    {
+      controlName: 'name',
+      title: 'Tên khách hàng',
+      value: '',
+      mappingWithControl: 'recID',
+    },
+  ];
+  //#endregion
+
   //#endregion
 
   constructor(
@@ -90,6 +104,7 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
+    //#region Customer
     this.curCustomer = new CUCustomer();
     this.tableRows = [
       {
@@ -115,10 +130,34 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
     ];
 
     this.customerForm = this.formService.genFromControls(this.customerControls);
+    //#endregion
+
+    //#region User Customer
+    this.userCustomer = new ADUser();
+    this.userCustomerForm = this.formService.genFromControls(this.userControls);
+    //#endregion
   }
 
   ngAfterViewInit() {
     this.popupService.setViewContainerRef(this.popupContainerRef);
+  }
+
+  addUserCustomer() {
+    this.popupService
+      .open(
+        'Lựa chọn người dùng',
+        this.userCustomerForm,
+        this.userCustomer,
+        undefined,
+        this.userControls,
+        900,
+        400
+      )
+      .subscribe((res) => {
+        if (res.isConfirm) {
+          console.log('add UserCustomer', res);
+        }
+      });
   }
 
   addUpdateCustomer() {
