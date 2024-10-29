@@ -13,8 +13,14 @@ export class SharedService {
     method: string,
     curPage: number,
     pageSize: number,
-    request: string
+    request: string,
+    lstNotIn?: any[]
   ): Observable<any> {
-    return this.apiService.post(service, method, [curPage, pageSize, request]);
+    return this.apiService.post(service, method, [
+      curPage,
+      pageSize,
+      request,
+      lstNotIn,
+    ]);
   }
 }

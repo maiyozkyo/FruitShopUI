@@ -30,6 +30,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   @Input() allowAdd: boolean = true;
 
   @Output() save = new EventEmitter<any>();
+  @Output() dataChange = new EventEmitter<any>();
   // View Element
   @ViewChild('tableInfo') tableInfo!: ElementRef<HTMLElement>;
 
@@ -88,6 +89,7 @@ export class TableComponent implements OnInit, AfterViewInit {
           this.total = res.total;
           this.data = res.data;
           this.loading = false;
+          this.dataChange.emit(this.data);
         });
     } else {
       this.loading = false;

@@ -44,11 +44,12 @@ export class FormComponent implements OnInit {
         if (!control.placeHolder) {
           control.placeHolder = control.title;
         }
+        let fgControl = this.fg.controls[control.controlName];
         if (this.data && this.data[control.controlName]) {
-          this.fg.controls[control.controlName].setValue(
-            this.data[control.controlName]
-          );
+          fgControl.setValue(this.data[control.controlName]);
         }
+
+        if (control.disabled) fgControl.disable();
       });
 
       this.controls
@@ -76,7 +77,8 @@ export class FormComponent implements OnInit {
           control.pageInfo.method,
           control.pageInfo.curPage,
           control.pageInfo.size ?? 20,
-          control.pageInfo.request ?? ''
+          control.pageInfo.request ?? '',
+          control.pageInfo.lstNotIn ?? []
         )
         .subscribe((res) => {
           control.dataSrc = res.data;

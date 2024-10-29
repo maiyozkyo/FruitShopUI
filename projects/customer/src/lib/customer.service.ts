@@ -1,3 +1,4 @@
+import { CUCustomer } from './models/customer.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/Services/api.service';
@@ -7,6 +8,7 @@ import { ApiService } from 'src/app/Services/api.service';
 })
 export class CustomerService {
   private readonly service = 'Customer';
+  readonly nullRecID = '00000000-0000-0000-0000-000000000000';
   constructor(private apiService: ApiService) {}
 
   getDataPaging(
@@ -19,5 +21,9 @@ export class CustomerService {
       pageSize,
       request,
     ]);
+  }
+
+  addUpdateCustomer(customer: CUCustomer) {
+    return this.apiService.post(this.service, 'AddUpdateCustomer', [customer]);
   }
 }

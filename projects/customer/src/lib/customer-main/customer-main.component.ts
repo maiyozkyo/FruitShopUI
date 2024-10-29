@@ -12,6 +12,8 @@ import { TableRow } from 'projects/shared/src/lib/models/table/tableRow.model';
 import { PopupService } from 'projects/shared/src/lib/popup/popup.service';
 import { CUCustomer } from '../models/customer.model';
 import { UserCustomer } from '../models/user-customer.model';
+import { CustomerService } from '../customer.service';
+import { NotifyService } from 'projects/shared/src/lib/services/notify.service';
 
 @Component({
   selector: 'lib-customer-main',
@@ -32,6 +34,7 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
   tableRows: TableRow[] = [];
   tableService = 'Customer';
   tableMethod = 'TableCustomers';
+  tableCustomerData: CUCustomer[] = [];
   //#endregion
 
   //#region Customer Detail
@@ -42,26 +45,31 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
       title: 'Số điện thoại',
       placeHolder: 'Số điện thoại (dùng để đăng nhập)',
       value: '',
+      type: 'text',
     },
     {
       controlName: 'name',
       title: 'Tên khách hàng',
       value: '',
+      type: 'text',
     },
     {
       controlName: 'nickName',
       title: 'Nick Name',
       value: '',
+      type: 'text',
     },
     {
       controlName: 'address',
       title: 'Địa chỉ',
       value: '',
+      type: 'text',
     },
     {
       controlName: 'note',
       title: 'Ghi chú',
       value: '',
+      type: 'text',
     },
   ];
 
@@ -106,8 +114,10 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
   //#endregion
 
   constructor(
+    private customerService: CustomerService,
     private popupService: PopupService,
-    private formService: FormService
+    private formService: FormService,
+    private notiService: NotifyService
   ) {}
 
   ngOnInit() {
@@ -125,6 +135,7 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
       {
         field: 'phone',
         title: 'Số điện thoại',
+        disabled: true,
       },
       {
         field: 'Address',
@@ -150,6 +161,14 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
 
   addUserCustomer() {
     this.userCustomer = new UserCustomer();
+    let userRecIDControl = this.userControls.find(
+      (x) => x.controlName === 'recID'
+    );
+    if (userRecIDControl && userRecIDControl.pageInfo) {
+      userRecIDControl.pageInfo.lstNotIn = this.tableCustomerData.map(
+        (x) => x.userRecID
+      );
+    }
     this.popupService
       .open(
         'Lựa chọn người dùng',
@@ -179,7 +198,6 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
       (x) => x.controlName == 'phone'
     );
     if (phoneControl) {
-      phoneControl.disabled = !!this.curCustomer.phone;
       this.popupService
         .open(
           'Chi tiết khách hàng',
@@ -192,7 +210,18 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
         )
         .subscribe((res) => {
           if (res.isConfirm) {
-            console.log('add customer', res);
+            this.curCustomer = res.data as CUCustomer;
+            this.customerService
+              .addUpdateCustomer(this.curCustomer)
+              .subscribe((isSuccess) => {
+                if (isSuccess) {
+                  let isNew =
+                    this.curCustomer.recID == this.customerService.nullRecID;
+                  let title =
+                    (isNew ? 'Thêm mới' : 'Chỉnh sửa') + ' khách hàng';
+                  this.notiService.show(title, 'Thành công', 'success');
+                }
+              });
           }
         });
     }

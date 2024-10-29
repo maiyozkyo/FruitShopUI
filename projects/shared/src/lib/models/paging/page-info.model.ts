@@ -5,5 +5,6 @@ export class PageInfo {
   request?: string = '';
   curPage: number = 1;
   isLoading?: boolean = false;
+  lstNotIn?: any[];
   readonly total?: number = 0;
 }
