@@ -16,6 +16,7 @@ import { ApiService } from '../Services/api.service';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
 import { TokenService } from '../Services/token.service';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'app-side-menu',
@@ -45,7 +46,6 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
       url: '/user',
       text: 'Tài khoản',
     },
-    
   ];
 
   constructor(
@@ -70,8 +70,8 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
           url: '/tenant',
           text: 'Tenant',
         },
-        ...this.menu
-      ] 
+        ...this.menu,
+      ];
     }
   }
 
@@ -87,12 +87,14 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
   }
 
   logout() {
-    this.apiService.post('Auth', 'LogoutAsync', []).subscribe((res) => {
-      if (res) {
-        this.tokenService.logOut();
-        this.router.navigate(['/user/login']);
-      }
-    });
+    this.apiService
+      .post(environment.authService, 'LogoutAsync', [])
+      .subscribe((res) => {
+        if (res) {
+          this.tokenService.logOut();
+          this.router.navigate(['/user/login']);
+        }
+      });
   }
 
   navClick(sidenav: MatSidenav) {

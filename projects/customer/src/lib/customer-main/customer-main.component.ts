@@ -14,6 +14,7 @@ import { CUCustomer } from '../models/customer.model';
 import { UserCustomer } from '../models/user-customer.model';
 import { CustomerService } from '../customer.service';
 import { NotifyService } from 'projects/shared/src/lib/services/notify.service';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'lib-customer-main',
@@ -32,7 +33,7 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
   //#region Table
   tableDisabled: boolean = false;
   tableRows: TableRow[] = [];
-  tableService = 'Customer';
+  tableService = environment.customerService;
   tableMethod = 'TableCustomers';
   tableCustomerData: CUCustomer[] = [];
   //#endregion
@@ -90,7 +91,7 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
       labelField: 'phone',
       valueField: 'recID',
       pageInfo: {
-        service: 'User',
+        service: environment.userService,
         method: 'TableUsers',
         curPage: 1,
       },

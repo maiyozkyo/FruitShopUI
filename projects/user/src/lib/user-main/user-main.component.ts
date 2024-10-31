@@ -1,3 +1,4 @@
+import { TableData } from './../../../../shared/src/lib/models/table/tableData.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TableRow } from 'projects/shared/src/lib/models/table/tableRow.model';
@@ -8,13 +9,19 @@ import { TokenService } from 'src/app/Services/token.service';
 import { TableComponent } from 'projects/shared/src/lib/table/table.component';
 import { ControlItem } from 'projects/shared/src/lib/models/form/control-item.model';
 import { FormService } from 'projects/shared/src/lib/form/form.service';
-
+import { environment } from 'src/environments/environment.development';
 @Component({
   selector: 'lib-user-main',
   templateUrl: './user-main.component.html',
   styleUrls: ['./user-main.component.scss'],
 })
 export class UserMainComponent implements OnInit {
+  //#region Init Data
+
+  //#region Root
+  eUserService = '';
+  //#endregion
+
   //#region Table
   tableRows: TableRow[] = [];
   tableDisabled = true;
@@ -28,12 +35,17 @@ export class UserMainComponent implements OnInit {
   @ViewChild('userTable') userTable!: TableComponent;
   //#endregion
 
+  //#endregion
+
   constructor(
     private userService: UserService,
     private notiService: NotifyService,
     private tokenService: TokenService,
     private formService: FormService
-  ) {}
+  ) {
+    this.eUserService = environment.userService;
+  }
+
   ngOnInit() {
     this.tableRows = [
       {

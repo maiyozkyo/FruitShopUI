@@ -21,18 +21,10 @@
             </lib-date-picker>
           </div>
           <div class="col-md-6 col-sm-12 d-flex justify-content-center">
-            <nz-select
-              class="w-100"
-              (nzScrollToBottom)="loadDataCustomer()"
-              [nzOptionOverflowSize]="4"
-              [nzLoading]="cusPaging.isLoading"
-            >
-              <nz-option
-                *ngFor="let cus of lstCustomers"
-                [nzLabel]="cus.name"
-                [nzValue]="cus"
-              ></nz-option>
-            </nz-select>
+            <div class="d-flex position-relative">
+              <lib-form [(fg)]="orderForm" [controls]="orderControls">
+              </lib-form>
+            </div>
           </div>
         </div>
         <div class="col-2 d-flex justify-content-end align-items-center">

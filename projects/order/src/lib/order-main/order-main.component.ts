@@ -20,6 +20,7 @@ import { TableData } from 'projects/shared/src/lib/models/table/tableData.model'
 import { PopupService } from 'projects/shared/src/lib/popup/popup.service';
 import { FormService } from 'projects/shared/src/lib/form/form.service';
 import { ControlItem } from 'projects/shared/src/lib/models/form/control-item.model';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'lib-order-main',
@@ -55,40 +56,6 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   //#endregion
 
   //#region Khách hàng
-  cusSelectOption = [];
-  lstCustomers: CUCustomer[] = [
-    {
-      name: '1',
-      address: '123',
-      nickName: '123',
-      note: '123',
-      phone: '123123',
-      recID: '11',
-    },
-    {
-      name: '2',
-      address: '123',
-      nickName: '123',
-      note: '123',
-      phone: '123123',
-      recID: '12',
-    },
-    {
-      name: '3',
-      address: '123',
-      nickName: '123',
-      note: '123',
-      phone: '123123',
-      recID: '13',
-    },
-  ];
-  cusPaging = {
-    size: 20,
-    curPage: 1,
-    total: 0,
-    request: '',
-    isLoading: false,
-  };
 
   //#endregion
 
@@ -103,8 +70,8 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
+    //#region Đơn hàng
     this.tableRows = [];
-
     this.orderControls = [
       {
         controlName: 'customerRecID',
@@ -112,16 +79,26 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
         value: '',
         icon: 'user',
         type: 'select',
-        dataSrc: this.lstCustomers,
         labelField: 'name',
         valueField: 'recID',
+        isServer: true,
+        pageInfo: {
+          service: environment.customerService,
+          method: 'TableCustomers',
+          curPage: 1,
+        },
       },
     ];
+    this.orderForm = this.formService.genFromControls(this.orderControls);
+    //#endregion
+
+    //#region Khách hàng
+
+    //#endregion
   }
 
   ngAfterViewInit(): void {
     this.popupService.setViewContainerRef(this.popupContainerRef);
-    this.loadDataCustomer();
     this.orderForm = this.formService.genFromControls(this.orderControls);
   }
 
@@ -154,20 +131,4 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   denyAddUpdateOrder(data: any) {}
 
   submitForm() {}
-
-  loadDataCustomer() {
-    this.cusPaging.curPage++;
-    this.cusPaging.isLoading = true;
-    this.customerService
-      .getDataPaging(
-        this.cusPaging.curPage,
-        this.cusPaging.size,
-        this.cusPaging.request
-      )
-      .subscribe((res: TableData) => {
-        this.cusPaging.isLoading = false;
-        this.cusPaging.total = res.total;
-        this.lstCustomers.push(...res.data);
-      });
-  }
 }

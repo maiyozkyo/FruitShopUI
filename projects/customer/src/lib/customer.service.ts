@@ -2,12 +2,13 @@ import { CUCustomer } from './models/customer.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/Services/api.service';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomerService {
-  private readonly service = 'Customer';
+  private readonly service = environment.customerService;
   readonly nullRecID = '00000000-0000-0000-0000-000000000000';
   constructor(private apiService: ApiService) {}
 
