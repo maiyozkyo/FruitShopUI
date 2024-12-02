@@ -1,4 +1,4 @@
-<form #form *ngIf="fg" [formGroup]="fg">
+<form #form *ngIf="fg" [formGroup]="fg" [ngClass]="formClass">
   <nz-form-item *ngFor="let control of controls">
     <nz-form-label
       *ngIf="!control.hidden"

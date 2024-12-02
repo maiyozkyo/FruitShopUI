@@ -23,6 +23,8 @@ export class FormComponent implements OnInit {
   @Input() controls!: ControlItem[];
   @Input() layout: NzFormLayoutType = 'vertical';
   @Input() data!: any;
+  @Input() formClass: string =
+    'd-flex flex-column position-relative w-100 h-100';
   //#endregion
 
   //#region Event

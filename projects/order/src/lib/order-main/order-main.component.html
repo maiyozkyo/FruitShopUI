@@ -8,26 +8,28 @@
       class="header-toolbar object-fit"
       style="background-color: #9e9e9e"
     >
-      <div class="row w-100 d-flex justify-content-between">
-        <div class="col-10">
-          <div class="col-md-6 col-sm-12">
-            <lib-date-picker
-              class="d-flex"
-              [(fromDate)]="fromDate"
-              [(toDate)]="toDate"
-              [range]="7"
-              [size]="'small'"
+      <div class="row w-100 d-flex justify-content-between align-items-center">
+        <div class="col-md-3 col-sm-12">
+          <lib-date-picker
+            class="d-flex"
+            [(fromDate)]="fromDate"
+            [(toDate)]="toDate"
+            [range]="7"
+            [size]="'small'"
+          >
+          </lib-date-picker>
+        </div>
+        <div class="col-md-6 col-sm-12 d-flex justify-content-center">
+          <div class="w-100">
+            <lib-form
+              [(fg)]="orderForm"
+              [controls]="orderControls"
+              [class]="'d-flex flex-column position-relative w-100'"
             >
-            </lib-date-picker>
-          </div>
-          <div class="col-md-6 col-sm-12 d-flex justify-content-center">
-            <div class="d-flex position-relative">
-              <lib-form [(fg)]="orderForm" [controls]="orderControls">
-              </lib-form>
-            </div>
+            </lib-form>
           </div>
         </div>
-        <div class="col-2 d-flex justify-content-end align-items-center">
+        <div class="col-3 d-flex justify-content-end align-items-center">
           <div class="btn btn-primary" (click)="addOrder()">
             <span class="d-none d-md-block">Thêm đơn</span>
             <span class="d-md-none">+</span>
