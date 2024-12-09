@@ -42,7 +42,8 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   showPopAddUpdateOrder = false;
   curOrder!: OROrder;
   orderControls: ControlItem[] = [];
-
+  eOrderService = environment.orderService;
+  orderTableMethod = 'TableOrders';
   //#endregion
 
   //#region Table
@@ -51,12 +52,24 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   //#endregion
 
   //#region Bộ lọc
-  fromDate = new Date();
-  toDate = new Date();
+  curCustomer!: CUCustomer;
+  filter = {
+    fromDate: new Date(),
+    toDate: new Date(),
+    customerRecID: '',
+  };
   //#endregion
 
   //#region Khách hàng
-
+  cusPaging = {
+    size: 20,
+    curPage: 0,
+    total: 0,
+    request: '',
+    isLoading: false,
+    placeHolder: 'Chọn khách hàng',
+  };
+  lstCustomers: CUCustomer[] = [];
   //#endregion
 
   //#endregion
@@ -93,7 +106,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
     //#endregion
 
     //#region Khách hàng
-
+    this.loadDataCustomer();
     //#endregion
   }
 
@@ -130,5 +143,26 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
 
   denyAddUpdateOrder(data: any) {}
 
-  submitForm() {}
+  loadDataCustomer() {
+    this.cusPaging.curPage++;
+    this.cusPaging.isLoading = true;
+    this.customerService
+      .getDataPaging(
+        this.cusPaging.curPage,
+        this.cusPaging.size,
+        this.cusPaging.request,
+        [],
+        this.filter
+      )
+      .subscribe((res: TableData) => {
+        this.cusPaging.isLoading = false;
+        this.cusPaging.total = res.total;
+        this.lstCustomers.push(...res.data);
+        if (!this.curCustomer) {
+          this.curCustomer = this.lstCustomers[0];
+        }
+      });
+  }
+
+  onSelectCustomer(chosenCus: CUCustomer) {}
 }

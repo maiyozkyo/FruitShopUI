@@ -8,26 +8,36 @@
       class="header-toolbar object-fit"
       style="background-color: #9e9e9e"
     >
-      <div class="row w-100 d-flex justify-content-between align-items-center">
+      <div
+        class="row w-100 d-flex justify-content-between align-items-center position-relative"
+      >
         <div class="col-md-3 col-sm-12">
           <lib-date-picker
             class="d-flex"
-            [(fromDate)]="fromDate"
-            [(toDate)]="toDate"
+            [(fromDate)]="filter.fromDate"
+            [(toDate)]="filter.toDate"
             [range]="7"
             [size]="'small'"
           >
           </lib-date-picker>
         </div>
-        <div class="col-md-6 col-sm-12 d-flex justify-content-center">
-          <div class="w-100">
-            <lib-form
-              [(fg)]="orderForm"
-              [controls]="orderControls"
-              [class]="'d-flex flex-column position-relative w-100'"
-            >
-            </lib-form>
-          </div>
+        <div class="col-md-6 col-sm-12 position-relative h-100">
+          <nz-select
+            class="w-100"
+            [nzShowSearch]="true"
+            (nzScrollToBottom)="loadDataCustomer()"
+            [nzOptionOverflowSize]="4"
+            [nzLoading]="cusPaging.isLoading"
+            [nzPlaceHolder]="cusPaging.placeHolder"
+            [ngModel]="curCustomer"
+            (ngModelChange)="onSelectCustomer($event)"
+          >
+            <nz-option
+              *ngFor="let cus of lstCustomers"
+              [nzLabel]="cus.name"
+              [nzValue]="cus"
+            ></nz-option>
+          </nz-select>
         </div>
         <div class="col-3 d-flex justify-content-end align-items-center">
           <div class="btn btn-primary" (click)="addOrder()">
@@ -44,6 +54,8 @@
       [tableRows]="tableRows"
       [disabled]="tableDisabled"
       [allowAdd]="false"
+      [service]="eOrderService"
+      [method]="orderTableMethod"
     >
     </lib-table>
   </div>

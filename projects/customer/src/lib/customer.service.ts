@@ -15,12 +15,16 @@ export class CustomerService {
   getDataPaging(
     curPage: number,
     pageSize: number,
-    request: string
+    request: string,
+    lstIDNotIn: [],
+    filter: any
   ): Observable<any> {
     return this.apiService.post(this.service, 'TableCustomers', [
       curPage,
       pageSize,
       request,
+      lstIDNotIn,
+      filter,
     ]);
   }
 

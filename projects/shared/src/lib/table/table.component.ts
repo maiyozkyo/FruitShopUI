@@ -28,6 +28,8 @@ export class TableComponent implements OnInit, AfterViewInit {
   @Input() service!: string;
   @Input() method!: string;
   @Input() allowAdd: boolean = true;
+  @Input() filter: any = {};
+  @Input() lstNotIn: any[] = [];
 
   @Output() save = new EventEmitter<any>();
   @Output() dataChange = new EventEmitter<any>();
@@ -82,7 +84,9 @@ export class TableComponent implements OnInit, AfterViewInit {
           this.method,
           this.curPage,
           this.pageSize,
-          this.request
+          this.request,
+          this.lstNotIn,
+          this.filter
         )
         .subscribe((res: TableData) => {
           console.log('res', res);

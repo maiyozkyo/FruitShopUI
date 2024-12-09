@@ -14,7 +14,8 @@ export class SharedService {
     curPage: number,
     pageSize: number,
     request: string,
-    lstNotIn?: any[]
+    lstNotIn?: any[],
+    filter?: any
   ): Observable<any> {
     if (!lstNotIn) lstNotIn = [];
     return this.apiService.post(service, method, [
@@ -22,6 +23,7 @@ export class SharedService {
       pageSize,
       request,
       lstNotIn,
+      filter,
     ]);
   }
 }
