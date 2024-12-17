@@ -1,6 +1,9 @@
 <nz-modal
   class="popup"
-  [nzStyle]="{width, height}"
+  [nzBodyStyle]="{
+    height: height + 'px',
+  }"
+  [nzWidth]="width"
   [(nzVisible)]="visible"
   [nzTitle]="title"
   (nzOnCancel)="handleCancel()"

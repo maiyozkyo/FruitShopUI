@@ -30,8 +30,8 @@ export class PopupService {
     data: any,
     contentTmpl?: TemplateRef<any>,
     controls?: ControlItem[],
-    width: number = 600,
-    height: number = 800,
+    width: number = 900,
+    height: number = 400,
     confirmText: string = 'OK',
     cancelText: string = 'Hủy',
     isOkLoading: boolean = false

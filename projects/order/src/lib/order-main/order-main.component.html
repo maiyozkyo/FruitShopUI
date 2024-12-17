@@ -60,3 +60,17 @@
     </lib-table>
   </div>
 </div>
+
+<ng-template #orderDetail>
+  <div class="d-flex w-100 h-100 position-relative flex-grow-1 bd-highlight">
+    <lib-table
+      [data]="lstOrder"
+      [tableRows]="tableRows"
+      [disabled]="tableDisabled"
+      [allowAdd]="false"
+      [service]="eOrderService"
+      [method]="orderTableMethod"
+    >
+    </lib-table>
+  </div>
+</ng-template>

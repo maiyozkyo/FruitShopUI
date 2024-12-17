@@ -33,7 +33,8 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   //#region Root
   @ViewChild('popupContainer', { read: ViewContainerRef, static: true })
   popupContainerRef!: ViewContainerRef;
-
+  @ViewChild('orderDetail', { read: TemplateRef, static: true })
+  orderDetailTmp!: TemplateRef<any>;
   //#endregion
 
   //#region Đơn hàng
@@ -72,6 +73,9 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   lstCustomers: CUCustomer[] = [];
   //#endregion
 
+  //#region Data Save
+  //#endregion
+
   //#endregion
   constructor(
     private df: ChangeDetectorRef,
@@ -88,21 +92,12 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
     this.orderControls = [
       {
         controlName: 'customerRecID',
-        title: 'Tên đăng nhập',
-        value: '',
+        title: 'Khách hàng',
+        value: '123',
         icon: 'user',
-        type: 'select',
-        labelField: 'name',
-        valueField: 'recID',
-        isServer: true,
-        pageInfo: {
-          service: environment.customerService,
-          method: 'TableCustomers',
-          curPage: 1,
-        },
+        type: 'text',
       },
     ];
-    this.orderForm = this.formService.genFromControls(this.orderControls);
     //#endregion
 
     //#region Khách hàng
@@ -112,16 +107,27 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.popupService.setViewContainerRef(this.popupContainerRef);
-    this.orderForm = this.formService.genFromControls(this.orderControls);
   }
 
   addOrder() {
+    this.orderControls = [
+      {
+        controlName: 'customerRecID',
+        title: 'Khách hàng',
+        value: this.curCustomer.name,
+        icon: 'user',
+        type: 'text',
+        disabled: true,
+      },
+    ];
+
+    this.orderForm = this.formService.genFromControls(this.orderControls);
     this.popupService
       .open(
         'Add/Update đơn hàng',
         this.orderForm,
         this.curOrder,
-        undefined,
+        this.orderDetailTmp,
         this.orderControls
       )
       .subscribe((res) => {
@@ -164,5 +170,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
       });
   }
 
-  onSelectCustomer(chosenCus: CUCustomer) {}
+  onSelectCustomer(cus: CUCustomer) {
+    this.curCustomer = cus;
+  }
 }
