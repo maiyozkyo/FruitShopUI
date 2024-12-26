@@ -25,6 +25,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { DatePickerComponent } from './date-picker/date-picker.component';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { LoadingComponent } from './loading/loading.component';
+import { ListComponent } from './list/list.component';
+import { NzListModule } from 'ng-zorro-antd/list';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import { LoadingComponent } from './loading/loading.component';
     FormComponent,
     DatePickerComponent,
     LoadingComponent,
+    ListComponent,
   ],
   imports: [
     RouterModule.forChild([]),
@@ -57,6 +60,7 @@ import { LoadingComponent } from './loading/loading.component';
     NzCardModule,
     NzIconModule,
     NzDatePickerModule,
+    NzListModule,
   ],
   exports: [
     SharedComponent,
