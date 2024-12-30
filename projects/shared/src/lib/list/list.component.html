@@ -2,8 +2,16 @@
   <div nz-row [nzGutter]="16">
     <div nz-col [nzSpan]="6" *ngFor="let item of data">
       <nz-list-item>
-        <nz-card [nzTitle]="item.title">Card content</nz-card>
+        <ng-container
+          *ngIf="tmpl; else defaultTmpl"
+          [ngTemplateOutlet]="tmpl"
+          [ngTemplateOutletContext]="item"
+        ></ng-container>
       </nz-list-item>
     </div>
   </div>
 </nz-list>
+
+<ng-template #defaultTmpl let-item>
+  <nz-card [nzTitle]="item.title">{{ item.content }}</nz-card>
+</ng-template>

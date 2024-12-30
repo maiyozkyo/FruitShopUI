@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @Component({
@@ -9,13 +9,12 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 export class ListComponent implements OnInit, AfterViewInit {
   @Input() type: 'list' | 'grid' = 'list';
   @Input() data: any[] = [];
+  @Input() tmpl! : TemplateRef<any>
   @Input() service: string = '';
   @Input() method: string = '';
 
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
+  ngOnInit() {
   }
-  ngAfterViewInit(): void {
-    throw new Error('Method not implemented.');
+  ngAfterViewInit() {
   }
 }
