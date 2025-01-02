@@ -1,5 +1,12 @@
-import { AfterViewInit, Component, Input, OnInit, TemplateRef } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnInit,
+  TemplateRef,
+} from '@angular/core';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { CommonData } from '../models/table/commonData.model';
 
 @Component({
   selector: 'lib-list',
@@ -8,13 +15,11 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 })
 export class ListComponent implements OnInit, AfterViewInit {
   @Input() type: 'list' | 'grid' = 'list';
-  @Input() data: any[] = [];
-  @Input() tmpl! : TemplateRef<any>
+  @Input() data: CommonData[] = [];
+  @Input() tmpl!: TemplateRef<any>;
   @Input() service: string = '';
   @Input() method: string = '';
 
-  ngOnInit() {
-  }
-  ngAfterViewInit() {
-  }
+  ngOnInit() {}
+  ngAfterViewInit() {}
 }

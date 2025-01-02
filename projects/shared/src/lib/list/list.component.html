@@ -13,5 +13,7 @@
 </nz-list>
 
 <ng-template #defaultTmpl let-item>
-  <nz-card [nzTitle]="item.title">{{ item.content }}</nz-card>
+  <nz-card [nzTitle]="item[item.labelField]">{{
+    item[item.valueField]
+  }}</nz-card>
 </ng-template>

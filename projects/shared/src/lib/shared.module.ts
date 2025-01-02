@@ -84,6 +84,7 @@ import { NzListModule } from 'ng-zorro-antd/list';
     DatePickerComponent,
     NzDatePickerModule,
     LoadingComponent,
+    ListComponent,
   ],
 })
 export class SharedModule {}

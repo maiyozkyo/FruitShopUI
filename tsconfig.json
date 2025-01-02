@@ -12,6 +12,9 @@
       "Order": [
         "dist/order"
       ],
+      "Product": [
+        "dist/product"
+      ],
       "Shared": [
         "dist/shared"
       ],

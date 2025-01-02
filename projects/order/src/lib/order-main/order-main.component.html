@@ -63,14 +63,6 @@
 
 <ng-template #orderDetail>
   <div class="d-flex w-100 h-100 position-relative flex-grow-1 bd-highlight">
-    <lib-table
-      [data]="lstOrder"
-      [tableRows]="tableRows"
-      [disabled]="tableDisabled"
-      [allowAdd]="false"
-      [service]="eOrderService"
-      [method]="orderTableMethod"
-    >
-    </lib-table>
+    <lib-list> </lib-list>
   </div>
 </ng-template>

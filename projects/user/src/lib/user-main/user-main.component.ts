@@ -1,7 +1,7 @@
 import { TableData } from './../../../../shared/src/lib/models/table/tableData.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TableRow } from 'projects/shared/src/lib/models/table/tableRow.model';
+import { CommonData } from 'projects/shared/src/lib/models/table/commonData.model';
 import { ADUser } from 'projects/shared/src/lib/models/user.model';
 import { UserService } from '../user.service';
 import { NotifyService } from 'projects/shared/src/lib/services/notify.service';
@@ -23,7 +23,7 @@ export class UserMainComponent implements OnInit {
   //#endregion
 
   //#region Table
-  tableRows: TableRow[] = [];
+  tableRows: CommonData[] = [];
   tableDisabled = true;
   showPopAddUser = false;
   //#endregion

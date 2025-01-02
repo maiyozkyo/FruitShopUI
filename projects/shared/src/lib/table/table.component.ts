@@ -12,7 +12,7 @@ import {
 import { NzTableSize } from 'ng-zorro-antd/table';
 import { SharedService } from '../shared.service';
 import { TableData } from '../models/table/tableData.model';
-import { TableRow } from '../models/table/tableRow.model';
+import { CommonData } from '../models/table/commonData.model';
 
 @Component({
   selector: 'lib-table',
@@ -21,7 +21,7 @@ import { TableRow } from '../models/table/tableRow.model';
 })
 export class TableComponent implements OnInit, AfterViewInit {
   @Input() data: any[] = [];
-  @Input() tableRows: TableRow[] = [];
+  @Input() tableRows: CommonData[] = [];
   @Input() tableSize: NzTableSize = 'default';
   @Input() pageSize = 20;
   @Input() disabled: boolean = false;
@@ -50,7 +50,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.tableRows = this.tableRows.map((row) => (row = new TableRow(row)));
+    this.tableRows = this.tableRows.map((row) => (row = new CommonData(row)));
   }
   ngAfterViewInit(): void {
     this.setTableHeight();

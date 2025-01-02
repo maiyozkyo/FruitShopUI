@@ -64,6 +64,9 @@ const mainRoutes: Routes = [
     canActivate: [authGuard],
     canActivateChild: [authGuard],
   },
+  {
+    path: 'product',
+  },
   { path: '**', redirectTo: 'auth' },
 ];
 

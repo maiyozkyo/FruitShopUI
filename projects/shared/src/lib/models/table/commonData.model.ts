@@ -1,4 +1,4 @@
-export class TableRow {
+export class CommonData {
   title!: string;
   field!: string;
   type?: 'checkbox' | 'text' | 'number' | 'select' = 'text';
@@ -8,7 +8,7 @@ export class TableRow {
   valueField?: string = '';
   disabled?: boolean = false;
 
-  constructor(obj: TableRow) {
+  constructor(obj: CommonData) {
     Object.assign(this, obj);
   }
 }

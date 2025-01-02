@@ -11,7 +11,7 @@ import { FormGroup } from '@angular/forms';
 import { Custom_Date_Format } from '../mat-date-format/custom-date-format.model';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { OrderService } from '../order.service';
-import { TableRow } from 'projects/shared/src/lib/models/table/tableRow.model';
+import { CommonData } from 'projects/shared/src/lib/models/table/commonData.model';
 import { NotifyService } from 'projects/shared/src/lib/services/notify.service';
 import { CustomerService } from 'projects/customer/src/public-api';
 import { OROrder } from '../models/order.model';
@@ -48,7 +48,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   //#endregion
 
   //#region Table
-  tableRows: TableRow[] = [];
+  tableRows: CommonData[] = [];
   tableDisabled: boolean = true;
   //#endregion
 

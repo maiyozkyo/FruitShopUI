@@ -8,7 +8,7 @@ import {
 import { FormGroup } from '@angular/forms';
 import { FormService } from 'projects/shared/src/lib/form/form.service';
 import { ControlItem } from 'projects/shared/src/lib/models/form/control-item.model';
-import { TableRow } from 'projects/shared/src/lib/models/table/tableRow.model';
+import { CommonData } from 'projects/shared/src/lib/models/table/commonData.model';
 import { PopupService } from 'projects/shared/src/lib/popup/popup.service';
 import { CUCustomer } from '../models/customer.model';
 import { UserCustomer } from '../models/user-customer.model';
@@ -32,7 +32,7 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
 
   //#region Table
   tableDisabled: boolean = false;
-  tableRows: TableRow[] = [];
+  tableRows: CommonData[] = [];
   tableService = environment.customerService;
   tableMethod = 'TableCustomers';
   tableCustomerData: CUCustomer[] = [];
