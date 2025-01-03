@@ -43,6 +43,11 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
     },
     {
       icon: '',
+      url: '/product',
+      text: 'Hàng hóa',
+    },
+    {
+      icon: '',
       url: '/user',
       text: 'Tài khoản',
     },

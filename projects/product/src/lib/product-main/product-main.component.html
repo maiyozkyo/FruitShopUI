@@ -1,1 +1,44 @@
-<p>product-main works!</p>
+<ng-template #popupContainer></ng-template>
+<div class="d-flex flex-column h-100 object-fit position-relative">
+  <div>
+    <mat-toolbar
+      id="toolbar"
+      class="header-toolbar object-fit"
+      style="background-color: #9e9e9e"
+    >
+      <div
+        class="row w-100 d-flex justify-content-between align-items-center position-relative"
+      >
+        <div class="col-md-5"></div>
+        <div class="col-md-2 col-sm-12 position-relative h-100">
+          <nz-select
+            class="w-100"
+            [nzShowSearch]="true"
+            [nzOptionOverflowSize]="4"
+            [ngModel]="this.curFilter.IsActive"
+            (ngModelChange)="onSelecteProductStatus($event)"
+          >
+            <nz-option
+              *ngFor="let status of lstProductStatus"
+              [nzLabel]="status.text"
+              [nzValue]="status.value"
+            ></nz-option>
+          </nz-select>
+        </div>
+        <div class="col-5 d-flex justify-content-end align-items-center"></div>
+      </div>
+    </mat-toolbar>
+  </div>
+  <div class="d-flex w-100 h-100 position-relative flex-grow-1 bd-highlight">
+    <lib-table
+      #productTable
+      [tableRows]="tableRows"
+      [disabled]="tableDisabled"
+      [allowAdd]="false"
+      [service]="eProductService"
+      [method]="productTableMethod"
+      [filter]="curFilter"
+    >
+    </lib-table>
+  </div>
+</div>

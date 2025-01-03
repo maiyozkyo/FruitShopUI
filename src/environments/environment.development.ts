@@ -26,5 +26,8 @@ export const environment = {
   customerService: 'Customer',
   //#endregion
 
-  //#region
+  //#region Product
+  productPort: '8006',
+  productService: 'Product',
+  //#endregion
 };

@@ -66,6 +66,10 @@ const mainRoutes: Routes = [
   },
   {
     path: 'product',
+    loadChildren: () =>
+      import('../../projects/product/src/lib/product.module').then(
+        (m) => m.ProductModule
+      ),
   },
   { path: '**', redirectTo: 'auth' },
 ];
