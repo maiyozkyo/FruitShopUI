@@ -19,6 +19,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   @Input() tmpl!: TemplateRef<any>;
   @Input() service: string = '';
   @Input() method: string = '';
+  @Input() filter:any ;
 
   ngOnInit() {}
   ngAfterViewInit() {}

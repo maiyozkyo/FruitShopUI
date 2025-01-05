@@ -70,6 +70,7 @@ const mainRoutes: Routes = [
       import('../../projects/product/src/lib/product.module').then(
         (m) => m.ProductModule
       ),
+    canActivateChild: [authGuard],
   },
   { path: '**', redirectTo: 'auth' },
 ];

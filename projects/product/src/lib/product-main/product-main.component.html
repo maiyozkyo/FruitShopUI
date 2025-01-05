@@ -25,20 +25,21 @@
             ></nz-option>
           </nz-select>
         </div>
-        <div class="col-5 d-flex justify-content-end align-items-center"></div>
+        <div class="col-5 d-flex justify-content-end align-items-center">
+          <button class="btn btn-primary" (click)="onAddUpdateProduct()">
+            Thêm mới
+          </button>
+        </div>
       </div>
     </mat-toolbar>
   </div>
   <div class="d-flex w-100 h-100 position-relative flex-grow-1 bd-highlight">
-    <lib-table
+    <lib-list
       #productTable
-      [tableRows]="tableRows"
-      [disabled]="tableDisabled"
-      [allowAdd]="false"
       [service]="eProductService"
       [method]="productTableMethod"
       [filter]="curFilter"
     >
-    </lib-table>
+    </lib-list>
   </div>
 </div>

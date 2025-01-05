@@ -1,5 +1,7 @@
+import { ProductService } from './../product.service';
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   OnInit,
   TemplateRef,
@@ -10,6 +12,9 @@ import { CommonData } from 'projects/shared/src/lib/models/table/commonData.mode
 import { TableComponent } from 'projects/shared/src/lib/table/table.component';
 import { environment } from 'src/environments/environment.development';
 import { FilterProduct } from '../models/product.filter.model';
+import { ApiService } from 'src/app/Services/api.service';
+import { PRProduct } from '../models/product.model';
+import { NotifyService } from 'projects/shared/src/lib/services/notify.service';
 
 @Component({
   selector: 'lib-product-main',
@@ -46,6 +51,7 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
   //#endregion
 
   //#region Data
+  curProduct!: PRProduct;
   //#region Table
   tableRows: CommonData[] = [];
   tableDisabled: boolean = true;
@@ -56,12 +62,24 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
 
   //#endregion
 
-  constructor() {}
+  constructor(
+    private productService: ProductService,
+    private df: ChangeDetectorRef,
+    private notiService: NotifyService
+  ) {}
   ngOnInit(): void {}
   ngAfterViewInit(): void {}
 
   onSelecteProductStatus(evt: any) {
     this.curFilter.IsActive = evt;
     this.productTable.reload();
+  }
+
+  onAddUpdateProduct() {
+    this.productService.addUpdateProduct(this.curProduct).subscribe((res) => {
+      let isNew = this.curProduct.recID == null;
+      let title = (isNew ? 'Thêm mới' : 'Chỉnh sửa') + ' khách hàng';
+      this.notiService.show(title, 'Thành công', 'success');
+    });
   }
 }
