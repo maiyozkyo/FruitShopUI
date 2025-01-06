@@ -3,17 +3,35 @@
     <div nz-col [nzSpan]="6" *ngFor="let item of data">
       <nz-list-item>
         <ng-container
-          *ngIf="tmpl; else defaultTmpl"
-          [ngTemplateOutlet]="tmpl"
+          *ngIf="itemTmpl; else defaultTmpl"
+          [ngTemplateOutlet]="itemTmpl"
           [ngTemplateOutletContext]="item"
         ></ng-container>
       </nz-list-item>
     </div>
   </div>
 </nz-list>
+<nz-pagination
+  [nzTotal]="total"
+  [nzPageSize]="pageSize"
+  [(nzPageIndex)]="curPage"
+  (nzPageIndexChange)="onPageChange($event)"
+>
+</nz-pagination>
 
 <ng-template #defaultTmpl let-item>
-  <nz-card [nzTitle]="item[item.labelField]">{{
-    item[item.valueField]
-  }}</nz-card>
+  <nz-card *ngIf="item.labelField" [nzTitle]="item[item.labelField]">
+    <span
+      nz-icon
+      *ngIf="item.icon"
+      [nzType]="item.icon"
+      [nzTheme]="item.iconStyle ?? 'outline'"
+    ></span>
+    <nz-avatar
+      *ngIf="item.avatar"
+      nzSize="default"
+      [nzSrc]="item.avatar"
+    ></nz-avatar>
+    {{ item[item.labelField] }}</nz-card
+  >
 </ng-template>

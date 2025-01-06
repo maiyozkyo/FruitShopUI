@@ -9,12 +9,12 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { CommonData } from 'projects/shared/src/lib/models/table/commonData.model';
-import { TableComponent } from 'projects/shared/src/lib/table/table.component';
 import { environment } from 'src/environments/environment.development';
 import { FilterProduct } from '../models/product.filter.model';
 import { ApiService } from 'src/app/Services/api.service';
 import { PRProduct } from '../models/product.model';
 import { NotifyService } from 'projects/shared/src/lib/services/notify.service';
+import { ListComponent } from 'projects/shared/src/lib/list/list.component';
 
 @Component({
   selector: 'lib-product-main',
@@ -26,7 +26,7 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
   //#region Root
   @ViewChild('popupContainer', { read: ViewContainerRef, static: true })
   popupContainerRef!: ViewContainerRef;
-  @ViewChild('productTable') productTable!: TableComponent;
+  @ViewChild('productLib') productLib!: ListComponent;
   //#endregion
 
   //#region Filter
@@ -56,7 +56,7 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
   tableRows: CommonData[] = [];
   tableDisabled: boolean = true;
   eProductService = environment.productService;
-  productTableMethod = 'TableProducts';
+  productMethod = 'TableProducts';
   //#endregion
   //#endregion
 
@@ -72,7 +72,7 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
 
   onSelecteProductStatus(evt: any) {
     this.curFilter.IsActive = evt;
-    this.productTable.reload();
+    this.productLib.reload();
   }
 
   onAddUpdateProduct() {

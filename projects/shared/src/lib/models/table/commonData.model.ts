@@ -7,6 +7,9 @@ export class CommonData {
   labelField?: string = '';
   valueField?: string = '';
   disabled?: boolean = false;
+  icon?: string;
+  iconStyle?: string;
+  avatar?: string;
 
   constructor(obj: CommonData) {
     Object.assign(this, obj);

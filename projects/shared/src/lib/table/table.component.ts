@@ -38,7 +38,7 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   // Init some value
   curPage = 1;
-  total = 200;
+  total = 0;
   request = '';
   loading = false;
   themeClass: string = 'ag-theme-quartz';

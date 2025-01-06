@@ -27,6 +27,8 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { LoadingComponent } from './loading/loading.component';
 import { ListComponent } from './list/list.component';
 import { NzListModule } from 'ng-zorro-antd/list';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,9 @@ import { NzListModule } from 'ng-zorro-antd/list';
     NzCardModule,
     NzIconModule,
     NzDatePickerModule,
+    NzAvatarModule,
     NzListModule,
+    NzPaginationModule,
   ],
   exports: [
     SharedComponent,
