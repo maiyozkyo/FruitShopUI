@@ -13,14 +13,23 @@
   [nzCancelText]="cancelText"
   [nzOkDisabled]="formGroup && formGroup.status == 'INVALID'"
 >
-  <p *nzModalContent>
+  <div *nzModalContent>
     <ng-container
       *ngIf="contentTmpl; else formTmpl"
       [formGroup]="formGroup"
       [ngTemplateOutlet]="contentTmpl"
       [ngTemplateOutletContext]="tempData"
     ></ng-container>
-  </p>
+  </div>
+  <div *ngIf="footerTmpl">
+    <div *nzModalFooter>
+      <ng-container
+        [formGroup]="formGroup"
+        [ngTemplateOutlet]="footerTmpl"
+        [ngTemplateOutletContext]="tempData"
+      ></ng-container>
+    </div>
+  </div>
 </nz-modal>
 
 <ng-template #formTmpl>

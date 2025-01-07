@@ -24,6 +24,14 @@ export class FormService {
         )
       );
     });
+    if (!controls.find((x) => x.controlName == 'recID'))
+      this.fg.addControl(
+        'recID',
+        new FormControl({
+          value: '',
+          disabled: true,
+        })
+      );
     return this.fg;
   }
 }

@@ -4,4 +4,5 @@ export class PRProduct extends BaseModel {
   code: string = '';
   name: string = '';
   isActive: boolean = true;
+  img!: string;
 }

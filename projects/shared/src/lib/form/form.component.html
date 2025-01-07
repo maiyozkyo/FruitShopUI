@@ -4,6 +4,7 @@
       *ngIf="!control.hidden"
       [nzSpan]="6"
       [nzFor]="control.controlName"
+      [nzRequired]="checkRequired(control)"
       >{{ control.title }}</nz-form-label
     >
     <nz-form-control *ngIf="!control.hidden" [nzErrorTip]="control.errorMsg">
@@ -74,6 +75,26 @@
               (click)="control.hidden = !control.hidden"
             ></span>
           </ng-template>
+        </ng-container>
+        <ng-container *ngSwitchCase="'upload'">
+          <nz-upload
+            class=""
+            nzName="avatar"
+            [nzCustomRequest]="onLocalUploadFileRequest"
+            nzListType="picture-card"
+            [nzShowUploadList]="false"
+            (nzChange)="onChangeImg($event, control)"
+          >
+            <ng-container *ngIf="!control.value">
+              <span class="upload-icon" nz-icon></span>
+              <div class="ant-upload-text">Upload</div>
+            </ng-container>
+            <img
+              *ngIf="control.value"
+              [src]="control.value"
+              style="width: 100%"
+            />
+          </nz-upload>
         </ng-container>
       </nz-input-group>
     </nz-form-control>

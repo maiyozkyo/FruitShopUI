@@ -8,8 +8,14 @@ export class ControlItem {
   value!: any;
   validators?: ValidatorFn[] = [];
   placeHolder?: string = '';
-  type?: 'checkbox' | 'text' | 'number' | 'select' | 'switch' | 'password' =
-    'text';
+  type?:
+    | 'checkbox'
+    | 'text'
+    | 'number'
+    | 'select'
+    | 'switch'
+    | 'password'
+    | 'upload' = 'text';
   dataSrc?: any[];
   disabled? = false;
   hidden? = false;

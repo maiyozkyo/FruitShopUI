@@ -1,3 +1,4 @@
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NgModule } from '@angular/core';
 import { SharedComponent } from './shared.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -65,6 +66,7 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
     NzAvatarModule,
     NzListModule,
     NzPaginationModule,
+    NzUploadModule,
   ],
   exports: [
     SharedComponent,

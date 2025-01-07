@@ -19,7 +19,7 @@ import { SharedService } from '../shared.service';
 })
 export class ListComponent implements OnInit, AfterViewInit {
   @Input() type: 'list' | 'grid' = 'list';
-  @Input() data: CommonData[] = [];
+  @Input() data: any[] = [];
   @Input() itemTmpl!: TemplateRef<any>;
   @Input() service: string = '';
   @Input() method: string = '';
@@ -41,9 +41,11 @@ export class ListComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {}
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+    this.loadData();
+  }
 
-  loadData() {
+  private loadData() {
     if (this.service && this.method) {
       this.shareService
         .getDataPaging(
@@ -65,7 +67,9 @@ export class ListComponent implements OnInit, AfterViewInit {
     } else this.loading = false;
   }
 
-  reload() {}
+  reload() {
+    this.loadData();
+  }
 
   onPageChange(event: any) {
     console.log(event);

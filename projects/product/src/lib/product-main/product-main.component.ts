@@ -8,13 +8,14 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { CommonData } from 'projects/shared/src/lib/models/table/commonData.model';
 import { environment } from 'src/environments/environment.development';
 import { FilterProduct } from '../models/product.filter.model';
-import { ApiService } from 'src/app/Services/api.service';
 import { PRProduct } from '../models/product.model';
 import { NotifyService } from 'projects/shared/src/lib/services/notify.service';
 import { ListComponent } from 'projects/shared/src/lib/list/list.component';
+import { FormGroup, Validators } from '@angular/forms';
+import { ControlItem } from 'projects/shared/src/lib/models/form/control-item.model';
+import { FormService } from 'projects/shared/src/lib/form/form.service';
 
 @Component({
   selector: 'lib-product-main',
@@ -52,11 +53,13 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
 
   //#region Data
   curProduct!: PRProduct;
+  productFG!: FormGroup;
+  productControls!: ControlItem[];
+  showPopProduct = false;
   //#region Table
-  tableRows: CommonData[] = [];
-  tableDisabled: boolean = true;
   eProductService = environment.productService;
   productMethod = 'TableProducts';
+
   //#endregion
   //#endregion
 
@@ -64,10 +67,39 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
 
   constructor(
     private productService: ProductService,
-    private df: ChangeDetectorRef,
-    private notiService: NotifyService
+    private notiService: NotifyService,
+    private formService: FormService,
+    private df: ChangeDetectorRef
   ) {}
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.productControls = [
+      {
+        controlName: 'code',
+        title: 'Mã hàng hóa',
+        value: '',
+        validators: [Validators.required],
+      },
+      {
+        controlName: 'name',
+        title: 'Tên hàng hóa',
+        value: '',
+        validators: [Validators.required],
+      },
+      {
+        controlName: 'isActive',
+        title: 'Hoạt động',
+        value: true,
+        type: 'switch',
+      },
+      {
+        controlName: 'img',
+        title: '',
+        value: '',
+        type: 'upload',
+      },
+    ];
+    this.productFG = this.formService.genFromControls(this.productControls);
+  }
   ngAfterViewInit(): void {}
 
   onSelecteProductStatus(evt: any) {
@@ -75,11 +107,19 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
     this.productLib.reload();
   }
 
-  onAddUpdateProduct() {
-    this.productService.addUpdateProduct(this.curProduct).subscribe((res) => {
-      let isNew = this.curProduct.recID == null;
-      let title = (isNew ? 'Thêm mới' : 'Chỉnh sửa') + ' khách hàng';
-      this.notiService.show(title, 'Thành công', 'success');
-    });
+  onAddUpdateProduct(prod: PRProduct) {
+    if (this.curProduct) {
+      this.productService.addUpdateProduct(prod).subscribe((res) => {
+        let isNew = this.curProduct.recID == null;
+        let title = (isNew ? 'Thêm mới' : 'Chỉnh sửa') + ' hàng hóa';
+        this.notiService.show(title, 'Thành công', 'success');
+        this.showPopProduct = false;
+      });
+    }
+  }
+
+  showPopup(product: PRProduct | null) {
+    if (!product) this.curProduct = new PRProduct();
+    this.showPopProduct = true;
   }
 }

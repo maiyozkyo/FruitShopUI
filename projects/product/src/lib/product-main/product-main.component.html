@@ -26,7 +26,7 @@
           </nz-select>
         </div>
         <div class="col-5 d-flex justify-content-end align-items-center">
-          <button class="btn btn-primary" (click)="onAddUpdateProduct()">
+          <button class="btn btn-primary" (click)="showPopup(null)">
             Thêm mới
           </button>
         </div>
@@ -43,3 +43,20 @@
     </lib-list>
   </div>
 </div>
+
+<lib-popup
+  #userPopup
+  [formGroup]="productFG"
+  [width]="600"
+  [height]="600"
+  [(visible)]="showPopProduct"
+  [contentTmpl]="tmplProduct"
+  [confirmText]="'Lưu'"
+  (onConfirm)="onAddUpdateProduct($event)"
+>
+</lib-popup>
+
+<!-- Template product -->
+<ng-template #tmplProduct>
+  <lib-form [(fg)]="productFG" [controls]="productControls"></lib-form>
+</ng-template>

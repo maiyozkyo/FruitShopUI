@@ -8,10 +8,12 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { NzFormLayoutType } from 'ng-zorro-antd/form';
 import { ControlItem } from '../models/form/control-item.model';
 import { SharedService } from '../shared.service';
+import { NzUploadChangeParam, NzUploadXHRArgs } from 'ng-zorro-antd/upload';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'lib-form',
@@ -110,5 +112,35 @@ export class FormComponent implements OnInit {
         }
       });
     }
+  }
+
+  checkRequired(control: ControlItem): boolean {
+    return control.validators?.find((x) => x == Validators.required) != null;
+  }
+
+  onChangeImg(evt: NzUploadChangeParam, control: ControlItem) {
+    console.log('onChangeProductImg', evt);
+    // this.fg.controls[control.controlName].setValue(evt.file.thumbUrl);
+    control.value = evt.file.thumbUrl;
+  }
+
+  onLocalUploadFileRequest(item: NzUploadXHRArgs) {
+    const file = item.file as unknown as File;
+
+    return new Observable((obs) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        item.onSuccess!(reader.result, item.file, null);
+        obs.next();
+        obs.complete();
+      };
+
+      reader.onerror = (err) => {
+        item.onError!(err, item.file);
+        obs.error(err);
+      };
+
+      reader.readAsDataURL(file);
+    }).subscribe();
   }
 }
