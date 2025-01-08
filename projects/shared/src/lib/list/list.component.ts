@@ -20,6 +20,7 @@ import { SharedService } from '../shared.service';
 export class ListComponent implements OnInit, AfterViewInit {
   @Input() type: 'list' | 'grid' = 'list';
   @Input() data: any[] = [];
+  @Input() objFields: CommonData[] = [];
   @Input() itemTmpl!: TemplateRef<any>;
   @Input() service: string = '';
   @Input() method: string = '';

@@ -2,11 +2,11 @@
   <div nz-row [nzGutter]="16">
     <div nz-col [nzSpan]="6" *ngFor="let item of data">
       <nz-list-item>
-        <!-- <ng-container
+        <ng-container
           *ngIf="itemTmpl; else default"
           [ngTemplateOutlet]="itemTmpl"
           [ngTemplateOutletContext]="item"
-        ></ng-container> -->
+        ></ng-container>
         <ng-template
           #default
           [ngTemplateOutlet]="defaultTmpl"
@@ -25,7 +25,8 @@
 </nz-pagination>
 
 <ng-template #defaultTmpl let-item>
-  <nz-card *ngIf="item.labelField" [nzTitle]="item[item.labelField]">
+  <nz-card>
+    <div *ngFor="let control of objFields"></div>
     <span
       nz-icon
       *ngIf="item.icon"
