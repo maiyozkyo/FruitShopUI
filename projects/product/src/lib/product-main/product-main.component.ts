@@ -16,6 +16,7 @@ import { ListComponent } from 'projects/shared/src/lib/list/list.component';
 import { FormGroup, Validators } from '@angular/forms';
 import { ControlItem } from 'projects/shared/src/lib/models/form/control-item.model';
 import { FormService } from 'projects/shared/src/lib/form/form.service';
+import { CommonData } from 'projects/shared/src/lib/models/table/commonData.model';
 
 @Component({
   selector: 'lib-product-main',
@@ -55,6 +56,7 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
   curProduct!: PRProduct;
   productFG!: FormGroup;
   productControls!: ControlItem[];
+  productFields!: CommonData[];
   showPopProduct = false;
   //#region Table
   eProductService = environment.productService;
@@ -96,6 +98,21 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
         title: '',
         value: '',
         type: 'upload',
+      },
+    ];
+    this.productFields = [
+      {
+        field: 'code',
+        title: 'Mã hàng hóa',
+      },
+      {
+        field: 'name',
+        title: 'Tên hàng hóa',
+      },
+      {
+        field: 'avatar',
+        title: '',
+        type: 'avatar',
       },
     ];
     this.productFG = this.formService.genFromControls(this.productControls);

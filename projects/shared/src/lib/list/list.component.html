@@ -25,19 +25,62 @@
 </nz-pagination>
 
 <ng-template #defaultTmpl let-item>
-  <nz-card>
-    <div *ngFor="let control of objFields"></div>
-    <span
-      nz-icon
-      *ngIf="item.icon"
-      [nzType]="item.icon"
-      [nzTheme]="item.iconStyle ?? 'outline'"
-    ></span>
-    <nz-avatar
-      *ngIf="item.avatar"
-      nzSize="default"
-      [nzSrc]="item.avatar"
-    ></nz-avatar>
-    {{ item[item.labelField] }}</nz-card
-  >
+  <nz-card [nzTitle]="item.name">
+    <div *ngFor="let control of objFields">
+      <p>card-content</p>
+      <!-- <ng-container [ngSwitch]="control.type">
+        <ng-container *ngSwitchCase="'checkbox'">
+          <input
+            [type]="'checkbox'"
+            [checked]="item[control.field]"
+            (change)="item[control.field] = !item[control.field]"
+            [disabled]="
+              disabled == true ? true : control.disabled ? true : false
+            "
+            [placeholder]="control.placeholder"
+          />
+        </ng-container>
+        <ng-container *ngSwitchCase="'select'">
+          <nz-select
+            *ngIf="control.labelField && control.valueField"
+            nzShowSearch
+            nzAllowClear
+            [nzPlaceHolder]="control.placeholder ?? ''"
+            [(ngModel)]="item[control.field]"
+          >
+            <nz-option
+              *ngFor="let data of control.dataSrc"
+              [nzLabel]="data[control.labelField]"
+              [nzValue]="data[control.valueField]"
+            ></nz-option>
+          </nz-select>
+        </ng-container>
+        <ng-container *ngSwitchCase="'icon'">
+          <span
+            *ngIf="item.icon"
+            nz-icon
+            [nzType]="item.icon"
+            [nzTheme]="item.iconStyle ?? 'outline'"
+          ></span>
+          <ng-container *ngSwitchCase="'avatar'">
+            <nz-avatar
+              *ngIf="item.avatar"
+              nzSize="default"
+              [nzSrc]="item.avatar"
+            ></nz-avatar>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          <input
+            [disabled]="
+              disabled == true ? true : control.disabled ? true : false
+            "
+            [type]="control.type"
+            [(ngModel)]="item[control.field]"
+            [placeholder]="control.placeholder"
+          />
+        </ng-container>
+      </ng-container> -->
+    </div>
+  </nz-card>
 </ng-template>
