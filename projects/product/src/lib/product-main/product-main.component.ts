@@ -110,8 +110,8 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
         title: 'Tên hàng hóa',
       },
       {
-        field: 'avatar',
-        title: '',
+        field: 'img',
+        title: 'name',
         type: 'avatar',
       },
     ];

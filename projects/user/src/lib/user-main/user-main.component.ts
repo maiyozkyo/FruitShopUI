@@ -102,7 +102,7 @@ export class UserMainComponent implements OnInit {
         controlName: 'password',
         title: 'Mật khẩu',
         type: 'password',
-        hidden: true,
+        hiddenValue: true,
         value: '',
         icon: 'lock',
         validators: [Validators.required],

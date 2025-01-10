@@ -1,34 +1,34 @@
-<nz-list nzGrid>
-  <div nz-row [nzGutter]="16">
-    <div nz-col [nzSpan]="6" *ngFor="let item of data">
-      <nz-list-item>
-        <ng-container
-          *ngIf="itemTmpl; else default"
-          [ngTemplateOutlet]="itemTmpl"
-          [ngTemplateOutletContext]="item"
-        ></ng-container>
-        <ng-template
-          #default
-          [ngTemplateOutlet]="defaultTmpl"
-          [ngTemplateOutletContext]="{ $implicit: item }"
-        ></ng-template>
-      </nz-list-item>
+<div class="w-100 h-100 position-absolute p-2">
+  <nz-list nzGrid>
+    <div nz-row [nzGutter]="16">
+      <div nz-col [nzSpan]="6" *ngFor="let item of data" class="me-2">
+        <nz-list-item>
+          <ng-container
+            *ngIf="itemTmpl; else default"
+            [ngTemplateOutlet]="itemTmpl"
+            [ngTemplateOutletContext]="item"
+          ></ng-container>
+          <ng-template
+            #default
+            [ngTemplateOutlet]="defaultTmpl"
+            [ngTemplateOutletContext]="{ $implicit: item }"
+          ></ng-template>
+        </nz-list-item>
+      </div>
     </div>
-  </div>
-</nz-list>
-<nz-pagination
-  [nzTotal]="total"
-  [nzPageSize]="pageSize"
-  [(nzPageIndex)]="curPage"
-  (nzPageIndexChange)="onPageChange($event)"
->
-</nz-pagination>
-
+  </nz-list>
+  <nz-pagination
+    [nzTotal]="total"
+    [nzPageSize]="pageSize"
+    [(nzPageIndex)]="curPage"
+    (nzPageIndexChange)="onPageChange($event)"
+  >
+  </nz-pagination>
+</div>
 <ng-template #defaultTmpl let-item>
-  <nz-card [nzTitle]="item.name">
+  <nz-card>
     <div *ngFor="let control of objFields">
-      <p>card-content</p>
-      <!-- <ng-container [ngSwitch]="control.type">
+      <ng-container [ngSwitch]="control.type">
         <ng-container *ngSwitchCase="'checkbox'">
           <input
             [type]="'checkbox'"
@@ -63,11 +63,16 @@
             [nzTheme]="item.iconStyle ?? 'outline'"
           ></span>
           <ng-container *ngSwitchCase="'avatar'">
-            <nz-avatar
-              *ngIf="item.avatar"
-              nzSize="default"
-              [nzSrc]="item.avatar"
-            ></nz-avatar>
+            <nz-card-meta
+              *ngIf="item[control.field] && control.title"
+              [nzTitle]="item[control.title]"
+            >
+              <ng-container
+                [ngTemplateOutlet]="avatarTemplate"
+                [ngTemplateOutletContext]="item[control.field]"
+              >
+              </ng-container>
+            </nz-card-meta>
           </ng-container>
         </ng-container>
         <ng-container *ngSwitchDefault>
@@ -80,7 +85,17 @@
             [placeholder]="control.placeholder"
           />
         </ng-container>
-      </ng-container> -->
+      </ng-container>
     </div>
   </nz-card>
 </ng-template>
+
+<ng-template #avatarTemplate let-src="src">
+  <nz-avatar [nzSrc]="src" nzSize="default"></nz-avatar>
+</ng-template>
+<ng-template #coverTemplate let-src="src">
+  <img alt="example" [src]="src" />
+</ng-template>
+<ng-template #actionSetting> </ng-template>
+<ng-template #actionEdit> </ng-template>
+<ng-template #actionEllipsis> </ng-template>

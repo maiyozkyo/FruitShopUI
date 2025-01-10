@@ -63,7 +63,7 @@
           <nz-input-group [nzSuffix]="suffixTemplate">
             <input
               nz-input
-              [type]="control.hidden ? 'password' : 'text'"
+              [type]="control.hiddenValue ? 'password' : 'text'"
               [formControlName]="control.controlName"
               [placeholder]="control.placeHolder"
             />
@@ -71,8 +71,8 @@
           <ng-template #suffixTemplate>
             <span
               nz-icon
-              [nzType]="control.hidden ? 'eye' : 'eye-invisible'"
-              (click)="control.hidden = !control.hidden"
+              [nzType]="control.hiddenValue ? 'eye' : 'eye-invisible'"
+              (click)="control.hiddenValue = !control.hiddenValue"
             ></span>
           </ng-template>
         </ng-container>

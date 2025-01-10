@@ -120,7 +120,6 @@ export class FormComponent implements OnInit {
 
   onChangeImg(evt: NzUploadChangeParam, control: ControlItem) {
     console.log('onChangeProductImg', evt);
-    // this.fg.controls[control.controlName].setValue(evt.file.thumbUrl);
     control.value = evt.file.thumbUrl;
   }
 

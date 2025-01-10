@@ -19,6 +19,7 @@ export class ControlItem {
   dataSrc?: any[];
   disabled? = false;
   hidden? = false;
+  hiddenValue? = false;
   labelField?: string = '';
   valueField?: string = '';
   icon?: string = '';

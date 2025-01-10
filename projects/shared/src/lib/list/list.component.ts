@@ -27,7 +27,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   @Input() filter: any;
   @Input() pageSize = 20;
   @Input() lstNotIn: any[] = [];
-  @Input() disabled: boolean = false;
+  @Input() disabled: boolean = true;
 
   @Output() save = new EventEmitter<any>();
   @Output() dataChange = new EventEmitter<any>();
