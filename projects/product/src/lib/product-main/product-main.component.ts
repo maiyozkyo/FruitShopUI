@@ -33,7 +33,8 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
 
   //#region Filter
   curFilter: FilterProduct = {
-    IsActive: null,
+    IsActive: true,
+    ProductName: '',
   };
 
   lstProductStatus = [
@@ -102,17 +103,15 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
     ];
     this.productFields = [
       {
-        field: 'code',
-        title: 'Mã hàng hóa',
-      },
-      {
         field: 'name',
         title: 'Tên hàng hóa',
+        type: 'title',
       },
       {
         field: 'img',
-        title: 'name',
-        type: 'avatar',
+        title: '',
+        type: 'cover',
+        // style: 'w-100 h-25 position-absolute',
       },
     ];
     this.productFG = this.formService.genFromControls(this.productControls);

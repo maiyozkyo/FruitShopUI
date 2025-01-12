@@ -1,7 +1,15 @@
 export class CommonData {
   title!: string;
   field!: string;
-  type?: 'checkbox' | 'text' | 'number' | 'select' | 'icon' | 'avatar' = 'text';
+  type?:
+    | 'checkbox'
+    | 'text'
+    | 'number'
+    | 'select'
+    | 'icon'
+    | 'avatar'
+    | 'cover'
+    | 'title' = 'text';
   placeholder?: string = 'Vui lòng điền';
   dataSrc?: any[];
   labelField?: string = '';

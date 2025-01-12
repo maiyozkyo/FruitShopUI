@@ -2,14 +2,15 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnInit,
   Output,
   TemplateRef,
+  ViewChild,
 } from '@angular/core';
 import { CommonData } from '../models/table/commonData.model';
-import { ApiService } from 'src/app/Services/api.service';
 import { TableData } from '../models/table/tableData.model';
 import { SharedService } from '../shared.service';
 @Component({
@@ -20,12 +21,14 @@ import { SharedService } from '../shared.service';
 export class ListComponent implements OnInit, AfterViewInit {
   @Input() type: 'list' | 'grid' = 'list';
   @Input() data: any[] = [];
-  @Input() objFields: CommonData[] = [];
+  @Input() controls: CommonData[] = [];
   @Input() itemTmpl!: TemplateRef<any>;
   @Input() service: string = '';
   @Input() method: string = '';
   @Input() filter: any;
   @Input() pageSize = 20;
+  @Input() width = 100;
+  @Input() height = 100;
   @Input() lstNotIn: any[] = [];
   @Input() disabled: boolean = true;
 
@@ -37,17 +40,38 @@ export class ListComponent implements OnInit, AfterViewInit {
   request = '';
   total = 0;
 
+  //#region Private properties
+  protected titleControl: CommonData | undefined;
+  protected coverControl: CommonData | undefined;
+  protected avatarControl!: CommonData | undefined;
+  protected listMaxHeight = 1;
+  @ViewChild('listInfo') listInfo!: ElementRef<HTMLElement>;
+  //#endregion
+
   constructor(
     private df: ChangeDetectorRef,
     private shareService: SharedService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.titleControl = this.controls.find((x) => x.type === 'title');
+    this.coverControl = this.controls.find((x) => x.type === 'cover');
+    this.avatarControl = this.controls.find((x) => x.type === 'avatar');
+    this.controls = this.controls.filter(
+      (x) =>
+        x != this.titleControl &&
+        x != this.coverControl &&
+        x != this.avatarControl
+    );
+  }
+
   ngAfterViewInit() {
+    this.setListHeight();
     this.loadData();
   }
 
   private loadData() {
+    this.loading = true;
     if (this.service && this.method) {
       this.shareService
         .getDataPaging(
@@ -74,6 +98,21 @@ export class ListComponent implements OnInit, AfterViewInit {
   }
 
   onPageChange(event: any) {
-    console.log(event);
+    this.curPage = event;
+    this.loadData();
+  }
+
+  private setListHeight() {
+    if (this.listInfo.nativeElement.children.length > 0) {
+      let parent = this.listInfo.nativeElement.parentElement as HTMLElement;
+      let lChild = this.listInfo.nativeElement.lastChild as HTMLElement;
+      this.listMaxHeight = (parent.offsetHeight - lChild.offsetHeight) * 0.9;
+    } else {
+      this.listMaxHeight = 100;
+    }
+    // this.listMaxHeight = 600;
+    console.log('listMaxHeight', this.listMaxHeight);
+
+    this.df.detectChanges();
   }
 }

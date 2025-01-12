@@ -1,33 +1,82 @@
-<div class="w-100 h-100 position-absolute p-2">
-  <nz-list nzGrid>
-    <div nz-row [nzGutter]="16">
-      <div nz-col [nzSpan]="6" *ngFor="let item of data" class="me-2">
-        <nz-list-item>
+<div class="w-100 h-100 position-absolute p-2" #listInfo>
+  <nz-list
+    nzGrid
+    [ngStyle]="{
+    'max-height': listMaxHeight + 'px',
+    'overflow': 'scroll',
+  }"
+  >
+    <div nz-row [nzGutter]="8" class="w-100">
+      <div nz-col [nzSpan]="6" *ngFor="let item of data" class="mt-2">
+        <nz-list-item class="h-100">
           <ng-container
-            *ngIf="itemTmpl; else default"
-            [ngTemplateOutlet]="itemTmpl"
-            [ngTemplateOutletContext]="item"
-          ></ng-container>
-          <ng-template
-            #default
-            [ngTemplateOutlet]="defaultTmpl"
+            [ngTemplateOutlet]="itemTmpl || defaultTmpl"
             [ngTemplateOutletContext]="{ $implicit: item }"
-          ></ng-template>
+          ></ng-container>
         </nz-list-item>
       </div>
     </div>
   </nz-list>
-  <nz-pagination
-    [nzTotal]="total"
-    [nzPageSize]="pageSize"
-    [(nzPageIndex)]="curPage"
-    (nzPageIndexChange)="onPageChange($event)"
-  >
-  </nz-pagination>
+  <div class="d-flex justify-content-end m-2">
+    <div class="d-flex justify-content-center align-items-center me-2">
+      <button
+        *ngIf="!loading"
+        class="btn btn-outline-primary"
+        nz-icon
+        nzType="reload"
+        nzTheme="outline"
+        (click)="reload()"
+      >
+        {{ data.length + (curPage - 1) * pageSize }} / {{ total }}
+      </button>
+    </div>
+    <nz-pagination
+      [nzTotal]="total"
+      [(nzPageSize)]="pageSize"
+      [(nzPageIndex)]="curPage"
+      nzShowSizeChanger
+      (nzPageSizeChange)="onPageChange(1)"
+      (nzPageIndexChange)="onPageChange($event)"
+    >
+    </nz-pagination>
+  </div>
 </div>
+
+<!-- Card template -->
 <ng-template #defaultTmpl let-item>
-  <nz-card>
-    <div *ngFor="let control of objFields">
+  <nz-card
+    class="w-100 h-100"
+    [ngStyle]="{
+    width: width + 'px',
+    height: height + 'px',
+  }"
+  >
+    <div class="mb-3 w-100 h-50" *ngIf="coverControl">
+      <ng-container
+        [ngTemplateOutlet]="coverTemplate"
+        [ngTemplateOutletContext]="{
+          src: item[coverControl.field],
+          style: coverControl.style
+        }"
+      >
+      </ng-container>
+    </div>
+
+    <div class="d-flex">
+      <ng-container
+        *ngIf="avatarControl"
+        [ngTemplateOutlet]="avatarTemplate"
+        [ngTemplateOutletContext]="{ src: item[avatarControl.field] }"
+      >
+      </ng-container>
+      <nz-card-meta
+        *ngIf="titleControl"
+        [nzTitle]="item[titleControl.field]"
+        nzDescription="This is the description"
+      >
+      </nz-card-meta>
+    </div>
+    <div *ngFor="let control of controls">
       <ng-container [ngSwitch]="control.type">
         <ng-container *ngSwitchCase="'checkbox'">
           <input
@@ -62,18 +111,6 @@
             [nzType]="item.icon"
             [nzTheme]="item.iconStyle ?? 'outline'"
           ></span>
-          <ng-container *ngSwitchCase="'avatar'">
-            <nz-card-meta
-              *ngIf="item[control.field] && control.title"
-              [nzTitle]="item[control.title]"
-            >
-              <ng-container
-                [ngTemplateOutlet]="avatarTemplate"
-                [ngTemplateOutletContext]="item[control.field]"
-              >
-              </ng-container>
-            </nz-card-meta>
-          </ng-container>
         </ng-container>
         <ng-container *ngSwitchDefault>
           <input
@@ -90,12 +127,20 @@
   </nz-card>
 </ng-template>
 
+<!-- Template for Avatar -->
 <ng-template #avatarTemplate let-src="src">
   <nz-avatar [nzSrc]="src" nzSize="default"></nz-avatar>
 </ng-template>
-<ng-template #coverTemplate let-src="src">
-  <img alt="example" [src]="src" />
+
+<!-- Template for Cover -->
+<ng-template #coverTemplate let-src="src" let-style="style">
+  <div class="position-relative">
+    <img [class]="style ?? 'w-100 h-50'" alt="example" [src]="src" />
+  </div>
 </ng-template>
+
+<!-- Template for Actions Button -->
 <ng-template #actionSetting> </ng-template>
 <ng-template #actionEdit> </ng-template>
 <ng-template #actionEllipsis> </ng-template>
+<!-- End -->
