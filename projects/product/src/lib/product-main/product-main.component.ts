@@ -101,6 +101,7 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
         type: 'upload',
       },
     ];
+
     this.productFields = [
       {
         field: 'name',

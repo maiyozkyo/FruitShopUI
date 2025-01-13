@@ -51,12 +51,12 @@
     height: height + 'px',
   }"
   >
-    <div class="mb-3 w-100 h-50" *ngIf="coverControl">
+    <div class="mb-3 w-100 h-50" *ngIf="coverField">
       <ng-container
         [ngTemplateOutlet]="coverTemplate"
         [ngTemplateOutletContext]="{
-          src: item[coverControl.field],
-          style: coverControl.style
+          src: item[coverField.field],
+          style: coverField.style
         }"
       >
       </ng-container>
@@ -64,19 +64,20 @@
 
     <div class="d-flex">
       <ng-container
-        *ngIf="avatarControl"
+        *ngIf="avatarField"
         [ngTemplateOutlet]="avatarTemplate"
-        [ngTemplateOutletContext]="{ src: item[avatarControl.field] }"
+        [ngTemplateOutletContext]="{ src: item[avatarField.field] }"
       >
       </ng-container>
       <nz-card-meta
-        *ngIf="titleControl"
-        [nzTitle]="item[titleControl.field]"
+        *ngIf="titleField"
+        [nzTitle]="item[titleField.field]"
         nzDescription="This is the description"
       >
       </nz-card-meta>
     </div>
-    <div *ngFor="let control of controls">
+
+    <div *ngFor="let control of objFields">
       <ng-container [ngSwitch]="control.type">
         <ng-container *ngSwitchCase="'checkbox'">
           <input
@@ -124,6 +125,10 @@
         </ng-container>
       </ng-container>
     </div>
+
+    <div class="d-flex justify-content-end">
+      <ng-container *ngIf=""></ng-container>
+    </div>
   </nz-card>
 </ng-template>
 
@@ -141,6 +146,25 @@
 
 <!-- Template for Actions Button -->
 <ng-template #actionSetting> </ng-template>
-<ng-template #actionEdit> </ng-template>
+<ng-template #actionEdit let-item>
+  <button nz-icon nzType="edit" (click)="onEditClick(item)"></button>
+</ng-template>
 <ng-template #actionEllipsis> </ng-template>
 <!-- End -->
+
+<lib-popup
+  #popup
+  [data]="curSelected"
+  [formGroup]="fg"
+  [width]="popupWidth"
+  [height]="popupHeight"
+  [(visible)]="showPopup"
+  [contentTmpl]="defaultPopupTemplate"
+  [confirmText]="'Lưu'"
+  (onConfirm)="onConfirm($event)"
+>
+</lib-popup>
+
+<ng-template #defaultPopupTemplate>
+  <lib-form [(fg)]="fg" [controls]="controls"></lib-form>
+</ng-template>

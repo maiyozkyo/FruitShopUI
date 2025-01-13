@@ -13,15 +13,21 @@ import {
 import { CommonData } from '../models/table/commonData.model';
 import { TableData } from '../models/table/tableData.model';
 import { SharedService } from '../shared.service';
+import { FormGroup } from '@angular/forms';
+import { ControlItem } from '../models/form/control-item.model';
 @Component({
   selector: 'lib-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit, AfterViewInit {
+  //#region Init Data
+  //#region List
   @Input() type: 'list' | 'grid' = 'list';
   @Input() data: any[] = [];
-  @Input() controls: CommonData[] = [];
+  @Input() fg!: FormGroup;
+  @Input() objFields: CommonData[] = [];
+  @Input() controls: ControlItem[] = [];
   @Input() itemTmpl!: TemplateRef<any>;
   @Input() service: string = '';
   @Input() method: string = '';
@@ -29,23 +35,31 @@ export class ListComponent implements OnInit, AfterViewInit {
   @Input() pageSize = 20;
   @Input() width = 100;
   @Input() height = 100;
-  @Input() lstNotIn: any[] = [];
   @Input() disabled: boolean = true;
-
-  @Output() save = new EventEmitter<any>();
-  @Output() dataChange = new EventEmitter<any>();
-
+  @Input() lstNotIn: any[] = [];
+  @Input() saveMethod = '';
+  @Input() removeMethod = '';
   curPage = 1;
   loading = false;
   request = '';
   total = 0;
+  @Output() dataChange = new EventEmitter();
+  //#endregion
+
+  //#region Popup
+  @Input() popupWidth = 550;
+  @Input() popupHeight = 500;
+  @Input() showPopup = false;
+  //#endregion
 
   //#region Private properties
-  protected titleControl: CommonData | undefined;
-  protected coverControl: CommonData | undefined;
-  protected avatarControl!: CommonData | undefined;
+  protected titleField: CommonData | undefined;
+  protected coverField: CommonData | undefined;
+  protected avatarField!: CommonData | undefined;
   protected listMaxHeight = 1;
   @ViewChild('listInfo') listInfo!: ElementRef<HTMLElement>;
+  protected curSelected: any;
+  //#endregion
   //#endregion
 
   constructor(
@@ -54,14 +68,12 @@ export class ListComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
-    this.titleControl = this.controls.find((x) => x.type === 'title');
-    this.coverControl = this.controls.find((x) => x.type === 'cover');
-    this.avatarControl = this.controls.find((x) => x.type === 'avatar');
-    this.controls = this.controls.filter(
+    this.titleField = this.objFields.find((x) => x.type === 'title');
+    this.coverField = this.objFields.find((x) => x.type === 'cover');
+    this.avatarField = this.objFields.find((x) => x.type === 'avatar');
+    this.objFields = this.objFields.filter(
       (x) =>
-        x != this.titleControl &&
-        x != this.coverControl &&
-        x != this.avatarControl
+        x != this.titleField && x != this.coverField && x != this.avatarField
     );
   }
 
@@ -70,6 +82,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     this.loadData();
   }
 
+  //#region Get List
   private loadData() {
     this.loading = true;
     if (this.service && this.method) {
@@ -101,6 +114,11 @@ export class ListComponent implements OnInit, AfterViewInit {
     this.curPage = event;
     this.loadData();
   }
+  //#endregion
+  onEditClick(item: any) {}
+
+  onConfirm(evt: any) {}
+  //#endregion
 
   private setListHeight() {
     if (this.listInfo.nativeElement.children.length > 0) {
@@ -110,9 +128,6 @@ export class ListComponent implements OnInit, AfterViewInit {
     } else {
       this.listMaxHeight = 100;
     }
-    // this.listMaxHeight = 600;
-    console.log('listMaxHeight', this.listMaxHeight);
-
     this.df.detectChanges();
   }
 }
