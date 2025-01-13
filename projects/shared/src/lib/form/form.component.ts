@@ -51,6 +51,7 @@ export class FormComponent implements OnInit {
         let fgControl = this.fg.controls[control.controlName];
         if (this.data && this.data[control.controlName]) {
           fgControl.setValue(this.data[control.controlName]);
+          if (control.disabledOnEdit) fgControl.disable();
         }
 
         if (control.disabled) fgControl.disable();

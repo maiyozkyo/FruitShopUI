@@ -62,7 +62,7 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
   //#region Table
   eProductService = environment.productService;
   productMethod = 'TableProducts';
-
+  saveProductMethod = 'AddUpdateAsync';
   //#endregion
   //#endregion
 
@@ -81,6 +81,7 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
         title: 'Mã hàng hóa',
         value: '',
         validators: [Validators.required],
+        disabledOnEdit: true,
       },
       {
         controlName: 'name',
@@ -96,7 +97,7 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
       },
       {
         controlName: 'img',
-        title: '',
+        title: 'Hình ảnh',
         value: '',
         type: 'upload',
       },
@@ -112,7 +113,6 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
         field: 'img',
         title: '',
         type: 'cover',
-        // style: 'w-100 h-25 position-absolute',
       },
     ];
     this.productFG = this.formService.genFromControls(this.productControls);

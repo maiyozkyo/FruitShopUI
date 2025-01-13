@@ -18,6 +18,7 @@ export class ControlItem {
     | 'upload' = 'text';
   dataSrc?: any[];
   disabled? = false;
+  disabledOnEdit? = false;
   hidden? = false;
   hiddenValue? = false;
   labelField?: string = '';

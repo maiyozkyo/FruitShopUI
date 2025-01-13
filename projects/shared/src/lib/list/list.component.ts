@@ -15,6 +15,7 @@ import { TableData } from '../models/table/tableData.model';
 import { SharedService } from '../shared.service';
 import { FormGroup } from '@angular/forms';
 import { ControlItem } from '../models/form/control-item.model';
+import { NotifyService } from '../services/notify.service';
 @Component({
   selector: 'lib-list',
   templateUrl: './list.component.html',
@@ -37,8 +38,6 @@ export class ListComponent implements OnInit, AfterViewInit {
   @Input() height = 100;
   @Input() disabled: boolean = true;
   @Input() lstNotIn: any[] = [];
-  @Input() saveMethod = '';
-  @Input() removeMethod = '';
   curPage = 1;
   loading = false;
   request = '';
@@ -50,6 +49,10 @@ export class ListComponent implements OnInit, AfterViewInit {
   @Input() popupWidth = 550;
   @Input() popupHeight = 500;
   @Input() showPopup = false;
+  @Input() saveMethod = '';
+  @Input() allowAddEdit = true;
+  @Input() removeMethod = '';
+  @Input() allowRemove = true;
   //#endregion
 
   //#region Private properties
@@ -64,6 +67,8 @@ export class ListComponent implements OnInit, AfterViewInit {
 
   constructor(
     private df: ChangeDetectorRef,
+    private notiService: NotifyService,
+
     private shareService: SharedService
   ) {}
 
@@ -102,8 +107,10 @@ export class ListComponent implements OnInit, AfterViewInit {
           this.data = res.data;
           this.loading = false;
           this.dataChange.emit(this.data);
+          this.df.detectChanges();
         });
     } else this.loading = false;
+    this.df.detectChanges();
   }
 
   reload() {
@@ -115,7 +122,33 @@ export class ListComponent implements OnInit, AfterViewInit {
     this.loadData();
   }
   //#endregion
-  onEditClick(item: any) {}
+
+  //#region Item Actions
+  onEditClick(item: any) {
+    console.log('edit', item);
+    this.curSelected = item;
+    this.showPopup = true;
+    this.df.detectChanges();
+  }
+
+  onRemoveClick(item: any) {
+    console.log('remove', item);
+  }
+
+  onCopyClick(item: any) {
+    if (this.service && this.saveMethod) {
+      this.loading = true;
+      let clone = { ...item };
+      clone.recID = null;
+      this.shareService
+        .post(this.service, this.saveMethod, clone)
+        .subscribe((res) => {
+          this.notiService.show('Sao chép', 'Thành công', 'success');
+          this.loading = false;
+          this.reload();
+        });
+    }
+  }
 
   onConfirm(evt: any) {}
   //#endregion

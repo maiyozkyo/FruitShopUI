@@ -26,4 +26,8 @@ export class SharedService {
       filter,
     ]);
   }
+
+  post(service: string, method: string, data: any) {
+    return this.apiService.post(service, method, [data]);
+  }
 }

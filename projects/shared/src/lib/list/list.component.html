@@ -17,7 +17,7 @@
       </div>
     </div>
   </nz-list>
-  <div class="d-flex justify-content-end m-2">
+  <div class="d-flex justify-content-end mt-2">
     <div class="d-flex justify-content-center align-items-center me-2">
       <button
         *ngIf="!loading"
@@ -127,7 +127,21 @@
     </div>
 
     <div class="d-flex justify-content-end">
-      <ng-container *ngIf=""></ng-container>
+      <ng-container
+        *ngIf="allowAddEdit"
+        [ngTemplateOutlet]="actionEdit"
+        [ngTemplateOutletContext]="{ item: item }"
+      ></ng-container>
+      <ng-container
+        *ngIf="allowAddEdit"
+        [ngTemplateOutlet]="actionCopy"
+        [ngTemplateOutletContext]="{ item: item }"
+      ></ng-container>
+      <ng-container
+        *ngIf="allowRemove"
+        [ngTemplateOutlet]="actionRemove"
+        [ngTemplateOutletContext]="{ item: item }"
+      ></ng-container>
     </div>
   </nz-card>
 </ng-template>
@@ -145,11 +159,32 @@
 </ng-template>
 
 <!-- Template for Actions Button -->
-<ng-template #actionSetting> </ng-template>
-<ng-template #actionEdit let-item>
-  <button nz-icon nzType="edit" (click)="onEditClick(item)"></button>
+<ng-template #actionEdit let-item="item">
+  <div
+    class="btn btn-primary me-2"
+    nz-icon
+    nzType="edit"
+    (click)="onEditClick(item)"
+  ></div>
 </ng-template>
-<ng-template #actionEllipsis> </ng-template>
+<ng-template #actionRemove let-item="item">
+  <div
+    class="btn btn-danger me-2"
+    nz-icon
+    nzType="delete"
+    nzTheme="outline"
+    (click)="onRemoveClick(item)"
+  ></div>
+</ng-template>
+<ng-template #actionCopy let-item="item">
+  <div
+    class="btn btn-outline-primary me-2"
+    nz-icon
+    nzType="copy"
+    nzTheme="outline"
+    (click)="onCopyClick(item)"
+  ></div>
+</ng-template>
 <!-- End -->
 
 <lib-popup
@@ -166,5 +201,5 @@
 </lib-popup>
 
 <ng-template #defaultPopupTemplate>
-  <lib-form [(fg)]="fg" [controls]="controls"></lib-form>
+  <lib-form [(fg)]="fg" [controls]="controls" [data]="curSelected"></lib-form>
 </ng-template>
