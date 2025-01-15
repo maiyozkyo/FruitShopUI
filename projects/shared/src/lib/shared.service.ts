@@ -10,6 +10,7 @@ export class SharedService {
 
   getDataPaging(
     service: string,
+    assembly: string,
     method: string,
     curPage: number,
     pageSize: number,
@@ -18,7 +19,7 @@ export class SharedService {
     filter?: any
   ): Observable<any> {
     if (!lstNotIn) lstNotIn = [];
-    return this.apiService.post(service, method, [
+    return this.apiService.post(service, assembly, method, [
       curPage,
       pageSize,
       request,
@@ -27,7 +28,7 @@ export class SharedService {
     ]);
   }
 
-  post(service: string, method: string, data: any) {
-    return this.apiService.post(service, method, [data]);
+  post(service: string, assembly: string, method: string, data: any) {
+    return this.apiService.post(service, assembly, method, [data]);
   }
 }

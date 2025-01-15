@@ -11,7 +11,7 @@ export class UserService {
   constructor(private apiService: ApiService) {}
 
   addUpdateUser(user: ADUser, password: string) {
-    return this.apiService.post(this.service, 'AddUpdateUser', [
+    return this.apiService.post(this.service, 'UserBusiness', 'AddUpdateUser', [
       user,
       password,
     ]);

@@ -93,7 +93,7 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
 
   logout() {
     this.apiService
-      .post(environment.authService, 'LogoutAsync', [])
+      .post(environment.authService, 'AuthBusiness', 'LogoutAsync', [])
       .subscribe((res) => {
         if (res) {
           this.tokenService.logOut();

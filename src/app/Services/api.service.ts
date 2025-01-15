@@ -14,7 +14,13 @@ export class ApiService {
     this.gatewayPort = environment.gatewayPort;
   }
 
-  post(service: string, method: string, data: any, action = '') {
+  post(
+    service: string,
+    assembly: string,
+    method: string,
+    data: any,
+    action = ''
+  ) {
     let token = this.tokenService.getUserToken();
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -26,6 +32,7 @@ export class ApiService {
 
     let body = {
       Service: service,
+      Assembly: assembly,
       Method: method,
       Action: action,
       Params: JSON.stringify(data),

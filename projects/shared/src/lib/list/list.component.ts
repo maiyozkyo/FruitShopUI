@@ -31,6 +31,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   @Input() controls: ControlItem[] = [];
   @Input() itemTmpl!: TemplateRef<any>;
   @Input() service: string = '';
+  @Input() assembly: string = '';
   @Input() method: string = '';
   @Input() filter: any;
   @Input() pageSize = 20;
@@ -90,10 +91,11 @@ export class ListComponent implements OnInit, AfterViewInit {
   //#region Get List
   private loadData() {
     this.loading = true;
-    if (this.service && this.method) {
+    if (this.service && this.assembly && this.method) {
       this.shareService
         .getDataPaging(
           this.service,
+          this.assembly,
           this.method,
           this.curPage,
           this.pageSize,
@@ -141,7 +143,7 @@ export class ListComponent implements OnInit, AfterViewInit {
       let clone = { ...item };
       clone.recID = null;
       this.shareService
-        .post(this.service, this.saveMethod, clone)
+        .post(this.service, this.assembly, this.saveMethod, clone)
         .subscribe((res) => {
           this.notiService.show('Sao chép', 'Thành công', 'success');
           this.loading = false;

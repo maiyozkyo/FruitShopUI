@@ -19,16 +19,20 @@ export class CustomerService {
     lstIDNotIn: [],
     filter: any
   ): Observable<any> {
-    return this.apiService.post(this.service, 'TableCustomers', [
-      curPage,
-      pageSize,
-      request,
-      lstIDNotIn,
-      filter,
-    ]);
+    return this.apiService.post(
+      this.service,
+      'CustomerBusiness',
+      'TableCustomers',
+      [curPage, pageSize, request, lstIDNotIn, filter]
+    );
   }
 
   addUpdateCustomer(customer: CUCustomer) {
-    return this.apiService.post(this.service, 'AddUpdateCustomer', [customer]);
+    return this.apiService.post(
+      this.service,
+      'CustomerBusiness',
+      'AddUpdateCustomer',
+      [customer]
+    );
   }
 }

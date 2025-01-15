@@ -80,6 +80,7 @@ export class FormComponent implements OnInit {
         .getDataPaging(
           control.pageInfo.service,
           control.pageInfo.method,
+          control.pageInfo.assembly,
           control.pageInfo.curPage,
           control.pageInfo.size ?? 20,
           control.pageInfo.request ?? '',

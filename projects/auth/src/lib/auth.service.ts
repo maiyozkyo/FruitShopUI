@@ -14,6 +14,9 @@ export class AuthService {
   ) {}
 
   login(phone: string, password: string) {
-    return this.apiService.post(this.service, 'LoginAsync', [phone, password]);
+    return this.apiService.post(this.service, 'AuthBusiness', 'LoginAsync', [
+      phone,
+      password,
+    ]);
   }
 }

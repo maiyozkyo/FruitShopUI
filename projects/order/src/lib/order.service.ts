@@ -11,6 +11,11 @@ export class OrderService {
   constructor(private apiService: ApiService) {}
 
   addUpdateOrder(order: OROrder) {
-    return this.apiService.post(this.service, 'AddUpdateAsync', [order]);
+    return this.apiService.post(
+      this.service,
+      'OrderBusiness',
+      'AddUpdateAsync',
+      [order]
+    );
   }
 }

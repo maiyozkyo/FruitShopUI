@@ -92,6 +92,7 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
       valueField: 'recID',
       pageInfo: {
         service: environment.userService,
+        assembly: 'UserBusiness',
         method: 'TableUsers',
         curPage: 1,
       },

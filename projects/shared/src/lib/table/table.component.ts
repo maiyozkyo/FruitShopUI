@@ -26,6 +26,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   @Input() pageSize = 20;
   @Input() disabled: boolean = false;
   @Input() service!: string;
+  @Input() assembly!: string;
   @Input() method!: string;
   @Input() allowAdd: boolean = true;
   @Input() filter: any = {};
@@ -81,6 +82,7 @@ export class TableComponent implements OnInit, AfterViewInit {
       this.shareService
         .getDataPaging(
           this.service,
+          this.assembly,
           this.method,
           this.curPage,
           this.pageSize,

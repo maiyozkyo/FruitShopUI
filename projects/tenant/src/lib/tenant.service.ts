@@ -11,10 +11,18 @@ export class TenantService {
 
   constructor(private apiService: ApiService) {}
   addUpdateTenant(tenant: Tenant, services: any[]) {
-    return this.apiService.post(this.service, 'AddTenants', [tenant, services]);
+    return this.apiService.post(this.service, 'TenantBusiness', 'AddTenants', [
+      tenant,
+      services,
+    ]);
   }
 
   migrateDB(services: string[]) {
-    return this.apiService.post(this.service, 'MigrateDatabase', [services]);
+    return this.apiService.post(
+      this.service,
+      'TenantBusiness',
+      'MigrateDatabase',
+      [services]
+    );
   }
 }
