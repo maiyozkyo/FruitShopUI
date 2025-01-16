@@ -50,6 +50,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   @Input() popupWidth = 550;
   @Input() popupHeight = 500;
   @Input() showPopup = false;
+  @Input() showRemovePopup = false;
   @Input() saveMethod = '';
   @Input() allowAddEdit = true;
   @Input() removeMethod = '';
@@ -135,10 +136,22 @@ export class ListComponent implements OnInit, AfterViewInit {
 
   onRemoveClick(item: any) {
     console.log('remove', item);
+    this.curSelected = item;
+    if (this.service && this.assembly && this.removeMethod) {
+      this.shareService
+        .post(this.service, this.assembly, this.removeMethod, item.recID)
+        .subscribe((res) => {
+          if (res) {
+            this.notiService.show('Xóa sản phẩm', 'Thành công', 'success');
+            this.loading = false;
+            this.reload();
+          }
+        });
+    }
   }
 
   onCopyClick(item: any) {
-    if (this.service && this.saveMethod) {
+    if (this.service && this.assembly && this.saveMethod) {
       this.loading = true;
       let clone = { ...item };
       clone.recID = null;

@@ -203,3 +203,17 @@
 <ng-template #defaultPopupTemplate>
   <lib-form [(fg)]="fg" [controls]="controls" [data]="curSelected"></lib-form>
 </ng-template>
+
+<lib-popup
+  *ngIf="titleField && showRemovePopup"
+  #removePopup
+  [data]="curSelected"
+  [formGroup]="fg"
+  [width]="200"
+  [height]="100"
+  [(visible)]="showRemovePopup"
+  [confirmText]="'Lưu'"
+  [contentText]="'Xác nhận xóa hàng hóa ' + curSelected[titleField.field]"
+  (onConfirm)="onConfirm($event)"
+>
+</lib-popup>

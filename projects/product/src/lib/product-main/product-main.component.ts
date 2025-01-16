@@ -61,8 +61,10 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
   showPopProduct = false;
   //#region Table
   eProductService = environment.productService;
+  eProductAssemble = environment.productAssembly;
   productMethod = 'TableProducts';
   saveProductMethod = 'AddUpdateAsync';
+  removeProductMethod = 'RemoveProductAsync';
   //#endregion
   //#endregion
 

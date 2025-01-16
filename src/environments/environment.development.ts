@@ -19,6 +19,8 @@ export const environment = {
   //#region Order
   orderPort: '8004',
   orderService: 'Order',
+  orderAssembly: 'OrderBusiness',
+  orderDetailAssembly: 'OrderDetailBusiness',
   //#endregion
 
   //#region Customer
@@ -29,5 +31,6 @@ export const environment = {
   //#region Product
   productPort: '8006',
   productService: 'Product',
+  productAssembly: 'ProductBusiness',
   //#endregion
 };
