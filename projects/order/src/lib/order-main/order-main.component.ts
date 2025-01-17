@@ -44,6 +44,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   curOrder!: OROrder;
   orderControls: ControlItem[] = [];
   eOrderService = environment.orderService;
+  eOrderAssembly = environment.orderAssembly;
   orderTableMethod = 'TableOrders';
   //#endregion
 

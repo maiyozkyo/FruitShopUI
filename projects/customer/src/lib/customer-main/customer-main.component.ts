@@ -33,7 +33,8 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
   //#region Table
   tableDisabled: boolean = false;
   tableRows: CommonData[] = [];
-  tableService = environment.customerService;
+  eCustomerService = environment.customerService;
+  eCustomerAssembly = environment.customerAssembly;
   tableMethod = 'TableCustomers';
   tableCustomerData: CUCustomer[] = [];
   //#endregion

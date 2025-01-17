@@ -4,16 +4,19 @@ export const environment = {
   //#region Auth
   authPort: '8001',
   authService: 'Auth',
+  authAssembly: 'AuthBusiness',
   //#endregion
 
   //#region User
   userPort: '8002',
   userService: 'User',
+  userAssembly: 'UserBusiness',
   //#endregion
 
   //#region Tenant
   tenantPort: '8003',
   tenantService: 'Tenant',
+  tenantAssembly: 'TenantBusiness',
   //#endregion
 
   //#region Order
@@ -26,6 +29,7 @@ export const environment = {
   //#region Customer
   customerPort: '8005',
   customerService: 'Customer',
+  customerAssembly: 'CustomerBusiness',
   //#endregion
 
   //#region Product

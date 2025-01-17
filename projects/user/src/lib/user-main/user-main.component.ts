@@ -19,7 +19,8 @@ export class UserMainComponent implements OnInit {
   //#region Init Data
 
   //#region Root
-  eUserService = '';
+  eUserService = environment.userService;
+  eUserAssembly = environment.userAssembly;
   //#endregion
 
   //#region Table
@@ -42,9 +43,7 @@ export class UserMainComponent implements OnInit {
     private notiService: NotifyService,
     private tokenService: TokenService,
     private formService: FormService
-  ) {
-    this.eUserService = environment.userService;
-  }
+  ) {}
 
   ngOnInit() {
     this.tableRows = [

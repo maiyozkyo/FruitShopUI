@@ -23,12 +23,31 @@ export class TenantMainComponent implements OnInit {
       isBought: false,
     },
     {
+      code: 'OROrderDetail',
+      isBought: false,
+    },
+    {
       code: 'ADUser',
       isBought: false,
     },
     {
       code: 'PRProduct',
       isBought: false,
+    },
+  ];
+
+  lstDbType = [
+    {
+      name: 'MongoDB',
+      value: 0,
+    },
+    {
+      name: 'Postgres',
+      value: 1,
+    },
+    {
+      name: 'MsSQL',
+      value: 2,
     },
   ];
 
@@ -42,6 +61,8 @@ export class TenantMainComponent implements OnInit {
     this.tenantFG = new FormGroup({
       code: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required]),
+      isTrial: new FormControl(false, [Validators.required]),
+      dbType: new FormControl(0, [Validators.required]),
     });
     this.curTenant = new Tenant();
   }

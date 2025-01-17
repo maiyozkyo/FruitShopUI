@@ -1,7 +1,15 @@
 <div class="d-flex w-100 h-100 flex-column p-3">
   <div class="d-flex justify-content-end">
-    <div class="btn btn-danger" (click)="migrateDatabase()">Migrate Database</div>
-    <div class="btn btn-primary ms-2" (click)="confirmAddTenant()">Lưu</div>
+    <div class="btn btn-danger" (click)="migrateDatabase()">
+      Migrate Database
+    </div>
+    <button
+      class="btn btn-primary ms-2"
+      (click)="confirmAddTenant()"
+      [disabled]="tenantFG && tenantFG.status == 'INVALID'"
+    >
+      Lưu
+    </button>
   </div>
   <hr />
   <div class="d-flex justify-content-between">
@@ -23,25 +31,44 @@
       <nz-form-item>
         <nz-form-control nzErrorTip="Vui lòng điền tên tenant!">
           <nz-input-group nzPrefixIcon="user">
-            <nz-switch [(ngModel)]="curTenant.isTrial" [ngModelOptions]="{ standalone: true }"
-              nzCheckedChildren="Đã mua" nzUnCheckedChildren="Dùng thử"></nz-switch>
+            <nz-switch
+              formControlName="isTrial"
+              nzCheckedChildren="Đã mua"
+              nzUnCheckedChildren="Dùng thử"
+            ></nz-switch>
           </nz-input-group>
         </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label>Loại database</nz-form-label>
+        <nz-select [nzOptionOverflowSize]="4" formControlName="dbType">
+          <nz-option
+            *ngFor="let dbType of lstDbType"
+            style="width: 120px"
+            [nzLabel]="dbType.name"
+            [nzValue]="dbType.value"
+          ></nz-option>
+        </nz-select>
       </nz-form-item>
     </form>
   </div>
   <hr />
-  <div class="d-flex row w-100 h-100 mt-2 bd-highlight">
-    <div class="col-3" *ngFor="let service of services">
-      <ng-container [ngTemplateOutlet]="tmplService" [ngTemplateOutletContext]="{ service: service }"></ng-container>
+  <div class="d-flex row w-100 bd-highlight">
+    <div class="col-3 mt-5" *ngFor="let service of services">
+      <ng-container
+        [ngTemplateOutlet]="tmplService"
+        [ngTemplateOutletContext]="{ service: service }"
+      ></ng-container>
     </div>
   </div>
 </div>
 
 <ng-template #tmplService let-service="service">
-  <div class="d-flex flex-column me-2">
-    <nz-card style="width: 300px" [nzTitle]="service.code">
-      <nz-switch [(ngModel)]="service.isBought" nzCheckedChildren="Chọn" nzUnCheckedChildren=""></nz-switch>
-    </nz-card>
-  </div>
+  <nz-card [nzTitle]="service.code">
+    <nz-switch
+      [(ngModel)]="service.isBought"
+      nzCheckedChildren="Chọn"
+      nzUnCheckedChildren=""
+    ></nz-switch>
+  </nz-card>
 </ng-template>
