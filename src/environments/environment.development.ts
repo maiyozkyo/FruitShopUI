@@ -37,4 +37,10 @@ export const environment = {
   productService: 'Product',
   productAssembly: 'ProductBusiness',
   //#endregion
+
+  //#region Background
+  backgroundPort: '8006',
+  backgroundService: 'Background',
+  backgroundAssembly: 'BackgroundBusiness',
+  //#endregion
 };

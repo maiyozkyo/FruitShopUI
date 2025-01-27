@@ -1,0 +1,50 @@
+<ng-template #popupContainer></ng-template>
+<div class="d-flex flex-column h-100 object-fit position-relative">
+  <mat-toolbar
+    id="toolbar"
+    class="header-toolbar object-fit"
+    style="background-color: #9e9e9e"
+  >
+    <div class="row w-100 d-flex justify-content-between">
+      <div class="col-10"></div>
+      <div class="col-2 d-flex justify-content-end align-items-center">
+        <div
+          class="btn btn-primary"
+          nz-icon
+          nzType="plus"
+          nzTheme="outline"
+          (click)="onPopupBGTaskClick()"
+        ></div>
+      </div>
+    </div>
+  </mat-toolbar>
+  <div class="d-flex w-100 h-100 position-relative flex-grow-1 bd-highlight">
+    <lib-table
+      [tableRows]="tableRows"
+      [disabled]="tableDisabled"
+      [allowAdd]="true"
+      [service]="eBackgroundService"
+      [assembly]="eBackgroundAssembly"
+      [method]="tableMethod"
+      [allowAdd]="false"
+      [(data)]="tableBGTaskData"
+    ></lib-table>
+  </div>
+</div>
+
+<lib-popup
+  #userPopup
+  [formGroup]="backgroundFG"
+  [width]="550"
+  [height]="500"
+  [(visible)]="showPopBGTask"
+  [contentTmpl]="tmplBGBackground"
+  [confirmText]="'Lưu'"
+  (onConfirm)="confirmSaveBGTask($event)"
+>
+</lib-popup>
+
+<!-- Template background task -->
+<ng-template #tmplBGBackground>
+  <lib-form [(fg)]="backgroundFG" [controls]="backgroundControls"></lib-form>
+</ng-template>

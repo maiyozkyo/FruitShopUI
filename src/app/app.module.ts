@@ -72,6 +72,13 @@ const mainRoutes: Routes = [
       ),
     canActivateChild: [authGuard],
   },
+  {
+    path: 'background',
+    loadChildren: () =>
+      import('../../projects/background/src/lib/background.module').then(
+        (m) => m.BackgroundModule
+      ),
+  },
   { path: '**', redirectTo: 'auth' },
 ];
 

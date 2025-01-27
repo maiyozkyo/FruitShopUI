@@ -75,6 +75,11 @@ export class SideMenuComponent implements OnInit, AfterViewInit {
           url: '/tenant',
           text: 'Tenant',
         },
+        {
+          icon: '',
+          url: '/background',
+          text: 'Background',
+        },
         ...this.menu,
       ];
     }

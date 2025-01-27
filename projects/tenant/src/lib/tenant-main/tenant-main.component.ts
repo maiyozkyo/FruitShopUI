@@ -34,6 +34,10 @@ export class TenantMainComponent implements OnInit {
       code: 'PRProduct',
       isBought: false,
     },
+    {
+      code: 'BGBackground',
+      isBought: false,
+    }
   ];
 
   lstDbType = [

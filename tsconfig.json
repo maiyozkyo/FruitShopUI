@@ -23,6 +23,9 @@
       ],
       "User": [
         "dist/user"
+      ],
+      "background": [
+        "dist/background"
       ]
     },
     "baseUrl": "./",
