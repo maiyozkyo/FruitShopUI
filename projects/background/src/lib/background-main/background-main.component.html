@@ -22,11 +22,11 @@
     <lib-table
       [tableRows]="tableRows"
       [disabled]="tableDisabled"
-      [allowAdd]="true"
+      [allowAdd]="false"
       [service]="eBackgroundService"
       [assembly]="eBackgroundAssembly"
       [method]="tableMethod"
-      [allowAdd]="false"
+      [disabled]="true"
       [(data)]="tableBGTaskData"
     ></lib-table>
   </div>

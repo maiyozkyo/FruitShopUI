@@ -15,7 +15,7 @@ export class BackgroundService {
       this.service,
       'BackgroundBusiness',
       'SaveBackgroundTask',
-      bgTask
+      [bgTask]
     );
   }
 }

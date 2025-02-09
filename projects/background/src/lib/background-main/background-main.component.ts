@@ -36,6 +36,16 @@ export class BackgroundMainComponent implements OnInit {
   backgroundFG!: FormGroup;
   backgroundControls!: ControlItem[];
   showPopBGTask: boolean = false;
+  lstBusiness = [
+    { business: 'AuthBusiness' },
+    { business: 'BackgroundBusiness' },
+    { business: 'CustomerBusiness' },
+    { business: 'OrderBusiness' },
+    { business: 'OrderDetailBusiness' },
+    { business: 'ProductBusiness' },
+    { business: 'TenantBusiness' },
+    { business: 'UserBusiness' },
+  ];
   //#endregion
 
   //#endregion
@@ -48,8 +58,8 @@ export class BackgroundMainComponent implements OnInit {
   ngOnInit(): void {
     this.tableRows = [
       {
-        field: 'service',
-        title: 'Service',
+        field: 'business',
+        title: 'Business',
       },
       {
         field: 'method',
@@ -69,10 +79,14 @@ export class BackgroundMainComponent implements OnInit {
 
     this.backgroundControls = [
       {
-        controlName: 'service',
-        title: 'Service',
+        controlName: 'business',
+        title: 'Business',
         value: '',
         validators: [Validators.required],
+        type: 'select',
+        labelField: 'business',
+        valueField: 'business',
+        dataSrc: this.lstBusiness,
       },
       {
         controlName: 'method',
@@ -84,7 +98,7 @@ export class BackgroundMainComponent implements OnInit {
         controlName: 'intervalSeconds',
         title: 'Thời gian thực hiện',
         type: 'number',
-        value: true,
+        value: 0,
         validators: [Validators.min(0)],
       },
       {

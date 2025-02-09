@@ -133,6 +133,7 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
         let title = (isNew ? 'Thêm mới' : 'Chỉnh sửa') + ' hàng hóa';
         this.notiService.show(title, 'Thành công', 'success');
         this.showPopProduct = false;
+        this.productLib.reload();
       });
     }
   }
