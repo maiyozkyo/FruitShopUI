@@ -56,6 +56,7 @@ export class PopupService {
     popupComponent.instance.width = width;
     popupComponent.instance.height = height;
     popupComponent.instance.controls = controls;
+    popupComponent.instance.tempData = { data };
 
     popupComponent.instance.visibleChange.subscribe((visible: boolean) => {
       this.isVisible = visible;

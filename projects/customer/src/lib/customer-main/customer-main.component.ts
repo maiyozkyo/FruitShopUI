@@ -31,7 +31,7 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
   //#endregion
 
   //#region Table
-  tableDisabled: boolean = false;
+  tableDisabled: boolean = true;
   tableRows: CommonData[] = [];
   eCustomerService = environment.customerService;
   eCustomerAssembly = environment.customerAssembly;
@@ -88,9 +88,9 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
       value: '',
       type: 'select',
       disabled: false,
-      isServer: true,
       labelField: 'phone',
       valueField: 'recID',
+      isServer: true,
       pageInfo: {
         service: environment.userService,
         assembly: 'UserBusiness',
