@@ -196,20 +196,22 @@
   [height]="popupHeight"
   [(visible)]="showPopup"
   [confirmText]="'Lưu'"
-  (onConfirm)="onConfirm($event)"
+  (onConfirm)="onAddUpdate($event)"
 >
 </lib-popup>
 
 <lib-popup
-  *ngIf="titleField && showRemovePopup"
+  *ngIf="titleField && isConfirmRemove && showRemovePopup && curSelected"
   #removePopup
   [data]="curSelected"
   [formGroup]="fg"
-  [width]="200"
+  [width]="300"
   [height]="100"
   [(visible)]="showRemovePopup"
-  [confirmText]="'Lưu'"
-  [contentText]="'Xác nhận xóa ' + curSelected[titleField.field]"
-  (onConfirm)="onConfirm($event)"
+  [title]="'Xác nhận xóa ' + curSelected[titleField.field]"
+  [contentText]="'Vui lòng xác nhận xóa ' + curSelected[titleField.field]"
+  [confirmText]="'Xóa'"
+  [isRemove]="true"
+  (onConfirm)="onRemoveConfirm()"
 >
 </lib-popup>

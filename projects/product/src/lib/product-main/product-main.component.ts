@@ -92,6 +92,12 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
         validators: [Validators.required],
       },
       {
+        controlName: 'price',
+        type: 'number',
+        title: 'Đơn giá',
+        value: 0,
+      },
+      {
         controlName: 'isActive',
         title: 'Hoạt động',
         value: true,

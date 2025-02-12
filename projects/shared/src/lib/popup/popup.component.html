@@ -10,12 +10,14 @@
   (nzOnOk)="handleOk()"
   [nzOkLoading]="isOkLoading"
   [nzOkText]="confirmText"
+  [nzOkDanger]="isRemove"
   [nzCancelText]="cancelText"
+  [textContent]="contentText"
   [nzOkDisabled]="formGroup && formGroup.status == 'INVALID'"
 >
   <div *nzModalContent>
     <ng-container
-      *ngIf="contentTmpl; else formTmpl"
+      *ngIf="contentTmpl; else defaultTmpl"
       [formGroup]="formGroup"
       [ngTemplateOutlet]="contentTmpl"
       [ngTemplateOutletContext]="tempData"
@@ -32,12 +34,16 @@
   </div>
 </nz-modal>
 
-<ng-template #formTmpl>
-  <div *ngIf="formGroup && controls">
+<ng-template #defaultTmpl>
+  <div *ngIf="formGroup && controls && controls.length; else textTmpl">
     <lib-form
       [fg]="formGroup"
       [controls]="controls"
       [data]="tempData"
     ></lib-form>
   </div>
+</ng-template>
+
+<ng-template #textTmpl>
+  {{ contentText }}
 </ng-template>

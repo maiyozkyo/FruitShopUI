@@ -55,6 +55,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   @Input() allowAddEdit = true;
   @Input() removeMethod = '';
   @Input() allowRemove = true;
+  @Input() isConfirmRemove = true;
   //#endregion
 
   //#region Private properties
@@ -134,12 +135,27 @@ export class ListComponent implements OnInit, AfterViewInit {
   }
 
   onRemoveClick(item: any) {
-    console.log('remove', item);
     this.curSelected = item;
+    if (this.isConfirmRemove) {
+      this.showRemovePopup = true;
+      this.df.detectChanges();
+    } else {
+      this.onRemoveConfirm();
+    }
+  }
+
+  onRemoveConfirm() {
     if (this.service && this.assembly && this.removeMethod) {
       this.shareService
-        .post(this.service, this.assembly, this.removeMethod, item.recID)
+        .post(
+          this.service,
+          this.assembly,
+          this.removeMethod,
+          this.curSelected.recID
+        )
         .subscribe((res) => {
+          console.log('res', res);
+
           if (res) {
             this.notiService.show('Xóa sản phẩm', 'Thành công', 'success');
             this.loading = false;
@@ -150,21 +166,25 @@ export class ListComponent implements OnInit, AfterViewInit {
   }
 
   onCopyClick(item: any) {
+    let clone = { ...item };
+    clone.recID = null;
+    this.onAddUpdate(clone, true);
+  }
+
+  onAddUpdate(evt: any, isCopy = false) {
     if (this.service && this.assembly && this.saveMethod) {
       this.loading = true;
-      let clone = { ...item };
-      clone.recID = null;
       this.shareService
-        .post(this.service, this.assembly, this.saveMethod, clone)
+        .post(this.service, this.assembly, this.saveMethod, evt)
         .subscribe((res) => {
-          this.notiService.show('Sao chép', 'Thành công', 'success');
+          if (isCopy)
+            this.notiService.show('Sao chép', 'Thành công', 'success');
+          else this.notiService.show('Chỉnh sửa', 'Thành công', 'success');
           this.loading = false;
           this.reload();
         });
     }
   }
-
-  onConfirm(evt: any) {}
   //#endregion
 
   private setListHeight() {

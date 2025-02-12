@@ -21,7 +21,9 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 export class PopupComponent implements OnInit, OnChanges {
   @Input() visible: boolean = false;
   @Input() isOkLoading: boolean = false;
+  @Input() isRemove: boolean = false;
   @Input() title: string = '';
+  isEmptyTitle = true;
   @Input() contentText: string = '';
   @Input() confirmText: string = 'OK';
   @Input() cancelText: string = 'Hủy';
@@ -43,13 +45,18 @@ export class PopupComponent implements OnInit, OnChanges {
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes['title']) {
+      this.isEmptyTitle = this.title ? false : true;
+    }
+
     if (changes['visible']) {
-      let isNew = false;
-      if (this.data?.recID) {
-        this.title = 'Chỉnh sửa';
-      } else {
-        this.title = 'Thêm mới';
-        isNew = true;
+      let isNew = this.data?.recID ? false : true;
+      if (this.isEmptyTitle) {
+        if (this.data?.recID) {
+          this.title = 'Chỉnh sửa';
+        } else {
+          this.title = 'Thêm mới';
+        }
       }
 
       this.controls
