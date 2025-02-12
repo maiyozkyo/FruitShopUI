@@ -128,7 +128,6 @@ export class ListComponent implements OnInit, AfterViewInit {
 
   //#region Item Actions
   onEditClick(item: any) {
-    console.log('edit', item);
     this.curSelected = item;
     this.showPopup = true;
     this.df.detectChanges();

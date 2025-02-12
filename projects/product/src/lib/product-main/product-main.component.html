@@ -53,16 +53,12 @@
 <lib-popup
   #userPopup
   [formGroup]="productFG"
+  [controls]="productControls"
+  [data]="curProduct"
   [width]="600"
   [height]="600"
   [(visible)]="showPopProduct"
-  [contentTmpl]="tmplProduct"
   [confirmText]="'Lưu'"
   (onConfirm)="onAddUpdateProduct($event)"
 >
 </lib-popup>
-
-<!-- Template product -->
-<ng-template #tmplProduct>
-  <lib-form [(fg)]="productFG" [controls]="productControls"></lib-form>
-</ng-template>

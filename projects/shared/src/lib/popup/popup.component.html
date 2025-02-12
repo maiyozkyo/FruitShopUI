@@ -34,6 +34,10 @@
 
 <ng-template #formTmpl>
   <div *ngIf="formGroup && controls">
-    <lib-form [fg]="formGroup" [controls]="controls" [data]="data"></lib-form>
+    <lib-form
+      [fg]="formGroup"
+      [controls]="controls"
+      [data]="tempData"
+    ></lib-form>
   </div>
 </ng-template>

@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -38,16 +39,27 @@ export class PopupComponent implements OnInit, OnChanges {
   @Output() visibleChange = new EventEmitter<boolean>();
 
   confirmModal?: NzModalRef;
-  constructor(private modal: NzModalService) {}
+  constructor(private modal: NzModalService, private df: ChangeDetectorRef) {}
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['visible'] && !this.title) {
-      if (this.data?.recID) this.title = 'Chỉnh sửa';
-      else {
+    if (changes['visible']) {
+      let isNew = false;
+      if (this.data?.recID) {
+        this.title = 'Chỉnh sửa';
+      } else {
         this.title = 'Thêm mới';
-        this.tempData = { ...this.data };
+        isNew = true;
       }
+
+      this.controls
+        ?.filter((c) => c.disabledOnEdit)
+        .forEach((c) => {
+          if (isNew) this.formGroup.controls[c.controlName].enable();
+          else this.formGroup.controls[c.controlName].disable();
+        });
+      this.tempData = { ...this.data };
+      this.formGroup.patchValue(this.tempData);
     }
   }
 
