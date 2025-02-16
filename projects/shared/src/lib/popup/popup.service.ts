@@ -10,6 +10,7 @@ import { PopupComponent } from './popup.component';
 import { Subject } from 'rxjs';
 import { PopupResult } from '../models/popup/popup-result.model';
 import { ControlItem } from '../models/form/control-item.model';
+import { PopupOption } from '../models/popup/popup-option.model';
 
 @Injectable({
   providedIn: 'root',
@@ -28,13 +29,9 @@ export class PopupService {
     title: string,
     formGroup: FormGroup,
     data: any,
+    popupOption: PopupOption,
     contentTmpl?: TemplateRef<any>,
-    controls?: ControlItem[],
-    width: number = 900,
-    height: number = 400,
-    confirmText: string = 'OK',
-    cancelText: string = 'Hủy',
-    isOkLoading: boolean = false
+    controls?: ControlItem[]
   ) {
     this.containerRef.clear();
 
@@ -49,12 +46,12 @@ export class PopupService {
     popupComponent.instance.formGroup = formGroup;
     popupComponent.instance.contentTmpl = contentTmpl;
     popupComponent.instance.data = data;
-    popupComponent.instance.confirmText = confirmText;
-    popupComponent.instance.cancelText = cancelText;
-    popupComponent.instance.isOkLoading = isOkLoading;
+    popupComponent.instance.confirmText = popupOption.confirmText;
+    popupComponent.instance.cancelText = popupOption.cancelText;
+    popupComponent.instance.isOkLoading = popupOption.isOkLoading;
     popupComponent.instance.visible = this.isVisible;
-    popupComponent.instance.width = width;
-    popupComponent.instance.height = height;
+    popupComponent.instance.width = popupOption.width;
+    popupComponent.instance.height = popupOption.height;
     popupComponent.instance.controls = controls;
     popupComponent.instance.tempData = { data };
 

@@ -15,6 +15,7 @@ import { UserCustomer } from '../models/user-customer.model';
 import { CustomerService } from '../customer.service';
 import { NotifyService } from 'projects/shared/src/lib/services/notify.service';
 import { environment } from 'src/environments/environment.development';
+import { PopupOption } from 'projects/shared/src/lib/models/popup/popup-option.model';
 
 @Component({
   selector: 'lib-customer-main',
@@ -74,7 +75,7 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
       type: 'text',
     },
   ];
-
+  cusPopOption: PopupOption = new PopupOption();
   curCustomer!: CUCustomer;
   //#endregion
 
@@ -177,10 +178,9 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
         'Lựa chọn người dùng',
         this.userCustomerForm,
         this.userCustomer,
+        this.cusPopOption,
         undefined,
-        this.userControls,
-        900,
-        400
+        this.userControls
       )
       .subscribe((res) => {
         if (res.isConfirm) {
@@ -206,10 +206,9 @@ export class CustomerMainComponent implements OnInit, AfterViewInit {
           'Chi tiết khách hàng',
           this.customerForm,
           this.curCustomer,
+          this.cusPopOption,
           undefined,
-          this.customerControls,
-          900,
-          400
+          this.customerControls
         )
         .subscribe((res) => {
           if (res.isConfirm) {

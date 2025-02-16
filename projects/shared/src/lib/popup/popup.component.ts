@@ -20,21 +20,21 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 })
 export class PopupComponent implements OnInit, OnChanges {
   @Input() visible: boolean = false;
-  @Input() isOkLoading: boolean = false;
+  @Input() isOkLoading?: boolean = false;
   @Input() isRemove: boolean = false;
   @Input() title: string = '';
   isEmptyTitle = true;
-  @Input() contentText: string = '';
-  @Input() confirmText: string = 'OK';
-  @Input() cancelText: string = 'Hủy';
+  @Input() contentText?: string = '';
+  @Input() confirmText?: string = 'OK';
+  @Input() cancelText?: string = 'Hủy';
   @Input() contentTmpl?: TemplateRef<any>;
   @Input() footerTmpl?: TemplateRef<any>;
   @Input() controls?: ControlItem[] = [];
   @Input() data: any;
   tempData: any;
   @Input() formGroup!: FormGroup;
-  @Input() width!: number;
-  @Input() height!: number;
+  @Input() width: number = 900;
+  @Input() height: number = 400;
   @Input() showConfirm = false;
   @Output() onCancel = new EventEmitter();
   @Output() onConfirm = new EventEmitter();

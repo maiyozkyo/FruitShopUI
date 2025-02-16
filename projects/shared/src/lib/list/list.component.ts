@@ -16,6 +16,7 @@ import { SharedService } from '../shared.service';
 import { FormGroup } from '@angular/forms';
 import { ControlItem } from '../models/form/control-item.model';
 import { NotifyService } from '../services/notify.service';
+import { PopupOption } from '../models/popup/popup-option.model';
 @Component({
   selector: 'lib-list',
   templateUrl: './list.component.html',
@@ -47,15 +48,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   //#endregion
 
   //#region Popup
-  @Input() popupWidth = 550;
-  @Input() popupHeight = 500;
-  @Input() showPopup = false;
-  @Input() showRemovePopup = false;
-  @Input() saveMethod = '';
-  @Input() allowAddEdit = true;
-  @Input() removeMethod = '';
-  @Input() allowRemove = true;
-  @Input() isConfirmRemove = true;
+  @Input() popupOptions: PopupOption = new PopupOption();
   //#endregion
 
   //#region Private properties
@@ -71,7 +64,6 @@ export class ListComponent implements OnInit, AfterViewInit {
   constructor(
     private df: ChangeDetectorRef,
     private notiService: NotifyService,
-
     private shareService: SharedService
   ) {}
 
@@ -106,7 +98,6 @@ export class ListComponent implements OnInit, AfterViewInit {
           this.filter
         )
         .subscribe((res: TableData) => {
-          console.log('res', res);
           this.total = res.total;
           this.data = res.data;
           this.loading = false;
@@ -130,14 +121,14 @@ export class ListComponent implements OnInit, AfterViewInit {
   //#region Item Actions
   onEditClick(item: any) {
     this.curSelected = item;
-    this.showPopup = true;
+    this.popupOptions.showPopup = true;
     this.df.detectChanges();
   }
 
   onRemoveClick(item: any) {
     this.curSelected = item;
-    if (this.isConfirmRemove) {
-      this.showRemovePopup = true;
+    if (this.popupOptions.isConfirmRemove) {
+      this.popupOptions.showRemovePopup = true;
       this.df.detectChanges();
     } else {
       this.onRemoveConfirm();
@@ -145,12 +136,12 @@ export class ListComponent implements OnInit, AfterViewInit {
   }
 
   onRemoveConfirm() {
-    if (this.service && this.assembly && this.removeMethod) {
+    if (this.service && this.assembly && this.popupOptions.removeMethod) {
       this.shareService
         .post(
           this.service,
           this.assembly,
-          this.removeMethod,
+          this.popupOptions.removeMethod,
           this.curSelected.recID
         )
         .subscribe((res) => {
@@ -172,10 +163,10 @@ export class ListComponent implements OnInit, AfterViewInit {
   }
 
   onAddUpdate(evt: any, isCopy = false) {
-    if (this.service && this.assembly && this.saveMethod) {
+    if (this.service && this.assembly && this.popupOptions.saveMethod) {
       this.loading = true;
       this.shareService
-        .post(this.service, this.assembly, this.saveMethod, evt)
+        .post(this.service, this.assembly, this.popupOptions.saveMethod, evt)
         .subscribe((res) => {
           if (isCopy)
             this.notiService.show('Sao chép', 'Thành công', 'success');
@@ -190,11 +181,15 @@ export class ListComponent implements OnInit, AfterViewInit {
   private setListHeight() {
     if (this.listInfo.nativeElement.children.length > 0) {
       let parent = this.listInfo.nativeElement.parentElement as HTMLElement;
+      while (parent.offsetHeight <= 0 && parent)
+        parent = parent.parentNode as HTMLElement;
       let lChild = this.listInfo.nativeElement.lastChild as HTMLElement;
-      this.listMaxHeight = (parent.offsetHeight - lChild.offsetHeight) * 0.9;
+      this.listMaxHeight = (parent.offsetHeight - lChild.offsetHeight) * 0.8;
     } else {
       this.listMaxHeight = 100;
     }
+    console.log(this.listMaxHeight);
+
     this.df.detectChanges();
   }
 }

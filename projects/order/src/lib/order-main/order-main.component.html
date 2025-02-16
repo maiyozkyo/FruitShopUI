@@ -62,8 +62,19 @@
   </div>
 </div>
 
-<ng-template #orderDetail>
+<ng-template #orderDetailTmp>
   <div class="d-flex w-100 h-100 position-relative flex-grow-1 bd-highlight">
-    <lib-list> </lib-list>
+    <lib-list
+      #productLib
+      [objFields]="productFields"
+      [service]="eProductService"
+      [assembly]="eProductAssemble"
+      [method]="productMethod"
+      [filter]="productFilter"
+      [fg]="productFG"
+      [controls]="productControls"
+      [popupOptions]="orderPopupOption"
+    >
+    </lib-list>
   </div>
 </ng-template>

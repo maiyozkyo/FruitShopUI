@@ -17,6 +17,7 @@ import { FormGroup, Validators } from '@angular/forms';
 import { ControlItem } from 'projects/shared/src/lib/models/form/control-item.model';
 import { FormService } from 'projects/shared/src/lib/form/form.service';
 import { CommonData } from 'projects/shared/src/lib/models/table/commonData.model';
+import { PopupOption } from 'projects/shared/src/lib/models/popup/popup-option.model';
 
 @Component({
   selector: 'lib-product-main',
@@ -59,12 +60,13 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
   productControls!: ControlItem[];
   productFields!: CommonData[];
   showPopProduct = false;
+
   //#region Table
   eProductService = environment.productService;
   eProductAssemble = environment.productAssembly;
   productMethod = 'TableProducts';
-  saveProductMethod = 'AddUpdateAsync';
-  removeProductMethod = 'RemoveProductAsync';
+  popupProductOption = new PopupOption();
+
   //#endregion
   //#endregion
 
@@ -124,6 +126,12 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
       },
     ];
     this.productFG = this.formService.genFromControls(this.productControls);
+
+    //#region Popup Option
+    this.popupProductOption = new PopupOption();
+    this.popupProductOption.saveMethod = 'AddUpdateAsync';
+    this.popupProductOption.removeMethod = 'RemoveProductAsync';
+    //#endregion
   }
   ngAfterViewInit(): void {}
 

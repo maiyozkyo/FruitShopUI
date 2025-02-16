@@ -7,7 +7,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { Custom_Date_Format } from '../mat-date-format/custom-date-format.model';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { OrderService } from '../order.service';
@@ -21,6 +21,8 @@ import { PopupService } from 'projects/shared/src/lib/popup/popup.service';
 import { FormService } from 'projects/shared/src/lib/form/form.service';
 import { ControlItem } from 'projects/shared/src/lib/models/form/control-item.model';
 import { environment } from 'src/environments/environment.development';
+import { FilterProduct } from 'projects/product/src/lib/models/product.filter.model';
+import { PopupOption } from 'projects/shared/src/lib/models/popup/popup-option.model';
 
 @Component({
   selector: 'lib-order-main',
@@ -33,7 +35,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   //#region Root
   @ViewChild('popupContainer', { read: ViewContainerRef, static: true })
   popupContainerRef!: ViewContainerRef;
-  @ViewChild('orderDetail', { read: TemplateRef, static: true })
+  @ViewChild('orderDetailTmp', { read: TemplateRef, static: true })
   orderDetailTmp!: TemplateRef<any>;
   //#endregion
 
@@ -46,6 +48,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   eOrderService = environment.orderService;
   eOrderAssembly = environment.orderAssembly;
   orderTableMethod = 'TableOrders';
+  orderPopupOption: PopupOption = new PopupOption();
   //#endregion
 
   //#region Table
@@ -72,6 +75,20 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
     placeHolder: 'Chọn khách hàng',
   };
   lstCustomers: CUCustomer[] = [];
+  //#endregion
+
+  //#region Hàng hóa
+  productFG!: FormGroup;
+  productControls!: ControlItem[];
+  productFields!: CommonData[];
+  showPopProduct = false;
+  eProductService = environment.productService;
+  eProductAssemble = environment.productAssembly;
+  productMethod = 'TableProducts';
+  productFilter: FilterProduct = {
+    IsActive: true,
+    ProductName: '',
+  };
   //#endregion
 
   //#region Data Save
@@ -104,6 +121,55 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
     //#region Khách hàng
     this.loadDataCustomer();
     //#endregion
+
+    //#region Hàng hóa
+    this.productControls = [
+      {
+        controlName: 'code',
+        title: 'Mã hàng hóa',
+        value: '',
+        validators: [Validators.required],
+        disabledOnEdit: true,
+      },
+      {
+        controlName: 'name',
+        title: 'Tên hàng hóa',
+        value: '',
+        validators: [Validators.required],
+      },
+      {
+        controlName: 'price',
+        type: 'number',
+        title: 'Đơn giá',
+        value: 0,
+      },
+      {
+        controlName: 'img',
+        title: 'Hình ảnh',
+        value: '',
+        type: 'upload',
+      },
+    ];
+
+    this.productFields = [
+      {
+        field: 'name',
+        title: 'Tên hàng hóa',
+        type: 'title',
+      },
+      {
+        field: 'img',
+        title: '',
+        type: 'cover',
+      },
+    ];
+    this.productFG = this.formService.genFromControls(this.productControls);
+    //#endregion
+
+    //#region Order Detail Popup Option
+    this.orderPopupOption.allowAddEdit = false;
+    this.orderPopupOption.allowRemove = false;
+    //#endregion
   }
 
   ngAfterViewInit(): void {
@@ -128,6 +194,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
         'Add/Update đơn hàng',
         this.orderForm,
         this.curOrder,
+        this.orderPopupOption,
         this.orderDetailTmp,
         this.orderControls
       )
