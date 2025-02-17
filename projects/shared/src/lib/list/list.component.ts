@@ -176,6 +176,13 @@ export class ListComponent implements OnInit, AfterViewInit {
         });
     }
   }
+
+  onClickItem(item: any) {
+    if (this.popupOptions.allowChoose) {
+      item['isChoosen'] = !item['isChoosen'];
+      item['border'] = item['isChoosen'] ? '1px solid green' : '';
+    }
+  }
   //#endregion
 
   private setListHeight() {
@@ -188,8 +195,6 @@ export class ListComponent implements OnInit, AfterViewInit {
     } else {
       this.listMaxHeight = 100;
     }
-    console.log(this.listMaxHeight);
-
     this.df.detectChanges();
   }
 }

@@ -131,6 +131,7 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
     this.popupProductOption = new PopupOption();
     this.popupProductOption.saveMethod = 'AddUpdateAsync';
     this.popupProductOption.removeMethod = 'RemoveProductAsync';
+    this.popupProductOption.allowChoose = false;
     //#endregion
   }
   ngAfterViewInit(): void {}

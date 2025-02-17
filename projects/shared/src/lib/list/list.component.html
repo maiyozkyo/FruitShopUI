@@ -6,9 +6,9 @@
     'overflow': 'scroll',
   }"
   >
-    <div nz-row [nzGutter]="8" class="w-100">
+    <div nz-row [nzGutter]="6" class="w-100">
       <div nz-col [nzSpan]="6" *ngFor="let item of data" class="mt-2">
-        <nz-list-item class="h-100">
+        <nz-list-item class="h-100" (click)="onClickItem(item)">
           <ng-container
             [ngTemplateOutlet]="itemTmpl || defaultTmpl"
             [ngTemplateOutletContext]="{ $implicit: item }"
@@ -47,9 +47,10 @@
   <nz-card
     class="w-100 h-100"
     [ngStyle]="{
-    width: width + 'px',
-    height: height + 'px',
-  }"
+      width: width + 'px',
+      height: height + 'px',
+      border: item.border,
+    }"
   >
     <div class="mb-3 w-100 h-50" *ngIf="coverField">
       <ng-container
@@ -72,7 +73,7 @@
       <nz-card-meta
         *ngIf="titleField"
         [nzTitle]="item[titleField.field]"
-        nzDescription="This is the description"
+        nzDescription=""
       >
       </nz-card-meta>
     </div>
@@ -143,7 +144,7 @@
         [ngTemplateOutletContext]="{ item: item }"
       ></ng-container>
       <ng-container
-        *ngIf="popupOptions.allowChoose"
+        *ngIf="popupOptions.allowChoose && item['isChoosen']"
         [ngTemplateOutlet]="actionChoose"
         [ngTemplateOutletContext]="{ item: item }"
       >
@@ -193,11 +194,14 @@
     (click)="onCopyClick(item)"
   ></div>
 </ng-template>
-
 <ng-template #actionChoose let-item="item">
-  <div class="d-flex w-100 justify-content-center align-items-center">
-    <input type="checkbox" (click)="item['isChoose'] = true" />
-  </div>
+  <div
+    class="btn btn-outline-primary me-2"
+    style="background: rgb(60, 210, 60)"
+    nz-icon
+    nzType="check-circle"
+    nzTheme="outline"
+  ></div>
 </ng-template>
 <!-- End -->
 

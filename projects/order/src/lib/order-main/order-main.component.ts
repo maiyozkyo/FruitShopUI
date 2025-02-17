@@ -169,6 +169,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
     //#region Order Detail Popup Option
     this.orderPopupOption.allowAddEdit = false;
     this.orderPopupOption.allowRemove = false;
+    this.orderPopupOption.height = 1000;
     //#endregion
   }
 
