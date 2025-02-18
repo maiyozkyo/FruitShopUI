@@ -40,10 +40,14 @@
           </nz-select>
         </div>
         <div class="col-3 d-flex justify-content-end align-items-center">
-          <div class="btn btn-primary" (click)="addOrder()">
+          <button
+            [disabled]="!lstCustomers.length"
+            class="btn btn-primary"
+            (click)="addOrder()"
+          >
             <span class="d-none d-md-block">Thêm đơn</span>
             <span class="d-md-none">+</span>
-          </div>
+          </button>
         </div>
       </div>
     </mat-toolbar>
