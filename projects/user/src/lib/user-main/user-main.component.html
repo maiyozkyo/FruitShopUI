@@ -21,11 +21,8 @@
 <lib-popup
   #userPopup
   [formGroup]="userFG"
-  [width]="550"
-  [height]="500"
-  [(visible)]="showPopAddUser"
   [contentTmpl]="tmplADUser"
-  [confirmText]="'Lưu'"
+  [popupOption]="popUserOption"
   (onConfirm)="confirmAddUpdateUser($event)"
 >
 </lib-popup>

@@ -35,11 +35,7 @@
 <lib-popup
   #userPopup
   [formGroup]="backgroundFG"
-  [width]="550"
-  [height]="500"
-  [(visible)]="showPopBGTask"
   [contentTmpl]="tmplBGBackground"
-  [confirmText]="'Lưu'"
   (onConfirm)="confirmSaveBGTask($event)"
 >
 </lib-popup>

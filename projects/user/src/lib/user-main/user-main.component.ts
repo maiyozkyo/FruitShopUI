@@ -10,6 +10,7 @@ import { TableComponent } from 'projects/shared/src/lib/table/table.component';
 import { ControlItem } from 'projects/shared/src/lib/models/form/control-item.model';
 import { FormService } from 'projects/shared/src/lib/form/form.service';
 import { environment } from 'src/environments/environment.development';
+import { PopupOption } from 'projects/shared/src/lib/models/popup/popup-option.model';
 @Component({
   selector: 'lib-user-main',
   templateUrl: './user-main.component.html',
@@ -33,6 +34,7 @@ export class UserMainComponent implements OnInit {
   userFG!: FormGroup;
   userControls!: ControlItem[];
   curUser!: ADUser;
+  popUserOption: PopupOption = new PopupOption();
   @ViewChild('userTable') userTable!: TableComponent;
   //#endregion
 
@@ -141,6 +143,10 @@ export class UserMainComponent implements OnInit {
       });
     }
     this.userFG = this.formService.genFromControls(this.userControls);
+
+    this.popUserOption.width = 550;
+    this.popUserOption.height = 500;
+    this.popUserOption.confirmText = 'Lưu';
   }
 
   clickAddUpdateUserPopup() {

@@ -17,7 +17,7 @@ import { CustomerService } from 'projects/customer/src/public-api';
 import { OROrder } from '../models/order.model';
 import { CUCustomer } from 'projects/customer/src/lib/models/customer.model';
 import { TableData } from 'projects/shared/src/lib/models/table/tableData.model';
-import { PopupService } from 'projects/shared/src/lib/popup/popup.service';
+import { PopupService } from 'projects/shared/src/lib/services/popup.service';
 import { FormService } from 'projects/shared/src/lib/form/form.service';
 import { ControlItem } from 'projects/shared/src/lib/models/form/control-item.model';
 import { environment } from 'src/environments/environment.development';

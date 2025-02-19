@@ -9,7 +9,7 @@ import { FormGroup } from '@angular/forms';
 import { FormService } from 'projects/shared/src/lib/form/form.service';
 import { ControlItem } from 'projects/shared/src/lib/models/form/control-item.model';
 import { CommonData } from 'projects/shared/src/lib/models/table/commonData.model';
-import { PopupService } from 'projects/shared/src/lib/popup/popup.service';
+import { PopupService } from 'projects/shared/src/lib/services/popup.service';
 import { CUCustomer } from '../models/customer.model';
 import { UserCustomer } from '../models/user-customer.model';
 import { CustomerService } from '../customer.service';

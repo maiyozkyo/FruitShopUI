@@ -210,10 +210,6 @@
   [data]="curSelected"
   [formGroup]="fg"
   [controls]="controls"
-  [width]="popupOptions.width"
-  [height]="popupOptions.height"
-  [(visible)]="popupOptions.showPopup"
-  [confirmText]="'Lưu'"
   (onConfirm)="onAddUpdate($event)"
 >
 </lib-popup>
@@ -228,13 +224,9 @@
   #removePopup
   [data]="curSelected"
   [formGroup]="fg"
-  [width]="300"
-  [height]="100"
-  [(visible)]="popupOptions.showRemovePopup"
   [title]="'Xác nhận xóa ' + curSelected[titleField.field]"
   [contentText]="'Vui lòng xác nhận xóa ' + curSelected[titleField.field]"
-  [confirmText]="'Xóa'"
-  [isRemove]="true"
+  [popupOption]="popRemoveConfirmOption"
   (onConfirm)="onRemoveConfirm()"
 >
 </lib-popup>

@@ -49,6 +49,7 @@ export class ListComponent implements OnInit, AfterViewInit {
 
   //#region Popup
   @Input() popupOptions: PopupOption = new PopupOption();
+  @Input() popRemoveConfirmOption!: PopupOption;
   //#endregion
 
   //#region Private properties
@@ -75,6 +76,17 @@ export class ListComponent implements OnInit, AfterViewInit {
       (x) =>
         x != this.titleField && x != this.coverField && x != this.avatarField
     );
+    if (
+      this.popupOptions.allowRemove &&
+      this.popupOptions.isConfirmRemove &&
+      !this.popRemoveConfirmOption
+    ) {
+      this.popRemoveConfirmOption = new PopupOption();
+      this.popRemoveConfirmOption.width = 300;
+      this.popRemoveConfirmOption.height = 100;
+      this.popRemoveConfirmOption.confirmText = 'Xóa';
+      this.popRemoveConfirmOption.isRemove = true;
+    }
   }
 
   ngAfterViewInit() {

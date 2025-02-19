@@ -1,17 +1,17 @@
 <nz-modal
   class="popup"
   [nzBodyStyle]="{
-    height: height + 'px',
+    height: popupOption.height + 'px',
   }"
-  [nzWidth]="width"
-  [(nzVisible)]="visible"
+  [nzWidth]="popupOption.width"
+  [(nzVisible)]="popupOption.showPopup"
   [nzTitle]="title"
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
-  [nzOkLoading]="isOkLoading"
-  [nzOkText]="confirmText"
-  [nzOkDanger]="isRemove"
-  [nzCancelText]="cancelText"
+  [nzOkLoading]="popupOption.isOkLoading"
+  [nzOkText]="popupOption.confirmText"
+  [nzOkDanger]="popupOption.isRemove"
+  [nzCancelText]="popupOption.cancelText"
   [textContent]="contentText"
   [nzOkDisabled]="formGroup && formGroup.status == 'INVALID'"
 >

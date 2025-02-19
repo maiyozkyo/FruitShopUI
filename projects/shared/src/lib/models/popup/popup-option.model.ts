@@ -8,6 +8,7 @@ export class PopupOption {
   showRemovePopup? = false;
   saveMethod? = '';
   allowAddEdit? = true;
+  isRemove? = false;
   removeMethod? = '';
   allowRemove? = true;
   isConfirmRemove? = true;

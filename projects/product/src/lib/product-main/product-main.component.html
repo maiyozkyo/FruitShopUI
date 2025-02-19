@@ -50,14 +50,11 @@
 </div>
 
 <lib-popup
-  #userPopup
+  #prodPopup
   [formGroup]="productFG"
   [controls]="productControls"
   [data]="curProduct"
-  [width]="600"
-  [height]="600"
-  [(visible)]="showPopProduct"
-  [confirmText]="'Lưu'"
+  [popupOption]="popupProductOption"
   (onConfirm)="onAddUpdateProduct($event)"
 >
 </lib-popup>

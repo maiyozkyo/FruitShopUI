@@ -6,7 +6,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { PopupComponent } from './popup.component';
+import { PopupComponent } from '../popup/popup.component';
 import { Subject } from 'rxjs';
 import { PopupResult } from '../models/popup/popup-result.model';
 import { ControlItem } from '../models/form/control-item.model';
@@ -17,7 +17,6 @@ import { PopupOption } from '../models/popup/popup-option.model';
 })
 export class PopupService {
   private containerRef!: ViewContainerRef;
-  private isVisible: boolean = false;
 
   constructor(private injector: Injector) {}
 
@@ -40,23 +39,18 @@ export class PopupService {
       injector: this.injector,
     });
 
-    this.isVisible = true;
+    popupOption.showPopup = true;
 
     popupComponent.instance.title = title;
     popupComponent.instance.formGroup = formGroup;
     popupComponent.instance.contentTmpl = contentTmpl;
     popupComponent.instance.data = data;
-    popupComponent.instance.confirmText = popupOption.confirmText;
-    popupComponent.instance.cancelText = popupOption.cancelText;
-    popupComponent.instance.isOkLoading = popupOption.isOkLoading;
-    popupComponent.instance.visible = this.isVisible;
-    popupComponent.instance.width = popupOption.width;
-    popupComponent.instance.height = popupOption.height;
     popupComponent.instance.controls = controls;
+    popupComponent.instance.popupOption = popupOption;
     popupComponent.instance.tempData = { data };
 
     popupComponent.instance.visibleChange.subscribe((visible: boolean) => {
-      this.isVisible = visible;
+      popupOption.showPopup = visible;
     });
 
     const popupResultSubject = new Subject<PopupResult>();

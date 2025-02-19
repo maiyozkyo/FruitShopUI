@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
   EventEmitter,
@@ -12,30 +13,26 @@ import {
 import { FormGroup } from '@angular/forms';
 import { ControlItem } from '../models/form/control-item.model';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { PopupOption } from '../models/popup/popup-option.model';
 
 @Component({
   selector: 'lib-popup',
   templateUrl: './popup.component.html',
   styleUrls: ['./popup.component.scss'],
 })
-export class PopupComponent implements OnInit, OnChanges {
-  @Input() visible: boolean = false;
-  @Input() isOkLoading?: boolean = false;
-  @Input() isRemove: boolean = false;
+export class PopupComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() title: string = '';
   isEmptyTitle = true;
   @Input() contentText?: string = '';
-  @Input() confirmText?: string = 'OK';
-  @Input() cancelText?: string = 'Hủy';
   @Input() contentTmpl?: TemplateRef<any>;
   @Input() footerTmpl?: TemplateRef<any>;
   @Input() controls?: ControlItem[] = [];
   @Input() data: any;
   tempData: any;
   @Input() formGroup!: FormGroup;
-  @Input() width: number = 900;
-  @Input() height: number = 400;
   @Input() showConfirm = false;
+  @Input() popupOption: PopupOption = new PopupOption();
+
   @Output() onCancel = new EventEmitter();
   @Output() onConfirm = new EventEmitter();
   @Output() visibleChange = new EventEmitter<boolean>();
@@ -70,6 +67,10 @@ export class PopupComponent implements OnInit, OnChanges {
     }
   }
 
+  ngAfterViewInit() {
+    this.setSize();
+  }
+
   handleCancel() {
     this.changeVisible();
   }
@@ -84,8 +85,8 @@ export class PopupComponent implements OnInit, OnChanges {
         nzTitle: this.title,
         nzContent: this.contentText,
         nzOnOk: () => {
-          this.visible = false;
-          this.visibleChange.emit(this.visible);
+          this.popupOption.showPopup = false;
+          this.visibleChange.emit(this.popupOption.showPopup);
         },
       });
     } else {
@@ -95,8 +96,16 @@ export class PopupComponent implements OnInit, OnChanges {
         });
         this.onConfirm.emit(this.tempData);
       } else this.onCancel.emit(null);
-      this.visible = false;
-      this.visibleChange.emit(this.visible);
+      this.popupOption.showPopup = false;
+      this.visibleChange.emit(this.popupOption.showPopup);
     }
+  }
+
+  private setSize() {
+    if (this.popupOption.height > window.innerHeight)
+      this.popupOption.height = window.innerHeight * 0.7;
+    if (this.popupOption.width > window.innerWidth)
+      this.popupOption.width = window.innerWidth * 0.7;
+    this.df.detectChanges();
   }
 }
