@@ -39,7 +39,9 @@ export class PopupComponent implements OnInit, OnChanges, AfterViewInit {
 
   confirmModal?: NzModalRef;
   constructor(private modal: NzModalService, private df: ChangeDetectorRef) {}
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.setSize();
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['title']) {
@@ -106,6 +108,7 @@ export class PopupComponent implements OnInit, OnChanges, AfterViewInit {
       this.popupOption.height = window.innerHeight * 0.7;
     if (this.popupOption.width > window.innerWidth)
       this.popupOption.width = window.innerWidth * 0.7;
+
     this.df.detectChanges();
   }
 }
