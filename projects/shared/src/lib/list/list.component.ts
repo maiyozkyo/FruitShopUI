@@ -27,6 +27,8 @@ export class ListComponent implements OnInit, AfterViewInit {
   //#region List
   @Input() type: 'list' | 'grid' = 'list';
   @Input() data: any[] = [];
+  @Input() isPaging = true;
+  totalData: any[] = [];
   @Input() fg!: FormGroup;
   @Input() objFields: CommonData[] = [];
   @Input() controls: ControlItem[] = [];
@@ -112,8 +114,12 @@ export class ListComponent implements OnInit, AfterViewInit {
         .subscribe((res: TableData) => {
           this.total = res.total;
           this.data = res.data;
+          this.setDefaultValue();
+          if (!this.isPaging) {
+            this.totalData.push(...this.data);
+            this.dataChange.emit(this.totalData);
+          } else this.dataChange.emit(this.data);
           this.loading = false;
-          this.dataChange.emit(this.data);
           this.df.detectChanges();
         });
     } else this.loading = false;
@@ -157,8 +163,6 @@ export class ListComponent implements OnInit, AfterViewInit {
           this.curSelected.recID
         )
         .subscribe((res) => {
-          console.log('res', res);
-
           if (res) {
             this.notiService.show('Xóa sản phẩm', 'Thành công', 'success');
             this.loading = false;
@@ -189,11 +193,21 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onClickItem(item: any) {
-    if (this.popupOptions.allowChoose) {
-      item['isChoosen'] = !item['isChoosen'];
-      item['border'] = item['isChoosen'] ? '1px solid green' : '';
+  onClickItem(item: any, evt: any) {
+    let target = evt.target as HTMLElement;
+    if (
+      this.popupOptions.allowChoose &&
+      !target.classList.contains('input-value')
+    ) {
+      this.setItemChoose(item, null);
     }
+  }
+
+  protected setItemChoose(item: any, evt?: any) {
+    if (evt == null) item['isChosen'] = !item['isChosen'];
+    else item['isChosen'] = evt.target.value > 0;
+
+    item['border'] = item['isChosen'] ? '1px solid green' : '';
   }
   //#endregion
 
@@ -208,5 +222,30 @@ export class ListComponent implements OnInit, AfterViewInit {
       this.listMaxHeight = 100;
     }
     this.df.detectChanges();
+  }
+
+  private setDefaultValue() {
+    this.objFields.forEach((objF) => {
+      this.data.forEach((item) => {
+        switch (objF.type) {
+          case 'checkbox':
+          case 'select': {
+            item[objF.field] = false;
+            break;
+          }
+          case 'number': {
+            item[objF.field] = 0;
+            break;
+          }
+          case 'text': {
+            item[objF.field] = '';
+            break;
+          }
+          default: {
+            break;
+          }
+        }
+      });
+    });
   }
 }
