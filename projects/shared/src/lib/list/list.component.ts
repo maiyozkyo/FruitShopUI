@@ -17,6 +17,8 @@ import { FormGroup } from '@angular/forms';
 import { ControlItem } from '../models/form/control-item.model';
 import { NotifyService } from '../services/notify.service';
 import { PopupOption } from '../models/popup/popup-option.model';
+import { ListOption } from '../models/list/list-option.model';
+import { evaluate } from 'mathjs';
 @Component({
   selector: 'lib-list',
   templateUrl: './list.component.html',
@@ -25,21 +27,15 @@ import { PopupOption } from '../models/popup/popup-option.model';
 export class ListComponent implements OnInit, AfterViewInit {
   //#region Init Data
   //#region List
-  @Input() type: 'list' | 'grid' = 'list';
+  @Input() lstOption: ListOption = new ListOption();
   @Input() data: any[] = [];
-  @Input() isPaging = true;
   totalData: any[] = [];
+  chosenItems: any[] = [];
   @Input() fg!: FormGroup;
   @Input() objFields: CommonData[] = [];
   @Input() controls: ControlItem[] = [];
   @Input() itemTmpl!: TemplateRef<any>;
-  @Input() service: string = '';
-  @Input() assembly: string = '';
-  @Input() method: string = '';
   @Input() filter: any;
-  @Input() pageSize = 20;
-  @Input() width = 100;
-  @Input() height = 100;
   @Input() disabled: boolean = true;
   @Input() lstNotIn: any[] = [];
   curPage = 1;
@@ -58,6 +54,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   protected titleField: CommonData | undefined;
   protected coverField: CommonData | undefined;
   protected avatarField!: CommonData | undefined;
+  protected autoCalFields!: CommonData[];
   protected listMaxHeight = 1;
   @ViewChild('listInfo') listInfo!: ElementRef<HTMLElement>;
   protected curSelected: any;
@@ -89,6 +86,8 @@ export class ListComponent implements OnInit, AfterViewInit {
       this.popRemoveConfirmOption.confirmText = 'Xóa';
       this.popRemoveConfirmOption.isRemove = true;
     }
+
+    this.autoCalFields = this.objFields.filter((field) => field.autoCalculate);
   }
 
   ngAfterViewInit() {
@@ -99,14 +98,18 @@ export class ListComponent implements OnInit, AfterViewInit {
   //#region Get List
   private loadData() {
     this.loading = true;
-    if (this.service && this.assembly && this.method) {
+    if (
+      this.lstOption.service &&
+      this.lstOption.assembly &&
+      this.lstOption.method
+    ) {
       this.shareService
         .getDataPaging(
-          this.service,
-          this.assembly,
-          this.method,
+          this.lstOption.service,
+          this.lstOption.assembly,
+          this.lstOption.method,
           this.curPage,
-          this.pageSize,
+          this.lstOption.pageSize,
           this.request,
           this.lstNotIn,
           this.filter
@@ -115,7 +118,7 @@ export class ListComponent implements OnInit, AfterViewInit {
           this.total = res.total;
           this.data = res.data;
           this.setDefaultValue();
-          if (!this.isPaging) {
+          if (!this.lstOption.isPaging) {
             this.totalData.push(...this.data);
             this.dataChange.emit(this.totalData);
           } else this.dataChange.emit(this.data);
@@ -154,11 +157,15 @@ export class ListComponent implements OnInit, AfterViewInit {
   }
 
   onRemoveConfirm() {
-    if (this.service && this.assembly && this.popupOptions.removeMethod) {
+    if (
+      this.lstOption.service &&
+      this.lstOption.assembly &&
+      this.popupOptions.removeMethod
+    ) {
       this.shareService
         .post(
-          this.service,
-          this.assembly,
+          this.lstOption.service,
+          this.lstOption.assembly,
           this.popupOptions.removeMethod,
           this.curSelected.recID
         )
@@ -179,10 +186,19 @@ export class ListComponent implements OnInit, AfterViewInit {
   }
 
   onAddUpdate(evt: any, isCopy = false) {
-    if (this.service && this.assembly && this.popupOptions.saveMethod) {
+    if (
+      this.lstOption.service &&
+      this.lstOption.assembly &&
+      this.popupOptions.saveMethod
+    ) {
       this.loading = true;
       this.shareService
-        .post(this.service, this.assembly, this.popupOptions.saveMethod, evt)
+        .post(
+          this.lstOption.service,
+          this.lstOption.assembly,
+          this.popupOptions.saveMethod,
+          evt
+        )
         .subscribe((res) => {
           if (isCopy)
             this.notiService.show('Sao chép', 'Thành công', 'success');
@@ -208,6 +224,18 @@ export class ListComponent implements OnInit, AfterViewInit {
     else item['isChosen'] = evt.target.value > 0;
 
     item['border'] = item['isChosen'] ? '1px solid green' : '';
+    if (item['isChosen']) this.chosenItems.push(item);
+    else
+      this.chosenItems = this.chosenItems.filter((x) => x.recID != item.recID);
+  }
+
+  inputChange(evt: any, control: CommonData, item: any) {
+    this.autoCalFields
+      .filter((field) => field.expression?.includes(control.field))
+      .forEach((field) => {
+        if (field.expression)
+          item[field.field] = evaluate(field.expression, { item: item });
+      });
   }
   //#endregion
 
@@ -227,22 +255,24 @@ export class ListComponent implements OnInit, AfterViewInit {
   private setDefaultValue() {
     this.objFields.forEach((objF) => {
       this.data.forEach((item) => {
-        switch (objF.type) {
-          case 'checkbox':
-          case 'select': {
-            item[objF.field] = false;
-            break;
-          }
-          case 'number': {
-            item[objF.field] = 0;
-            break;
-          }
-          case 'text': {
-            item[objF.field] = '';
-            break;
-          }
-          default: {
-            break;
+        if (!item[objF.field]) {
+          switch (objF.type) {
+            case 'checkbox':
+            case 'select': {
+              item[objF.field] = false;
+              break;
+            }
+            case 'number': {
+              item[objF.field] = 0;
+              break;
+            }
+            case 'text': {
+              item[objF.field] = '';
+              break;
+            }
+            default: {
+              break;
+            }
           }
         }
       });

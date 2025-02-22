@@ -16,6 +16,12 @@ export class CommonData {
   valueField?: string = '';
   disabled?: boolean = false;
   style?: string;
+  showOnChoose?: boolean = false;
+  editOnChoose?: boolean = false;
+  autoCalculate?: boolean = false;
+  expression?: string = '';
+  minVal?: number;
+  maxVal?: number;
 
   constructor(obj: CommonData) {
     Object.assign(this, obj);

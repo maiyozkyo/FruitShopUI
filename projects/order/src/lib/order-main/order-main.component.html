@@ -70,16 +70,13 @@
   <div class="d-flex w-100 h-100 position-relative flex-grow-1 bd-highlight">
     <lib-list
       #productLib
+      [lstOption]="lstProdOption"
       [objFields]="productFields"
-      [service]="eProductService"
-      [assembly]="eProductAssemble"
-      [method]="productMethod"
       [filter]="productFilter"
       [fg]="productFG"
       [controls]="productControls"
       [popupOptions]="orderPopupOption"
       [disabled]="false"
-      [isPaging]="false"
     >
     </lib-list>
   </div>

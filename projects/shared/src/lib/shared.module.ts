@@ -30,6 +30,7 @@ import { ListComponent } from './list/list.component';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
     NzListModule,
     NzPaginationModule,
     NzUploadModule,
+    NzCollapseModule,
   ],
   exports: [
     SharedComponent,

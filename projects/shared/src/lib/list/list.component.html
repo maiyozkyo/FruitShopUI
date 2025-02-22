@@ -1,45 +1,65 @@
 <div class="w-100 h-100 position-absolute p-2" #listInfo>
-  <nz-list
-    nzGrid
-    [scrollTop]="true"
-    [ngStyle]="{
-    'max-height': listMaxHeight + 'px',
-    'overflow': 'scroll',
-  }"
-  >
-    <div nz-row [nzGutter]="6" class="w-100">
-      <div nz-col [nzSpan]="6" *ngFor="let item of data" class="mt-2">
-        <nz-list-item class="h-100" (click)="onClickItem(item, $event)">
-          <ng-container
-            [ngTemplateOutlet]="itemTmpl || defaultTmpl"
-            [ngTemplateOutletContext]="{ $implicit: item }"
-          ></ng-container>
-        </nz-list-item>
+  <div class="d-flex row">
+    <div
+      class="d-flex flex-column"
+      [ngClass]="{
+        'col-12': !lstOption.showChosenItems,
+        'col-6': lstOption.showChosenItems
+      }"
+    >
+      <nz-list
+        nzGrid
+        [ngStyle]="{
+          'max-height': listMaxHeight + 'px',
+          'overflow': 'scroll',
+        }"
+      >
+        <div nz-row [nzGutter]="6" class="w-100">
+          <div nz-col [nzSpan]="6" *ngFor="let item of data" class="mt-2">
+            <nz-list-item class="h-100" (click)="onClickItem(item, $event)">
+              <ng-container
+                [ngTemplateOutlet]="itemTmpl || defaultTmpl"
+                [ngTemplateOutletContext]="{ $implicit: item }"
+              ></ng-container>
+            </nz-list-item>
+          </div>
+        </div>
+      </nz-list>
+      <div class="d-flex justify-content-end mt-2">
+        <div class="d-flex justify-content-center align-items-center me-2">
+          <button
+            *ngIf="!loading"
+            class="btn btn-outline-primary"
+            nz-icon
+            nzType="reload"
+            nzTheme="outline"
+            (click)="reload()"
+          >
+            {{ data.length + (curPage - 1) * lstOption.pageSize }} / {{ total }}
+          </button>
+        </div>
+        <nz-pagination
+          [nzTotal]="total"
+          [(nzPageSize)]="lstOption.pageSize"
+          [(nzPageIndex)]="curPage"
+          nzShowSizeChanger
+          (nzPageSizeChange)="onPageChange(1)"
+          (nzPageIndexChange)="onPageChange($event)"
+        >
+        </nz-pagination>
       </div>
     </div>
-  </nz-list>
-  <div class="d-flex justify-content-end mt-2">
-    <div class="d-flex justify-content-center align-items-center me-2">
-      <button
-        *ngIf="!loading"
-        class="btn btn-outline-primary"
-        nz-icon
-        nzType="reload"
-        nzTheme="outline"
-        (click)="reload()"
-      >
-        {{ data.length + (curPage - 1) * pageSize }} / {{ total }}
-      </button>
+    <div class="col-6" *ngIf="lstOption.showChosenItems">
+      <nz-collapse [nzBordered]="false">
+        <nz-collapse-panel
+          [nzHeader]="lstOption.chosenTitle + '(' + chosenItems.length + ')'"
+          [nzActive]="true"
+          [nzExpandedIcon]="'double-right'"
+        >
+          <ng-container [ngTemplateOutlet]="chosenItemsTempl"></ng-container>
+        </nz-collapse-panel>
+      </nz-collapse>
     </div>
-    <nz-pagination
-      [nzTotal]="total"
-      [(nzPageSize)]="pageSize"
-      [(nzPageIndex)]="curPage"
-      nzShowSizeChanger
-      (nzPageSizeChange)="onPageChange(1)"
-      (nzPageIndexChange)="onPageChange($event)"
-    >
-    </nz-pagination>
   </div>
 </div>
 
@@ -54,8 +74,8 @@
   <nz-card
     class="w-100 h-100"
     [ngStyle]="{
-      width: width + 'px',
-      height: height + 'px',
+      width: lstOption.width + 'px',
+      height: lstOption.height + 'px',
       border: item.border,
     }"
   >
@@ -84,58 +104,10 @@
       >
       </nz-card-meta>
     </div>
-
-    <div *ngFor="let control of objFields">
-      <ng-container [ngSwitch]="control.type">
-        <ng-container *ngSwitchCase="'checkbox'">
-          <input
-            [type]="'checkbox'"
-            [checked]="item[control.field]"
-            (change)="item[control.field] = !item[control.field]"
-            [disabled]="
-              disabled == true ? true : control.disabled ? true : false
-            "
-            [placeholder]="control.placeholder"
-          />
-        </ng-container>
-        <ng-container *ngSwitchCase="'select'">
-          <nz-select
-            *ngIf="control.labelField && control.valueField"
-            nzShowSearch
-            nzAllowClear
-            [nzPlaceHolder]="control.placeholder ?? ''"
-            [(ngModel)]="item[control.field]"
-          >
-            <nz-option
-              *ngFor="let data of control.dataSrc"
-              [nzLabel]="data[control.labelField]"
-              [nzValue]="data[control.valueField]"
-            ></nz-option>
-          </nz-select>
-        </ng-container>
-        <ng-container *ngSwitchCase="'icon'">
-          <span
-            *ngIf="item.icon"
-            nz-icon
-            [nzType]="item.icon"
-            [nzTheme]="item.iconStyle ?? 'outline'"
-          ></span>
-        </ng-container>
-        <ng-container *ngSwitchDefault>
-          <input
-            class="input-value"
-            [disabled]="
-              disabled == true ? true : control.disabled ? true : false
-            "
-            [type]="control.type"
-            [(ngModel)]="item[control.field]"
-            (input)="setItemChoose(item, $event)"
-            [placeholder]="control.placeholder"
-          />
-        </ng-container>
-      </ng-container>
-    </div>
-
+    <ng-container
+      [ngTemplateOutlet]="controlsTempl"
+      [ngTemplateOutletContext]="{ item: item }"
+    ></ng-container>
     <div class="d-flex justify-content-end">
       <ng-container
         *ngIf="popupOptions.allowAddEdit"
@@ -233,3 +205,122 @@
   (onConfirm)="onRemoveConfirm()"
 >
 </lib-popup>
+
+<ng-template #chosenItemsTempl>
+  <nz-list
+    [ngStyle]="{
+  'max-height': listMaxHeight + 'px',
+  'overflow': 'scroll',
+}"
+  >
+    <nz-list-item *ngFor="let item of chosenItems" class="w-100 h-50">
+      <ng-container
+        [ngTemplateOutlet]="lstOption.chosenItemTmpl ?? defaulChosenItemTempl"
+        [ngTemplateOutletContext]="{ $implicit: item }"
+      ></ng-container>
+    </nz-list-item>
+  </nz-list>
+</ng-template>
+
+<ng-template #defaulChosenItemTempl let-item>
+  <nz-card
+    class="w-100 h-25"
+    [ngStyle]="{
+      width: lstOption.width/2 + 'px',
+      height: lstOption.height/2 + 'px',
+    }"
+  >
+    <div class="d-flex">
+      <nz-card-meta
+        *ngIf="titleField"
+        [nzTitle]="item[titleField.field]"
+        nzDescription=""
+      >
+      </nz-card-meta>
+    </div>
+    <ng-container
+      [ngTemplateOutlet]="controlsTempl"
+      [ngTemplateOutletContext]="{
+        item: item,
+        chooseArea: true,
+        parentClass: 'row',
+        controlClass: 'col-' + 12 / objFields.length
+      }"
+    ></ng-container>
+  </nz-card>
+</ng-template>
+
+<ng-template
+  #controlsTempl
+  let-item="item"
+  let-chooseArea="chooseArea"
+  let-parentClass="parentClass"
+  let-controlClass="controlClass"
+>
+  <div [class]="parentClass">
+    <div *ngFor="let control of objFields" [class]="controlClass">
+      <ng-container
+        [ngSwitch]="control.type"
+        *ngIf="control.showOnChoose ? chooseArea : true"
+      >
+        <label for="">{{ control.title }}</label>
+        <ng-container *ngSwitchCase="'checkbox'">
+          <input
+            [type]="'checkbox'"
+            class="d-flex item-control w-100"
+            [checked]="item[control.field]"
+            (change)="item[control.field] = !item[control.field]"
+            [disabled]="
+              disabled == true ? true : control.disabled ? true : false
+            "
+            [placeholder]="control.placeholder"
+          />
+        </ng-container>
+        <ng-container *ngSwitchCase="'select'">
+          <nz-select
+            *ngIf="control.labelField && control.valueField"
+            nzShowSearch
+            nzAllowClear
+            class="d-flex item-control w-100"
+            [nzPlaceHolder]="control.placeholder ?? ''"
+            [(ngModel)]="item[control.field]"
+          >
+            <nz-option
+              *ngFor="let data of control.dataSrc"
+              [nzLabel]="data[control.labelField]"
+              [nzValue]="data[control.valueField]"
+            ></nz-option>
+          </nz-select>
+        </ng-container>
+        <ng-container *ngSwitchCase="'icon'">
+          <span
+            *ngIf="item.icon"
+            nz-icon
+            [nzType]="item.icon"
+            [nzTheme]="item.iconStyle ?? 'outline'"
+            class="d-flex item-control w-100"
+          ></span>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          <input
+            class="d-flex item-control w-100"
+            [disabled]="
+              disabled == true
+                ? true
+                : control.disabled
+                ? true
+                : control.editOnChoose
+                ? !chooseArea
+                : false
+            "
+            [type]="control.type"
+            [(ngModel)]="item[control.field]"
+            [placeholder]="control.placeholder"
+            (input)="inputChange($event, control, item)"
+            [min]="control.minVal"
+          />
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</ng-template>

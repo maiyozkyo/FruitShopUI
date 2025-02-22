@@ -18,6 +18,7 @@ import { ControlItem } from 'projects/shared/src/lib/models/form/control-item.mo
 import { FormService } from 'projects/shared/src/lib/form/form.service';
 import { CommonData } from 'projects/shared/src/lib/models/table/commonData.model';
 import { PopupOption } from 'projects/shared/src/lib/models/popup/popup-option.model';
+import { ListOption } from 'projects/shared/src/lib/models/list/list-option.model';
 
 @Component({
   selector: 'lib-product-main',
@@ -61,10 +62,8 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
   productFields!: CommonData[];
   showPopProduct = false;
 
-  //#region Table
-  eProductService = environment.productService;
-  eProductAssemble = environment.productAssembly;
-  productMethod = 'TableProducts';
+  //#region List
+  lstProdOption: ListOption = new ListOption();
   popupProductOption = new PopupOption();
 
   //#endregion
@@ -132,6 +131,13 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
     this.popupProductOption.saveMethod = 'AddUpdateAsync';
     this.popupProductOption.removeMethod = 'RemoveProductAsync';
     this.popupProductOption.allowChoose = false;
+    //#endregion
+
+    //#region List Option
+    this.lstProdOption.service = environment.productService;
+    this.lstProdOption.assembly = environment.productAssembly;
+    this.lstProdOption.method = 'TableProducts';
+    this.lstProdOption.showChosenItems = true;
     //#endregion
   }
   ngAfterViewInit(): void {}

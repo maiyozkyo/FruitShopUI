@@ -23,6 +23,7 @@ import { ControlItem } from 'projects/shared/src/lib/models/form/control-item.mo
 import { environment } from 'src/environments/environment.development';
 import { FilterProduct } from 'projects/product/src/lib/models/product.filter.model';
 import { PopupOption } from 'projects/shared/src/lib/models/popup/popup-option.model';
+import { ListOption } from 'projects/shared/src/lib/models/list/list-option.model';
 
 @Component({
   selector: 'lib-order-main',
@@ -82,9 +83,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   productControls!: ControlItem[];
   productFields!: CommonData[];
   showPopProduct = false;
-  eProductService = environment.productService;
-  eProductAssemble = environment.productAssembly;
-  productMethod = 'TableProducts';
+  lstProdOption: ListOption = new ListOption();
   productFilter: FilterProduct = {
     IsActive: true,
     ProductName: '',
@@ -162,6 +161,29 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
         title: '',
         type: 'cover',
       },
+      {
+        field: 'quantity',
+        title: 'Số lượng',
+        type: 'number',
+        minVal: 0,
+        showOnChoose: true,
+      },
+      {
+        field: 'price',
+        title: 'Đơn giá',
+        type: 'number',
+        minVal: 0,
+        editOnChoose: true,
+      },
+      {
+        field: 'total',
+        title: 'Tổng',
+        type: 'number',
+        disabled: true,
+        showOnChoose: true,
+        autoCalculate: true,
+        expression: 'item.quantity * item.price',
+      },
     ];
     this.productFG = this.formService.genFromControls(this.productControls);
     //#endregion
@@ -170,6 +192,15 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
     this.orderPopupOption.allowAddEdit = false;
     this.orderPopupOption.allowRemove = false;
     this.orderPopupOption.height = 1000;
+    this.orderPopupOption.width = 1300;
+    //#endregion
+
+    //#region Product List Option
+    this.lstProdOption.service = environment.productService;
+    this.lstProdOption.assembly = environment.productAssembly;
+    this.lstProdOption.method = 'TableProducts';
+    this.lstProdOption.isPaging = false;
+    this.lstProdOption.showChosenItems = true;
     //#endregion
   }
 
