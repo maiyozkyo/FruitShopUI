@@ -1,4 +1,5 @@
 import { TemplateRef } from '@angular/core';
+import { CommonData } from '../table/commonData.model';
 
 export class ListOption {
   type: 'list' | 'grid' = 'list';
@@ -28,4 +29,5 @@ export class ListOption {
     | 'rightBottom'
     | Array<string> = 'right';
   chosenItemTmpl?: TemplateRef<any>;
+  footerControls: CommonData[] = [];
 }

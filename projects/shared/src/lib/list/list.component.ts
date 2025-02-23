@@ -29,8 +29,8 @@ export class ListComponent implements OnInit, AfterViewInit {
   //#region List
   @Input() lstOption: ListOption = new ListOption();
   @Input() data: any[] = [];
-  totalData: any[] = [];
   chosenItems: any[] = [];
+  totalData: any[] = [];
   @Input() fg!: FormGroup;
   @Input() objFields: CommonData[] = [];
   @Input() controls: ControlItem[] = [];
@@ -43,6 +43,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   request = '';
   total = 0;
   @Output() dataChange = new EventEmitter();
+  @Output() chosenItemsChange = new EventEmitter();
   //#endregion
 
   //#region Popup
@@ -58,6 +59,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   protected listMaxHeight = 1;
   @ViewChild('listInfo') listInfo!: ElementRef<HTMLElement>;
   protected curSelected: any;
+  protected itemTotal: any = {};
   //#endregion
   //#endregion
 
@@ -88,6 +90,9 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     this.autoCalFields = this.objFields.filter((field) => field.autoCalculate);
+    this.lstOption.footerControls.forEach(
+      (control) => (this.itemTotal[control.field] = 0)
+    );
   }
 
   ngAfterViewInit() {
@@ -219,23 +224,39 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  protected setItemChoose(item: any, evt?: any) {
-    if (evt == null) item['isChosen'] = !item['isChosen'];
-    else item['isChosen'] = evt.target.value > 0;
+  protected setItemChoose(item: any, evt?: any, isGetData = false) {
+    if (isGetData) {
+      item['isChosen'] =
+        this.chosenItems.find((x) => x.recID == item.recID) != null;
+    } else {
+      if (evt == null) item['isChosen'] = !item['isChosen'];
+      else item['isChosen'] = evt.target.value > 0;
+    }
 
     item['border'] = item['isChosen'] ? '1px solid green' : '';
-    if (item['isChosen']) this.chosenItems.push(item);
-    else
-      this.chosenItems = this.chosenItems.filter((x) => x.recID != item.recID);
+    if (!isGetData) {
+      if (item['isChosen']) this.chosenItems.push(item);
+      else
+        this.chosenItems = this.chosenItems.filter(
+          (x) => x.recID != item.recID
+        );
+      this.chosenItemsChange.emit(this.chosenItems);
+    }
   }
 
   inputChange(evt: any, control: CommonData, item: any) {
     this.autoCalFields
-      .filter((field) => field.expression?.includes(control.field))
-      .forEach((field) => {
-        if (field.expression)
-          item[field.field] = evaluate(field.expression, { item: item });
+      .filter((c) => c.expression?.includes(control.field))
+      .forEach((c) => {
+        if (c.expression)
+          item[c.field] = evaluate(c.expression, { item: item });
       });
+    this.lstOption.footerControls.forEach((c) => {
+      this.itemTotal[c.field] = this.chosenItems.reduce(
+        (acc, curr) => acc + +curr[c.field],
+        0
+      );
+    });
   }
   //#endregion
 
@@ -253,8 +274,8 @@ export class ListComponent implements OnInit, AfterViewInit {
   }
 
   private setDefaultValue() {
-    this.objFields.forEach((objF) => {
-      this.data.forEach((item) => {
+    this.data.forEach((item) => {
+      this.objFields.forEach((objF) => {
         if (!item[objF.field]) {
           switch (objF.type) {
             case 'checkbox':
@@ -276,6 +297,7 @@ export class ListComponent implements OnInit, AfterViewInit {
           }
         }
       });
+      this.setItemChoose(item, null, true);
     });
   }
 }

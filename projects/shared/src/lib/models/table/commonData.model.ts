@@ -22,6 +22,7 @@ export class CommonData {
   expression?: string = '';
   minVal?: number;
   maxVal?: number;
+  hidden?: boolean = false;
 
   constructor(obj: CommonData) {
     Object.assign(this, obj);

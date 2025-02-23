@@ -24,6 +24,8 @@ import { environment } from 'src/environments/environment.development';
 import { FilterProduct } from 'projects/product/src/lib/models/product.filter.model';
 import { PopupOption } from 'projects/shared/src/lib/models/popup/popup-option.model';
 import { ListOption } from 'projects/shared/src/lib/models/list/list-option.model';
+import { ListComponent } from 'projects/shared/src/lib/list/list.component';
+import { OROrderDetail } from '../models/order-detail.model';
 
 @Component({
   selector: 'lib-order-main',
@@ -50,6 +52,10 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   eOrderAssembly = environment.orderAssembly;
   orderTableMethod = 'TableOrders';
   orderPopupOption: PopupOption = new PopupOption();
+  //#endregion
+
+  //#region Chi tiết đơn
+  lstOrderDetails: OROrderDetail[] = [];
   //#endregion
 
   //#region Table
@@ -201,6 +207,27 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
     this.lstProdOption.method = 'TableProducts';
     this.lstProdOption.isPaging = false;
     this.lstProdOption.showChosenItems = true;
+    this.lstProdOption.footerControls = [
+      {
+        field: 'quantity',
+        title: 'Số lượng',
+        type: 'number',
+        disabled: true,
+      },
+      {
+        field: 'price',
+        title: 'Đơn giá',
+        type: 'number',
+        disabled: true,
+        hidden: true,
+      },
+      {
+        field: 'total',
+        title: 'Tổng tiền',
+        type: 'number',
+        disabled: true,
+      },
+    ];
     //#endregion
   }
 
@@ -272,5 +299,9 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
 
   onSelectCustomer(cus: CUCustomer) {
     this.curCustomer = cus;
+  }
+
+  onChosenItemsChange(evt: any) {
+    this.lstOrderDetails = evt as OROrderDetail[];
   }
 }

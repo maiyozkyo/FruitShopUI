@@ -106,7 +106,7 @@
     </div>
     <ng-container
       [ngTemplateOutlet]="controlsTempl"
-      [ngTemplateOutletContext]="{ item: item }"
+      [ngTemplateOutletContext]="{ item: item, controls: objFields }"
     ></ng-container>
     <div class="d-flex justify-content-end">
       <ng-container
@@ -220,6 +220,18 @@
       ></ng-container>
     </nz-list-item>
   </nz-list>
+  <div class="footer d-flex" *ngIf="lstOption.footerControls.length">
+    <ng-container
+      [ngTemplateOutlet]="controlsTempl"
+      [ngTemplateOutletContext]="{
+        item: itemTotal,
+        chooseArea: true,
+        parentClass: 'row w-100',
+        controlClass: 'col-' + 12 / lstOption.footerControls.length,
+        controls: lstOption.footerControls
+      }"
+    ></ng-container>
+  </div>
 </ng-template>
 
 <ng-template #defaulChosenItemTempl let-item>
@@ -244,7 +256,8 @@
         item: item,
         chooseArea: true,
         parentClass: 'row',
-        controlClass: 'col-' + 12 / objFields.length
+        controlClass: 'col-' + 12 / objFields.length,
+        controls: objFields
       }"
     ></ng-container>
   </nz-card>
@@ -256,12 +269,15 @@
   let-chooseArea="chooseArea"
   let-parentClass="parentClass"
   let-controlClass="controlClass"
+  let-controls="controls"
 >
   <div [class]="parentClass">
-    <div *ngFor="let control of objFields" [class]="controlClass">
+    <div *ngFor="let control of controls" [class]="controlClass">
       <ng-container
         [ngSwitch]="control.type"
-        *ngIf="control.showOnChoose ? chooseArea : true"
+        *ngIf="
+          control.hidden ? false : control.showOnChoose ? chooseArea : true
+        "
       >
         <label for="">{{ control.title }}</label>
         <ng-container *ngSwitchCase="'checkbox'">
