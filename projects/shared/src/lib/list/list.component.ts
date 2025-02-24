@@ -9,6 +9,7 @@ import {
   Output,
   TemplateRef,
   ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
 import { CommonData } from '../models/table/commonData.model';
 import { TableData } from '../models/table/tableData.model';
@@ -19,6 +20,7 @@ import { NotifyService } from '../services/notify.service';
 import { PopupOption } from '../models/popup/popup-option.model';
 import { ListOption } from '../models/list/list-option.model';
 import { evaluate } from 'mathjs';
+import { PopupService } from '../services/popup.service';
 @Component({
   selector: 'lib-list',
   templateUrl: './list.component.html',
@@ -60,13 +62,16 @@ export class ListComponent implements OnInit, AfterViewInit {
   @ViewChild('listInfo') listInfo!: ElementRef<HTMLElement>;
   protected curSelected: any;
   protected itemTotal: any = {};
+  @ViewChild('popupContainer', { read: ViewContainerRef, static: true })
+  popupContainerRef!: ViewContainerRef;
   //#endregion
   //#endregion
 
   constructor(
     private df: ChangeDetectorRef,
     private notiService: NotifyService,
-    private shareService: SharedService
+    private shareService: SharedService,
+    private popupService: PopupService
   ) {}
 
   ngOnInit() {
@@ -98,6 +103,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.setListHeight();
     this.loadData();
+    this.popupService.setViewContainerRef(this.popupContainerRef);
   }
 
   //#region Get List

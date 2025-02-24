@@ -19,6 +19,7 @@ import { FormService } from 'projects/shared/src/lib/form/form.service';
 import { CommonData } from 'projects/shared/src/lib/models/table/commonData.model';
 import { PopupOption } from 'projects/shared/src/lib/models/popup/popup-option.model';
 import { ListOption } from 'projects/shared/src/lib/models/list/list-option.model';
+import { PopupService } from 'projects/shared/src/lib/services/popup.service';
 
 @Component({
   selector: 'lib-product-main',
@@ -60,7 +61,6 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
   productFG!: FormGroup;
   productControls!: ControlItem[];
   productFields!: CommonData[];
-  showPopProduct = false;
 
   //#region List
   lstProdOption: ListOption = new ListOption();
@@ -75,6 +75,7 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
     private productService: ProductService,
     private notiService: NotifyService,
     private formService: FormService,
+    private popupService: PopupService,
     private df: ChangeDetectorRef
   ) {}
   ngOnInit(): void {
@@ -137,10 +138,12 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
     this.lstProdOption.service = environment.productService;
     this.lstProdOption.assembly = environment.productAssembly;
     this.lstProdOption.method = 'TableProducts';
-    this.lstProdOption.showChosenItems = true;
+    this.lstProdOption.showChosenItems = false;
     //#endregion
   }
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    this.popupService.setViewContainerRef(this.popupContainerRef);
+  }
 
   onSelecteProductStatus(evt: any) {
     this.curFilter.IsActive = evt;
@@ -153,7 +156,7 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
         let isNew = this.curProduct.recID == null;
         let title = (isNew ? 'Thêm mới' : 'Chỉnh sửa') + ' hàng hóa';
         this.notiService.show(title, 'Thành công', 'success');
-        this.showPopProduct = false;
+        this.popupProductOption.showPopup = false;
         this.productLib.reload();
       });
     }
@@ -161,6 +164,6 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
 
   showPopup(product: PRProduct | null) {
     if (!product) this.curProduct = new PRProduct();
-    this.showPopProduct = true;
+    this.popupProductOption.showPopup = true;
   }
 }

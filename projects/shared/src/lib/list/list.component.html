@@ -1,3 +1,4 @@
+<ng-template #popupContainer></ng-template>
 <div class="w-100 h-100 position-absolute p-2" #listInfo>
   <div class="d-flex row">
     <div
@@ -185,7 +186,9 @@
   [data]="curSelected"
   [formGroup]="fg"
   [controls]="controls"
+  [popupOption]="popupOptions"
   (onConfirm)="onAddUpdate($event)"
+  [parent]="'list'"
 >
 </lib-popup>
 
