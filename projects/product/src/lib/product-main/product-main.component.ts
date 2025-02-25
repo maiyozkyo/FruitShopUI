@@ -129,9 +129,7 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
 
     //#region Popup Option
     this.popupProductOption = new PopupOption();
-    this.popupProductOption.saveMethod = 'AddUpdateAsync';
-    this.popupProductOption.removeMethod = 'RemoveProductAsync';
-    this.popupProductOption.allowChoose = false;
+
     //#endregion
 
     //#region List Option
@@ -139,6 +137,9 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
     this.lstProdOption.assembly = environment.productAssembly;
     this.lstProdOption.method = 'TableProducts';
     this.lstProdOption.showChosenItems = false;
+    this.lstProdOption.saveMethod = 'AddUpdateAsync';
+    this.lstProdOption.removeMethod = 'RemoveProductAsync';
+    this.lstProdOption.allowChoose = false;
     //#endregion
   }
   ngAfterViewInit(): void {
@@ -162,8 +163,7 @@ export class ProductMainComponent implements OnInit, AfterViewInit {
     }
   }
 
-  showPopup(product: PRProduct | null) {
-    if (!product) this.curProduct = new PRProduct();
-    this.popupProductOption.showPopup = true;
+  addItem() {
+    this.productLib.onAddItemClick();
   }
 }

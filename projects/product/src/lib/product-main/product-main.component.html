@@ -26,9 +26,7 @@
           </nz-select>
         </div>
         <div class="col-5 d-flex justify-content-end align-items-center">
-          <button class="btn btn-primary" (click)="showPopup(null)">
-            Thêm mới
-          </button>
+          <button class="btn btn-primary" (click)="addItem()">Thêm mới</button>
         </div>
       </div>
     </mat-toolbar>
@@ -47,13 +45,12 @@
   </div>
 </div>
 
-<lib-popup
+<!-- <lib-popup
   #prodPopup
   [formGroup]="productFG"
   [controls]="productControls"
   [data]="curProduct"
   [popupOption]="popupProductOption"
-  parent="product"
   (onConfirm)="onAddUpdateProduct($event)"
 >
-</lib-popup>
+</lib-popup> -->

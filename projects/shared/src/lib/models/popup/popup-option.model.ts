@@ -5,14 +5,7 @@ export class PopupOption {
   cancelText?: string = 'Hủy';
   isOkLoading?: boolean = false;
   showPopup!: boolean;
-  showRemovePopup? = false;
-  saveMethod? = '';
-  allowAddEdit? = true;
   isRemove? = false;
-  removeMethod? = '';
-  allowRemove? = true;
-  isConfirmRemove? = true;
-  allowChoose? = true;
 
   constructor() {
     this.showPopup = false;

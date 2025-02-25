@@ -36,7 +36,6 @@ export class PopupComponent
   @Input() showConfirm = false;
   @Input() popupOption: PopupOption = new PopupOption();
   preVisibleState: boolean = false;
-  @Input() parent = '';
 
   @Output() onCancel = new EventEmitter();
   @Output() onConfirm = new EventEmitter();
@@ -50,8 +49,6 @@ export class PopupComponent
 
   ngDoCheck(): void {
     if (this.popupOption.showPopup != this.preVisibleState) {
-      console.log('do check', this.parent, this.data);
-
       this.preVisibleState = this.popupOption.showPopup;
       if (this.popupOption.showPopup) {
         let isNew = this.data?.recID ? false : true;
@@ -69,8 +66,10 @@ export class PopupComponent
             if (isNew) this.formGroup.controls[c.controlName].enable();
             else this.formGroup.controls[c.controlName].disable();
           });
-        this.tempData = { ...this.data };
-        this.formGroup.patchValue(this.tempData);
+        if (this.data) {
+          this.tempData = { ...this.data };
+          this.formGroup.patchValue(this.tempData);
+        } else this.formGroup.reset();
       }
     }
   }

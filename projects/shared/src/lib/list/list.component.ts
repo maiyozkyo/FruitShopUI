@@ -83,8 +83,8 @@ export class ListComponent implements OnInit, AfterViewInit {
         x != this.titleField && x != this.coverField && x != this.avatarField
     );
     if (
-      this.popupOptions.allowRemove &&
-      this.popupOptions.isConfirmRemove &&
+      this.lstOption.allowRemove &&
+      this.lstOption.isConfirmRemove &&
       !this.popRemoveConfirmOption
     ) {
       this.popRemoveConfirmOption = new PopupOption();
@@ -151,33 +151,39 @@ export class ListComponent implements OnInit, AfterViewInit {
   //#endregion
 
   //#region Item Actions
-  onEditClick(item: any) {
+  onAddItemClick() {
+    this.curSelected = null;
+    this.popupOptions.showPopup = true;
+    this.df.detectChanges();
+  }
+
+  protected onEditClick(item: any) {
     this.curSelected = item;
     this.popupOptions.showPopup = true;
     this.df.detectChanges();
   }
 
-  onRemoveClick(item: any) {
+  protected onRemoveClick(item: any) {
     this.curSelected = item;
-    if (this.popupOptions.isConfirmRemove) {
-      this.popupOptions.showRemovePopup = true;
+    if (this.lstOption.isConfirmRemove) {
+      this.popRemoveConfirmOption.showPopup = true;
       this.df.detectChanges();
     } else {
       this.onRemoveConfirm();
     }
   }
 
-  onRemoveConfirm() {
+  protected onRemoveConfirm() {
     if (
       this.lstOption.service &&
       this.lstOption.assembly &&
-      this.popupOptions.removeMethod
+      this.lstOption.removeMethod
     ) {
       this.shareService
         .post(
           this.lstOption.service,
           this.lstOption.assembly,
-          this.popupOptions.removeMethod,
+          this.lstOption.removeMethod,
           this.curSelected.recID
         )
         .subscribe((res) => {
@@ -190,24 +196,24 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onCopyClick(item: any) {
+  protected onCopyClick(item: any) {
     let clone = { ...item };
     clone.recID = null;
     this.onAddUpdate(clone, true);
   }
 
-  onAddUpdate(evt: any, isCopy = false) {
+  protected onAddUpdate(evt: any, isCopy = false) {
     if (
       this.lstOption.service &&
       this.lstOption.assembly &&
-      this.popupOptions.saveMethod
+      this.lstOption.saveMethod
     ) {
       this.loading = true;
       this.shareService
         .post(
           this.lstOption.service,
           this.lstOption.assembly,
-          this.popupOptions.saveMethod,
+          this.lstOption.saveMethod,
           evt
         )
         .subscribe((res) => {
@@ -220,10 +226,10 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onClickItem(item: any, evt: any) {
+  protected onClickItem(item: any, evt: any) {
     let target = evt.target as HTMLElement;
     if (
-      this.popupOptions.allowChoose &&
+      this.lstOption.allowChoose &&
       !target.classList.contains('input-value')
     ) {
       this.setItemChoose(item, null);
@@ -250,7 +256,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  inputChange(evt: any, control: CommonData, item: any) {
+  protected inputChange(evt: any, control: CommonData, item: any) {
     this.autoCalFields
       .filter((c) => c.expression?.includes(control.field))
       .forEach((c) => {

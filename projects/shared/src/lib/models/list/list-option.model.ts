@@ -6,6 +6,13 @@ export class ListOption {
   service: string = '';
   assembly: string = '';
   method: string = '';
+  allowAddEdit? = true;
+  saveMethod? = '';
+  allowRemove? = true;
+  removeMethod? = '';
+  showRemovePopup? = false;
+  isConfirmRemove? = true;
+  allowChoose? = true;
   filter: any;
   isPaging: boolean = true;
   pageSize = 20;

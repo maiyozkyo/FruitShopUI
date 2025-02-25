@@ -195,8 +195,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
     //#endregion
 
     //#region Order Detail Popup Option
-    this.orderPopupOption.allowAddEdit = false;
-    this.orderPopupOption.allowRemove = false;
+
     this.orderPopupOption.height = 1000;
     this.orderPopupOption.width = 1300;
     //#endregion
@@ -207,6 +206,8 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
     this.lstProdOption.method = 'TableProducts';
     this.lstProdOption.isPaging = false;
     this.lstProdOption.showChosenItems = true;
+    this.lstProdOption.allowAddEdit = false;
+    this.lstProdOption.allowRemove = false;
     this.lstProdOption.footerControls = [
       {
         field: 'quantity',
