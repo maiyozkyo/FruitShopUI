@@ -60,14 +60,19 @@ export class PopupComponent
           }
         }
 
-        this.controls
-          ?.filter((c) => c.disabledOnEdit)
-          .forEach((c) => {
+        // ?.filter((c) => c.disabledOnEdit)
+        this.tempData = { ...this.data };
+
+        this.controls?.forEach((c) => {
+          if (c.disabledOnEdit) {
             if (isNew) this.formGroup.controls[c.controlName].enable();
             else this.formGroup.controls[c.controlName].disable();
-          });
-        if (this.data) {
-          this.tempData = { ...this.data };
+          }
+
+          if (c.value) this.tempData[c.controlName] = c.value;
+        });
+
+        if (this.tempData) {
           this.formGroup.patchValue(this.tempData);
         } else this.formGroup.reset();
       }

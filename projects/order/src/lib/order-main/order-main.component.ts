@@ -241,7 +241,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
       {
         controlName: 'customerRecID',
         title: 'Khách hàng',
-        value: this.curCustomer.name,
+        value: this.curCustomer.recID,
         icon: 'user',
         type: 'text',
         disabled: true,
@@ -268,7 +268,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   }
 
   confirmAddUpdateOrder(orderData: any) {
-    console.log('confirmAddUpdateOrder', orderData);
+    console.log('confirmAddUpdateOrder', orderData, this.lstOrderDetails);
   }
 
   cancelAddUpdateOrder() {
