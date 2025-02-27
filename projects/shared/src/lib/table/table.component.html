@@ -33,6 +33,7 @@
             *ngFor="let row of tableRows"
             [nzColumnKey]="row.field"
             [nzFilterFn]="true"
+            [class]="'col-' + 12 / tableRows.length"
           >
             {{ row.title }}
           </th>
@@ -44,7 +45,7 @@
             <ng-container [ngSwitch]="row.type">
               <ng-container *ngSwitchCase="'checkbox'">
                 <input
-                  [type]="'checkbox'"
+                  [type]="row.type"
                   [checked]="item[row.field]"
                   (change)="item[row.field] = !item[row.field]"
                   [disabled]="
@@ -60,6 +61,13 @@
                   nzAllowClear
                   [nzPlaceHolder]="row.placeholder ?? ''"
                   [(ngModel)]="item[row.field]"
+                  [disabled]="
+                    disabled == true ? true : row.disabled ? true : false
+                  "
+                  [nzShowArrow]="
+                    !(disabled == true ? true : row.disabled ? true : false)
+                  "
+                  [class]="row.class ? row.class : tableClass"
                 >
                   <nz-option
                     *ngFor="let data of row.dataSrc"

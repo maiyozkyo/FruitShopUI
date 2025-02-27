@@ -19,12 +19,12 @@ export class OrderService {
 
   //#region Order
   //Null for create order
-  getOrder(orderID?: string | null, customerID?: string | null) {
+  getOrder(order: OROrder) {
     return this.apiService.post(
       this.orderService,
       this.orderBusiness,
       'GetOrderAsync',
-      [orderID, customerID]
+      [order]
     );
   }
 

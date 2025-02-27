@@ -27,6 +27,7 @@ import { ListOption } from 'projects/shared/src/lib/models/list/list-option.mode
 import { ListComponent } from 'projects/shared/src/lib/list/list.component';
 import { OROrderDetail } from '../models/order-detail.model';
 import { PRProduct } from 'projects/product/src/lib/models/product.model';
+import { TableComponent } from 'projects/shared/src/lib/table/table.component';
 
 @Component({
   selector: 'lib-order-main',
@@ -39,8 +40,6 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   //#region Root
   @ViewChild('popupContainer', { read: ViewContainerRef, static: true })
   popupContainerRef!: ViewContainerRef;
-  @ViewChild('orderDetailTmp', { read: TemplateRef, static: true })
-  orderDetailTmp!: TemplateRef<any>;
   //#endregion
 
   //#region Đơn hàng
@@ -53,6 +52,9 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   eOrderAssembly = environment.orderAssembly;
   orderTableMethod = 'TableOrders';
   orderPopupOption: PopupOption = new PopupOption();
+  @ViewChild('orderDetailTmp', { read: TemplateRef, static: true })
+  orderDetailTmp!: TemplateRef<any>;
+  @ViewChild('orderTable', { static: true }) orderTable!: TableComponent;
   //#endregion
 
   //#region Chi tiết đơn
@@ -112,7 +114,17 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     //#region Đơn hàng
-    this.tableRows = [];
+    this.tableRows = [
+      {
+        field: 'customerRecID',
+        title: 'Khách hàng',
+        dataSrc: this.lstCustomers,
+        type: 'select',
+        labelField: 'name',
+        valueField: 'recID',
+        disabled: true,
+      },
+    ];
     this.orderControls = [
       {
         controlName: 'customerRecID',
@@ -239,47 +251,46 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
 
   addOrder() {
     this.curOrder = new OROrder();
-    this.orderService
-      .getOrder(null, this.curCustomer.recID)
-      .subscribe((orderID: any) => {
-        this.curOrder.recID = orderID;
-        this.orderControls = [
-          {
-            controlName: 'recID',
-            title: '',
-            value: orderID,
-            icon: 'user',
-            type: 'text',
-            disabled: true,
-            hidden: true,
-          },
-          {
-            controlName: 'customerRecID',
-            title: 'Khách hàng',
-            value: this.curCustomer.recID,
-            icon: 'user',
-            type: 'text',
-            disabled: true,
-          },
-        ];
-        this.orderForm = this.formService.genFromControls(this.orderControls);
-        this.popupService
-          .open(
-            'Add/Update đơn hàng',
-            this.orderForm,
-            this.curOrder,
-            this.orderPopupOption,
-            this.orderDetailTmp,
-            this.orderControls
-          )
-          .subscribe((res) => {
-            if (res.isConfirm) {
-              this.confirmAddUpdateOrder(res.data);
-            } else {
-              this.cancelAddUpdateOrder(true);
-            }
-          });
-      });
+    this.curOrder.customerRecID = this.curCustomer.recID as string;
+    this.orderService.getOrder(this.curOrder).subscribe((orderID: any) => {
+      this.curOrder.recID = orderID;
+      this.orderControls = [
+        {
+          controlName: 'recID',
+          title: '',
+          value: orderID,
+          icon: 'user',
+          type: 'text',
+          disabled: true,
+          hidden: true,
+        },
+        {
+          controlName: 'customerRecID',
+          title: 'Khách hàng',
+          value: this.curCustomer.recID,
+          icon: 'user',
+          type: 'text',
+          disabled: true,
+        },
+      ];
+      this.orderForm = this.formService.genFromControls(this.orderControls);
+      this.popupService
+        .open(
+          'Add/Update đơn hàng',
+          this.orderForm,
+          this.curOrder,
+          this.orderPopupOption,
+          this.orderDetailTmp,
+          this.orderControls
+        )
+        .subscribe((res) => {
+          if (res.isConfirm) {
+            this.confirmAddUpdateOrder(res.data);
+          } else {
+            this.cancelAddUpdateOrder(true);
+          }
+        });
+    });
   }
 
   confirmAddUpdateOrder(orderData: any) {
@@ -299,7 +310,6 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
       detail.tare = prod.tare;
       lstOrdDetails.push(detail);
     });
-    console.log(lstOrdDetails);
     this.orderService
       .saveOrderDetails(lstOrdDetails, this.curOrder.recID as string)
       .subscribe((res) => {
@@ -342,6 +352,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   onSelectCustomer(cus: CUCustomer) {
     this.curCustomer = cus;
     this.filter.customerRecID = this.curCustomer.recID as string;
+    this.orderTable.reload();
   }
 
   onChosenItemsChange(evt: any) {

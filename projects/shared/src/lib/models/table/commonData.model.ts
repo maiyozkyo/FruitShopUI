@@ -23,6 +23,7 @@ export class CommonData {
   minVal?: number;
   maxVal?: number;
   hidden?: boolean = false;
+  class?: string | undefined;
 
   constructor(obj: CommonData) {
     Object.assign(this, obj);

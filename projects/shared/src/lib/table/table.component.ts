@@ -44,7 +44,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   loading = false;
   themeClass: string = 'ag-theme-quartz';
   tableMaxHeight: number = 1;
-
+  tableClass = '';
   constructor(
     private df: ChangeDetectorRef,
     private shareService: SharedService
@@ -52,6 +52,7 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.tableRows = this.tableRows.map((row) => (row = new CommonData(row)));
+    this.tableClass = 'col-' + 12 / this.tableRows.length;
   }
   ngAfterViewInit(): void {
     this.setTableHeight();
