@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/Services/api.service';
 import { OROrder } from './models/order.model';
 import { environment } from 'src/environments/environment.development';
 import { Observable } from 'rxjs';
+import { OROrderDetail } from './models/order-detail.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,20 +12,41 @@ export class OrderService {
   //#region Order Services
   private readonly orderService = environment.orderService;
   private readonly orderBusiness = environment.orderAssembly;
+  private readonly orderDetailBusiness = environment.orderDetailAssembly;
   //#endregion
 
-  //#region Product Services
-  private readonly productService = environment.productService;
-  private readonly producBusiness = environment.productAssembly;
-  //#endregion
   constructor(private apiService: ApiService) {}
 
-  addUpdateOrder(order: OROrder) {
+  //#region Order
+  //Null for create order
+  getOrder(orderID?: string | null, customerID?: string | null) {
     return this.apiService.post(
       this.orderService,
       this.orderBusiness,
-      'AddUpdateAsync',
-      [order]
+      'GetOrderAsync',
+      [orderID, customerID]
     );
   }
+
+  cancelCreateOrder(orderID: string) {
+    return this.apiService.post(
+      this.orderService,
+      this.orderBusiness,
+      'CancleCreateOrderAsync',
+      [orderID]
+    );
+  }
+
+  //#endregion
+
+  //#region Order Detail
+  saveOrderDetails(lstDetail: OROrderDetail[], orderID: string) {
+    return this.apiService.post(
+      this.orderService,
+      this.orderDetailBusiness,
+      'AddUpdateOrderDetails',
+      [lstDetail, orderID]
+    );
+  }
+  //#endregion
 }

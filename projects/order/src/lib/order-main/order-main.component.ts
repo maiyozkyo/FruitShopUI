@@ -26,6 +26,7 @@ import { PopupOption } from 'projects/shared/src/lib/models/popup/popup-option.m
 import { ListOption } from 'projects/shared/src/lib/models/list/list-option.model';
 import { ListComponent } from 'projects/shared/src/lib/list/list.component';
 import { OROrderDetail } from '../models/order-detail.model';
+import { PRProduct } from 'projects/product/src/lib/models/product.model';
 
 @Component({
   selector: 'lib-order-main',
@@ -55,7 +56,6 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   //#endregion
 
   //#region Chi tiết đơn
-  lstOrderDetails: OROrderDetail[] = [];
   //#endregion
 
   //#region Table
@@ -94,6 +94,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
     IsActive: true,
     ProductName: '',
   };
+  chosenProducts: any[] = [];
   //#endregion
 
   //#region Data Save
@@ -237,41 +238,81 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   }
 
   addOrder() {
-    this.orderControls = [
-      {
-        controlName: 'customerRecID',
-        title: 'Khách hàng',
-        value: this.curCustomer.recID,
-        icon: 'user',
-        type: 'text',
-        disabled: true,
-      },
-    ];
-
-    this.orderForm = this.formService.genFromControls(this.orderControls);
-    this.popupService
-      .open(
-        'Add/Update đơn hàng',
-        this.orderForm,
-        this.curOrder,
-        this.orderPopupOption,
-        this.orderDetailTmp,
-        this.orderControls
-      )
-      .subscribe((res) => {
-        if (res.isConfirm) {
-          this.confirmAddUpdateOrder(res.data);
-        } else {
-          this.cancelAddUpdateOrder();
-        }
+    this.curOrder = new OROrder();
+    this.orderService
+      .getOrder(null, this.curCustomer.recID)
+      .subscribe((orderID: any) => {
+        this.curOrder.recID = orderID;
+        this.orderControls = [
+          {
+            controlName: 'recID',
+            title: '',
+            value: orderID,
+            icon: 'user',
+            type: 'text',
+            disabled: true,
+            hidden: true,
+          },
+          {
+            controlName: 'customerRecID',
+            title: 'Khách hàng',
+            value: this.curCustomer.recID,
+            icon: 'user',
+            type: 'text',
+            disabled: true,
+          },
+        ];
+        this.orderForm = this.formService.genFromControls(this.orderControls);
+        this.popupService
+          .open(
+            'Add/Update đơn hàng',
+            this.orderForm,
+            this.curOrder,
+            this.orderPopupOption,
+            this.orderDetailTmp,
+            this.orderControls
+          )
+          .subscribe((res) => {
+            if (res.isConfirm) {
+              this.confirmAddUpdateOrder(res.data);
+            } else {
+              this.cancelAddUpdateOrder(true);
+            }
+          });
       });
   }
 
   confirmAddUpdateOrder(orderData: any) {
-    console.log('confirmAddUpdateOrder', orderData, this.lstOrderDetails);
+    console.log(
+      'confirmAddUpdateOrder',
+      orderData,
+      this.chosenProducts as PRProduct[]
+    );
+    let lstOrdDetails: OROrderDetail[] = [];
+    this.chosenProducts.forEach((prod) => {
+      let detail = new OROrderDetail();
+      detail.orderRecID = this.curOrder.recID as string;
+      detail.productRecID = prod.recID;
+      detail.quantity = prod.quantity;
+      detail.price = prod.price;
+      detail.saleOff = prod.saleOff;
+      detail.tare = prod.tare;
+      lstOrdDetails.push(detail);
+    });
+    console.log(lstOrdDetails);
+    this.orderService
+      .saveOrderDetails(lstOrdDetails, this.curOrder.recID as string)
+      .subscribe((res) => {
+        this.notiService.show('Đơn hàng', 'Thành công', 'success');
+      });
   }
 
-  cancelAddUpdateOrder() {
+  cancelAddUpdateOrder(isNew = false) {
+    if (isNew) {
+      this.orderService
+        .cancelCreateOrder(this.curOrder.recID as string)
+        .subscribe(() => {});
+    }
     console.log('cancelAddUpdateOrder');
   }
 
@@ -293,16 +334,17 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
         this.cusPaging.total = res.total;
         this.lstCustomers.push(...res.data);
         if (!this.curCustomer) {
-          this.curCustomer = this.lstCustomers[0];
+          this.onSelectCustomer(this.lstCustomers[0]);
         }
       });
   }
 
   onSelectCustomer(cus: CUCustomer) {
     this.curCustomer = cus;
+    this.filter.customerRecID = this.curCustomer.recID as string;
   }
 
   onChosenItemsChange(evt: any) {
-    this.lstOrderDetails = evt as OROrderDetail[];
+    this.chosenProducts = evt;
   }
 }

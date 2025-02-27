@@ -56,13 +56,11 @@ export class PopupService {
     const popupResultSubject = new Subject<PopupResult>();
     popupComponent.instance.onConfirm.subscribe((data) => {
       popupResultSubject.next({ isConfirm: true, data });
-      popupResultSubject.complete();
       this.containerRef.clear(); // Clear the popup component
     });
 
     popupComponent.instance.onCancel.subscribe(() => {
       popupResultSubject.next({ isConfirm: false, data: null });
-      popupResultSubject.complete();
       this.containerRef.clear(); // Clear the popup component
     });
 

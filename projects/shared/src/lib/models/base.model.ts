@@ -1,5 +1,5 @@
 export class BaseModel {
-  recID!: string | undefined;
+  recID: string | undefined;
   createdBy?: string;
   createdOn?: Date;
   modifiedBy?: string;

@@ -20,6 +20,7 @@ export class ListOption {
   height = 100;
   disabled = true;
   showChosenItems: boolean = false;
+  chooseField: string = '';
   chosenTitle: string = 'Danh sách đang chọn';
   chosenPlacement:
     | 'top'

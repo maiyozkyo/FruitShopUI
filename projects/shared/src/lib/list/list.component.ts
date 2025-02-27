@@ -31,7 +31,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   //#region List
   @Input() lstOption: ListOption = new ListOption();
   @Input() data: any[] = [];
-  chosenItems: any[] = [];
+  @Input() chosenItems: any[] = [];
   totalData: any[] = [];
   @Input() fg!: FormGroup;
   @Input() objFields: CommonData[] = [];
@@ -237,9 +237,12 @@ export class ListComponent implements OnInit, AfterViewInit {
   }
 
   protected setItemChoose(item: any, evt?: any, isGetData = false) {
+    let keyField = !!this.lstOption.chooseField
+      ? this.lstOption.chooseField
+      : 'recID';
     if (isGetData) {
       item['isChosen'] =
-        this.chosenItems.find((x) => x.recID == item.recID) != null;
+        this.chosenItems.find((x) => x[keyField] == item[keyField]) != null;
     } else {
       if (evt == null) item['isChosen'] = !item['isChosen'];
       else item['isChosen'] = evt.target.value > 0;
@@ -250,7 +253,7 @@ export class ListComponent implements OnInit, AfterViewInit {
       if (item['isChosen']) this.chosenItems.push(item);
       else
         this.chosenItems = this.chosenItems.filter(
-          (x) => x.recID != item.recID
+          (x) => x[keyField] != item[keyField]
         );
       this.chosenItemsChange.emit(this.chosenItems);
     }
