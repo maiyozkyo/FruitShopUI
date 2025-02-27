@@ -17,12 +17,12 @@ export class TenantService {
     ]);
   }
 
-  migrateDB(services: string[]) {
+  migrateDB(services: string[], fields?: string[]) {
     return this.apiService.post(
       this.service,
       'TenantBusiness',
       'MigrateDatabase',
-      [services]
+      [services, fields]
     );
   }
 }

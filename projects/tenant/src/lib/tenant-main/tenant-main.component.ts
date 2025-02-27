@@ -12,7 +12,6 @@ import { NotifyService } from 'projects/shared/src/lib/services/notify.service';
 export class TenantMainComponent implements OnInit {
   curTenant!: Tenant;
   tenantFG!: FormGroup;
-
   services = [
     {
       code: 'CUCustomer',
@@ -37,7 +36,7 @@ export class TenantMainComponent implements OnInit {
     {
       code: 'BGBackground',
       isBought: false,
-    }
+    },
   ];
 
   lstDbType = [
@@ -67,6 +66,7 @@ export class TenantMainComponent implements OnInit {
       name: new FormControl('', [Validators.required]),
       isTrial: new FormControl(false, [Validators.required]),
       dbType: new FormControl(0, [Validators.required]),
+      fields: new FormControl(''),
     });
     this.curTenant = new Tenant();
   }
@@ -100,7 +100,11 @@ export class TenantMainComponent implements OnInit {
 
   migrateDatabase() {
     let services = this.services.filter((x) => x.isBought).map((x) => x.code);
-    this.tenantService.migrateDB(services).subscribe((res) => {
+    let updateFields = this.tenantFG.controls['fields'].value
+      .replaceAll(/ +?/g, '')
+      .replaceAll(/(?:\r\n|\r|\n)/g, ',')
+      .split(',');
+    this.tenantService.migrateDB(services, updateFields).subscribe((res) => {
       if (!res) {
         this.notiService.show(
           'Migrate Database',
