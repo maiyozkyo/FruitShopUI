@@ -124,6 +124,11 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
         valueField: 'recID',
         disabled: true,
       },
+      {
+        field: 'code',
+        title: 'Mã đơn',
+        disabled: true,
+      },
     ];
     this.orderControls = [
       {
