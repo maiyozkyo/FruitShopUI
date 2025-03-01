@@ -13,6 +13,7 @@ import { NzTableSize } from 'ng-zorro-antd/table';
 import { SharedService } from '../shared.service';
 import { TableData } from '../models/table/tableData.model';
 import { CommonData } from '../models/table/commonData.model';
+import { Default } from '../models/form/default.model';
 
 @Component({
   selector: 'lib-table',
@@ -45,6 +46,8 @@ export class TableComponent implements OnInit, AfterViewInit {
   themeClass: string = 'ag-theme-quartz';
   tableMaxHeight: number = 1;
   tableClass = '';
+  defaultDateFormat = Default.DateFormat;
+
   constructor(
     private df: ChangeDetectorRef,
     private shareService: SharedService

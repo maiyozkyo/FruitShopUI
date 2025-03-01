@@ -9,6 +9,7 @@ export class CommonData {
     | 'icon'
     | 'avatar'
     | 'cover'
+    | 'date'
     | 'title' = 'text';
   placeholder?: string = 'Vui lòng điền';
   dataSrc?: any[];
@@ -24,6 +25,7 @@ export class CommonData {
   maxVal?: number;
   hidden?: boolean = false;
   class?: string | undefined;
+  format?: string = '';
 
   constructor(obj: CommonData) {
     Object.assign(this, obj);

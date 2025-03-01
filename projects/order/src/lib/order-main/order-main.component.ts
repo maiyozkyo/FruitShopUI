@@ -62,7 +62,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
 
   //#region Table
   tableRows: CommonData[] = [];
-  tableDisabled: boolean = true;
+  tableDisabled: boolean = false;
   //#endregion
 
   //#region Bộ lọc
@@ -128,6 +128,13 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
         field: 'code',
         title: 'Mã đơn',
         disabled: true,
+      },
+      {
+        field: 'createdOn',
+        title: 'Ngày tạo đơn',
+        disabled: false,
+        type: 'date',
+        format: 'dd/MM/yyyy',
       },
     ];
     this.orderControls = [
