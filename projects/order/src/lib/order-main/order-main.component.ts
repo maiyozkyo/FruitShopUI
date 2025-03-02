@@ -116,13 +116,13 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
     //#region Đơn hàng
     this.tableRows = [
       {
-        field: 'customerRecID',
-        title: 'Khách hàng',
-        dataSrc: this.lstCustomers,
-        type: 'select',
-        labelField: 'name',
-        valueField: 'recID',
-        disabled: true,
+        field: 'edit',
+        title: '',
+        placeholder: 'Nhấn vào thay đổi đơn hàng',
+        type: 'action',
+        style: 'btn btn-primary',
+        icon: 'edit',
+        click: (row) => this.onEditOrder(row as OROrder),
       },
       {
         field: 'code',
@@ -132,11 +132,12 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
       {
         field: 'createdOn',
         title: 'Ngày tạo đơn',
-        disabled: false,
+        disabled: true,
         type: 'date',
         format: 'dd/MM/yyyy',
       },
     ];
+
     this.orderControls = [
       {
         controlName: 'customerRecID',
@@ -233,6 +234,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
     this.lstProdOption.showChosenItems = true;
     this.lstProdOption.allowAddEdit = false;
     this.lstProdOption.allowRemove = false;
+    this.lstProdOption.chooseField = 'productRecID';
     this.lstProdOption.footerControls = [
       {
         field: 'quantity',
@@ -261,10 +263,18 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
     this.popupService.setViewContainerRef(this.popupContainerRef);
   }
 
-  addOrder() {
-    this.curOrder = new OROrder();
+  addUpdateOrder(item: OROrder | null) {
+    const isNew = item == null;
+    if (item) {
+      this.curOrder = item;
+    } else {
+      this.curOrder = new OROrder();
+      this.chosenProducts = [];
+    }
     this.curOrder.customerRecID = this.curCustomer.recID as string;
     this.orderService.getOrder(this.curOrder).subscribe((orderID: any) => {
+      console.log(isNew, this.curOrder.recID == orderID);
+
       this.curOrder.recID = orderID;
       this.orderControls = [
         {
@@ -286,6 +296,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
         },
       ];
       this.orderForm = this.formService.genFromControls(this.orderControls);
+      if (isNew) this.orderForm.reset();
       this.popupService
         .open(
           'Add/Update đơn hàng',
@@ -299,7 +310,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
           if (res.isConfirm) {
             this.confirmAddUpdateOrder(res.data);
           } else {
-            this.cancelAddUpdateOrder(true);
+            this.cancelAddUpdateOrder(isNew);
           }
         });
     });
@@ -369,5 +380,20 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
 
   onChosenItemsChange(evt: any) {
     this.chosenProducts = evt;
+  }
+
+  onDateChanged(evt: any) {
+    console.log(evt);
+    this.orderTable.reload();
+  }
+
+  onEditOrder(item: OROrder) {
+    this.orderService
+      .getOrderDetails(item.recID as string)
+      .subscribe((details) => {
+        console.log('details', details);
+        this.chosenProducts = details as any[];
+        this.addUpdateOrder(item);
+      });
   }
 }

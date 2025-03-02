@@ -237,9 +237,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   }
 
   protected setItemChoose(item: any, evt?: any, isGetData = false) {
-    let keyField = !!this.lstOption.chooseField
-      ? this.lstOption.chooseField
-      : 'recID';
+    let keyField = this.lstOption.chooseField;
     if (isGetData) {
       item['isChosen'] =
         this.chosenItems.find((x) => x[keyField] == item[keyField]) != null;
@@ -259,13 +257,17 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  protected inputChange(evt: any, control: CommonData, item: any) {
-    this.autoCalFields
-      .filter((c) => c.expression?.includes(control.field))
-      .forEach((c) => {
-        if (c.expression)
-          item[c.field] = evaluate(c.expression, { item: item });
-      });
+  protected inputChange(item: any, control?: CommonData) {
+    let lstAutoCalControl: CommonData[] = [];
+    if (control)
+      lstAutoCalControl = this.autoCalFields.filter((c) =>
+        c.expression?.includes(control.field)
+      );
+    else lstAutoCalControl = this.autoCalFields;
+
+    lstAutoCalControl.forEach((c) => {
+      if (c.expression) item[c.field] = evaluate(c.expression, { item: item });
+    });
     this.lstOption.footerControls.forEach((c) => {
       this.itemTotal[c.field] = this.chosenItems.reduce(
         (acc, curr) => acc + +curr[c.field],
@@ -290,6 +292,8 @@ export class ListComponent implements OnInit, AfterViewInit {
 
   private setDefaultValue() {
     this.data.forEach((item) => {
+      item[this.lstOption.chooseField] = item['recID'];
+      this.setItemChoose(item, null, true);
       this.objFields.forEach((objF) => {
         if (!item[objF.field]) {
           switch (objF.type) {
@@ -312,7 +316,8 @@ export class ListComponent implements OnInit, AfterViewInit {
           }
         }
       });
-      this.setItemChoose(item, null, true);
     });
+    if (this.chosenItems.length)
+      this.chosenItems.forEach((item) => this.inputChange(item));
   }
 }

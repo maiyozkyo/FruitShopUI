@@ -334,7 +334,7 @@
             [type]="control.type"
             [(ngModel)]="item[control.field]"
             [placeholder]="control.placeholder"
-            (input)="inputChange($event, control, item)"
+            (input)="inputChange(item, control)"
             [min]="control.minVal"
           />
         </ng-container>

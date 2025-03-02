@@ -77,22 +77,25 @@
                 </nz-select>
               </ng-container>
               <ng-container *ngSwitchCase="'date'">
-                <div
-                  class=""
-                  *ngIf="
-                    disabled == true ? true : row.disabled ? true : false;
-                    else inputDate
+                <nz-date-picker
+                  [nzFormat]="row.format ?? defaultDateFormat"
+                  [(ngModel)]="item[row.field]"
+                  [nzPlaceHolder]="row.placeholder ?? ''"
+                  [disabled]="
+                    disabled == true ? true : row.disabled ? true : false
                   "
-                >
-                  {{ item[row.field] | date : row.format }}
-                </div>
-                <ng-template #inputDate>
-                  <nz-date-picker
-                    [nzFormat]="row.format ?? defaultDateFormat"
-                    [(ngModel)]="item[row.field]"
-                    [nzPlaceHolder]="row.placeholder ?? ''"
-                  ></nz-date-picker>
-                </ng-template>
+                ></nz-date-picker>
+              </ng-container>
+              <ng-container *ngSwitchCase="'action'">
+                <button
+                  [class]="row.style"
+                  nz-icon
+                  [nzType]="row.icon ?? 'eidt'"
+                  nzShape="circle"
+                  nz-tooltip
+                  [nzTooltipTitle]="row.placeholder"
+                  (click)="onItemClick(row, item)"
+                ></button>
               </ng-container>
               <ng-container *ngSwitchDefault>
                 <input

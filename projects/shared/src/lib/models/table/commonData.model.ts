@@ -10,6 +10,7 @@ export class CommonData {
     | 'avatar'
     | 'cover'
     | 'date'
+    | 'action'
     | 'title' = 'text';
   placeholder?: string = 'Vui lòng điền';
   dataSrc?: any[];
@@ -26,6 +27,8 @@ export class CommonData {
   hidden?: boolean = false;
   class?: string | undefined;
   format?: string = '';
+  icon?: string = '';
+  click?: (row: any) => void;
 
   constructor(obj: CommonData) {
     Object.assign(this, obj);

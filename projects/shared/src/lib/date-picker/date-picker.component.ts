@@ -17,11 +17,12 @@ export class DatePickerComponent implements OnInit {
 
   @Output() fromDateChange = new EventEmitter<Date>();
   @Output() toDateChange = new EventEmitter<Date>();
+  @Output() dateChanged = new EventEmitter<any>();
   dates: Date[] = [];
 
   constructor() {}
   ngOnInit(): void {
-    this.toDate.setDate(this.toDate.getDate() + this.range);
+    this.fromDate.setDate(this.toDate.getDate() - this.range);
     this.dates = [this.fromDate, this.toDate];
   }
 
@@ -30,5 +31,6 @@ export class DatePickerComponent implements OnInit {
     this.toDate = result[1];
     this.fromDateChange.emit(this.fromDate);
     this.toDateChange.emit(this.toDate);
+    this.dateChanged.emit(this.dates);
   }
 }

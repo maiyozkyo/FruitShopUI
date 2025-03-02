@@ -48,5 +48,14 @@ export class OrderService {
       [lstDetail, orderID]
     );
   }
+
+  getOrderDetails(orderID: string) {
+    return this.apiService.post(
+      this.orderService,
+      this.orderDetailBusiness,
+      'GetOrderDetails',
+      [orderID]
+    );
+  }
   //#endregion
 }

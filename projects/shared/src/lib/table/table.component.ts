@@ -141,4 +141,10 @@ export class TableComponent implements OnInit, AfterViewInit {
   reload() {
     this.onQueryParamsChange();
   }
+
+  onItemClick(row: CommonData, item: any) {
+    if (row.click) {
+      row.click(item);
+    }
+  }
 }

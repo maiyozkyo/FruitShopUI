@@ -18,6 +18,7 @@
             [(toDate)]="filter.toDate"
             [range]="7"
             [size]="'small'"
+            (dateChanged)="onDateChanged($event)"
           >
           </lib-date-picker>
         </div>
@@ -43,7 +44,7 @@
           <button
             [disabled]="!lstCustomers.length"
             class="btn btn-primary"
-            (click)="addOrder()"
+            (click)="addUpdateOrder(null)"
           >
             <span class="d-none d-md-block">Thêm đơn</span>
             <span class="d-md-none">+</span>
@@ -78,7 +79,7 @@
       [fg]="productFG"
       [controls]="productControls"
       [disabled]="false"
-      (chosenItemsChange)="onChosenItemsChange($event)"
+      [(chosenItems)]="chosenProducts"
     >
     </lib-list>
   </div>
