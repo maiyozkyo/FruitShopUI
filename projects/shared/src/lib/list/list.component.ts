@@ -323,12 +323,14 @@ export class ListComponent implements OnInit, AfterViewInit {
     });
     if (this.chosenItems.length) {
       this.chosenItems.forEach((item) => {
-        let dataItem = this.data.find(
-          (i) =>
-            i[this.lstOption.chooseField] == item[this.lstOption.chooseField]
-        );
-        if (dataItem && this.titleField && !item[this.titleField.field])
-          item[this.titleField.field] = dataItem[this.titleField.field];
+        if (this.titleField && !item[this.titleField.field]) {
+          let dataItem = this.data.find(
+            (i) =>
+              i[this.lstOption.chooseField] == item[this.lstOption.chooseField]
+          );
+          if (dataItem)
+            item[this.titleField.field] = dataItem[this.titleField.field];
+        }
         this.inputChange(item);
       });
     }

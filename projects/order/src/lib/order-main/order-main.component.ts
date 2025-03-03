@@ -55,6 +55,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   @ViewChild('orderDetailTmp', { read: TemplateRef, static: true })
   orderDetailTmp!: TemplateRef<any>;
   @ViewChild('orderTable', { static: true }) orderTable!: TableComponent;
+  isNew = false;
   //#endregion
 
   //#region Chi tiết đơn
@@ -138,15 +139,6 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
       },
     ];
 
-    this.orderControls = [
-      {
-        controlName: 'customerRecID',
-        title: 'Khách hàng',
-        value: '123',
-        icon: 'user',
-        type: 'text',
-      },
-    ];
     //#endregion
 
     //#region Khách hàng
@@ -231,7 +223,6 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
     this.lstProdOption.assembly = environment.productAssembly;
     this.lstProdOption.method = 'TableProducts';
     this.lstProdOption.isPaging = false;
-    this.lstProdOption.showChosenItems = true;
     this.lstProdOption.allowAddEdit = false;
     this.lstProdOption.allowRemove = false;
     this.lstProdOption.chooseField = 'productRecID';
@@ -264,7 +255,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
   }
 
   addUpdateOrder(item: OROrder | null) {
-    const isNew = item == null;
+    this.isNew = item == null;
     if (item) {
       this.curOrder = item;
     } else {
@@ -273,8 +264,6 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
     }
     this.curOrder.customerRecID = this.curCustomer.recID as string;
     this.orderService.getOrder(this.curOrder).subscribe((orderID: any) => {
-      console.log(isNew, this.curOrder.recID == orderID);
-
       this.curOrder.recID = orderID;
       this.orderControls = [
         {
@@ -296,7 +285,8 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
         },
       ];
       this.orderForm = this.formService.genFromControls(this.orderControls);
-      if (isNew) this.orderForm.reset();
+      if (this.isNew) this.orderForm.reset();
+      console.log('isnew', this.isNew);
       this.popupService
         .open(
           'Add/Update đơn hàng',
@@ -307,21 +297,19 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
           this.orderControls
         )
         .subscribe((res) => {
+          console.log('isnew', this.isNew);
           if (res.isConfirm) {
             this.confirmAddUpdateOrder(res.data);
           } else {
-            this.cancelAddUpdateOrder(isNew);
+            this.cancelAddUpdateOrder(this.isNew);
           }
         });
     });
   }
 
   confirmAddUpdateOrder(orderData: any) {
-    console.log(
-      'confirmAddUpdateOrder',
-      orderData,
-      this.chosenProducts as PRProduct[]
-    );
+    console.log('orderdata', orderData);
+
     let lstOrdDetails: OROrderDetail[] = [];
     this.chosenProducts.forEach((prod) => {
       let detail = new OROrderDetail();
@@ -331,6 +319,7 @@ export class OrderMainComponent implements OnInit, AfterViewInit {
       detail.price = prod.price;
       detail.saleOff = prod.saleOff;
       detail.tare = prod.tare;
+      detail.recID = prod.recID;
       lstOrdDetails.push(detail);
     });
     this.orderService
