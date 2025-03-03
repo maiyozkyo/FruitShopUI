@@ -76,6 +76,8 @@ export class ListComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.titleField = this.objFields.find((x) => x.type === 'title');
+    console.log('titleField', this.titleField);
+
     this.coverField = this.objFields.find((x) => x.type === 'cover');
     this.avatarField = this.objFields.find((x) => x.type === 'avatar');
     this.objFields = this.objFields.filter(
@@ -239,8 +241,9 @@ export class ListComponent implements OnInit, AfterViewInit {
   protected setItemChoose(item: any, evt?: any, isGetData = false) {
     let keyField = this.lstOption.chooseField;
     if (isGetData) {
-      item['isChosen'] =
-        this.chosenItems.find((x) => x[keyField] == item[keyField]) != null;
+      item['isChosen'] = this.chosenItems.some(
+        (x) => x[keyField] == item[keyField]
+      );
     } else {
       if (evt == null) item['isChosen'] = !item['isChosen'];
       else item['isChosen'] = evt.target.value > 0;
@@ -248,8 +251,9 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     item['border'] = item['isChosen'] ? '1px solid green' : '';
     if (!isGetData) {
-      if (item['isChosen']) this.chosenItems.push(item);
-      else
+      if (item['isChosen']) {
+        this.chosenItems.push(item);
+      } else
         this.chosenItems = this.chosenItems.filter(
           (x) => x[keyField] != item[keyField]
         );
@@ -317,7 +321,16 @@ export class ListComponent implements OnInit, AfterViewInit {
         }
       });
     });
-    if (this.chosenItems.length)
-      this.chosenItems.forEach((item) => this.inputChange(item));
+    if (this.chosenItems.length) {
+      this.chosenItems.forEach((item) => {
+        let dataItem = this.data.find(
+          (i) =>
+            i[this.lstOption.chooseField] == item[this.lstOption.chooseField]
+        );
+        if (dataItem && this.titleField && !item[this.titleField.field])
+          item[this.titleField.field] = dataItem[this.titleField.field];
+        this.inputChange(item);
+      });
+    }
   }
 }

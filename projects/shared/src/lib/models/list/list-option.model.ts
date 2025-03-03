@@ -21,6 +21,7 @@ export class ListOption {
   disabled = true;
   showChosenItems: boolean = false;
   chooseField: string = 'recID';
+  isMultiChoose?: boolean = false;
   chosenTitle: string = 'Danh sách đang chọn';
   chosenPlacement:
     | 'top'
